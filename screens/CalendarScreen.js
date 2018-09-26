@@ -1,5 +1,5 @@
 import React from 'react';
-import { ScrollView, StyleSheet } from 'react-native';
+import {ScrollView, StyleSheet, View, Button, DatePickerAndroid, Platform} from 'react-native';
 import { Calendar, CalendarList, Agenda, LocaleConfig} from 'react-native-calendars';
 import moment from 'moment';
 import 'moment/locale/nb';
@@ -22,6 +22,7 @@ export default class CalendarScreen extends React.Component {
 
         this.subtractMonth = this.subtractMonth.bind(this);
         this.addMonth = this.addMonth.bind(this);
+        this.openDatePicker = this.openDatePicker.bind(this);
     }
 
     subtractMonth() {
@@ -46,6 +47,25 @@ export default class CalendarScreen extends React.Component {
         }, console.log('selected set:', this.formattedString(this.state.selected)));
     }
 
+    async openDatePicker (){
+        if (Platform.OS === 'ios'){
+
+        } else {
+            try {
+                const {action, year, month, day} = await DatePickerAndroid.open({
+                    date: new Date()
+                });
+                console.log(action, year, month, day);
+                if (action === 'dateSetAction'){
+                    // Looks like month is 0-indexed
+                    this.setSelected(`${year}-${month + 1}-${day}`);
+                }
+            } catch ({code, message}) {
+                console.warn('Cannot open date picker', message);
+            }
+        }
+
+    }
 
     render() {
 
@@ -63,8 +83,10 @@ export default class CalendarScreen extends React.Component {
 
         LocaleConfig.defaultLocale = 'no';
 
+        let calendar = null;
+
         if (this.state.view === 'Calendar') {
-            return (
+            calendar =
                 <Calendar
                     current={this.formattedString(this.state.selected)}
                         // Handler which gets executed on day press. Default = undefined
@@ -95,13 +117,12 @@ export default class CalendarScreen extends React.Component {
                     onPressArrowLeft={this.subtractMonth}
                     // Handler which gets executed when press arrow icon left. It receive a callback can go next month
                     onPressArrowRight={this.addMonth}
-                />
-            );
+                />;
         }
-            /*
+        /*
 
             else if (this.state.view === 'Agenda') {
-            return (
+            calendar = (
                 <Agenda
                     // the list of items that have to be displayed in agenda. If you want to render item as empty date
                     // the value of date key kas to be an empty array []. If there exists no value for date key it is
@@ -171,6 +192,23 @@ export default class CalendarScreen extends React.Component {
         }
              */
 
-            else return null
+        return (
+            <View style={styles.container}>
+                {calendar}
+                <Button
+                    onPress={this.openDatePicker}
+                    title="Open date picker"
+                    color="#841584"
+                    accessibilityLabel="Open the date picker"
+                />
+            </View>
+        )
     }
 }
+
+const styles = StyleSheet.create({
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+    },
+});
