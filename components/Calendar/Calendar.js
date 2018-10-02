@@ -1,5 +1,5 @@
 import React from 'react';
-import {ScrollView, StyleSheet, View, Button, DatePickerAndroid, Platform, Text} from 'react-native';
+import {ScrollView, StyleSheet, View, Button, DatePickerAndroid, Platform, Text, AsyncStorage} from 'react-native';
 import { Calendar, Agenda, LocaleConfig} from 'react-native-calendars';
 import DayView from './DayView'
 import moment from 'moment';
@@ -23,12 +23,12 @@ export default class CalendarScreen extends React.Component {
             now: moment(),
             selected: moment(),
             events: {
-                '2018-10-02': [{text: 'item 1 - Møte med Per'}],
-                '2018-10-03': [{text: 'item 2 - Møte med Pål'}],
+                '2018-10-02': [{text: 'Møte med Per'}],
+                '2018-10-03': [{text: 'Møte med Pål'}],
                 '2018-10-04': [],
-                '2018-10-05': [{text: 'item 3 - Møte med Espen'},{text: 'item 4 - Møte med Jens'}, {text: 'item 3 - Møte med Espen'},{text: 'item 4 - Møte med Jens'}]
+                '2018-10-05': [{text: 'Møte med Espen'},{text: 'Møte med Jens'}, {text: 'Møte med Siri'},{text: 'Møte med Gunvor'}],
+                '2018-11-02': [{text: 'Møte med Arild'}]
             }
-
         };
 
         this.subtractMonth = this.subtractMonth.bind(this);
@@ -36,6 +36,18 @@ export default class CalendarScreen extends React.Component {
         this.openDatePicker = this.openDatePicker.bind(this);
         this.generateEventMarkers = this.generateEventMarkers.bind(this);
     }
+
+    _retrieveData = async () => {
+        try {
+            const value = await AsyncStorage.getItem('events');
+            if (value !== null) {
+                // We have data!!
+                console.log(value);
+            }
+        } catch (error) {
+            // Error retrieving data
+        }
+    };
 
     generateEventMarkers() {
         let eventMarkers = {};
@@ -62,7 +74,7 @@ export default class CalendarScreen extends React.Component {
 
             eventMarkers[key].dots = dots;
         }
-        console.log(eventMarkers);
+        // console.log(eventMarkers);
         return eventMarkers;
     }
 
