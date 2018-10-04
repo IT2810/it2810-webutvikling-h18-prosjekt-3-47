@@ -40,14 +40,32 @@ export default class CalendarScreen extends React.Component {
     _retrieveData = async () => {
         try {
             const value = await AsyncStorage.getItem('events');
+            console.log('data exists, might be null');
             if (value !== null) {
-                // We have data!!
+                console.log('We have data!!');
                 console.log(value);
             }
         } catch (error) {
-            // Error retrieving data
+            console.error('Error reading from AsyncStorage', error);
         }
     };
+
+    events = {
+        '2018-10-02': [{text: 'Møte med Per'}],
+        '2018-10-03': [{text: 'Møte med Pål'}],
+        '2018-10-04': [],
+        '2018-10-05': [{text: 'Møte med Espen'},{text: 'Møte med Jens'}, {text: 'Møte med Siri'},{text: 'Møte med Gunvor'}],
+        '2018-11-02': [{text: 'Møte med Arild'}]
+    };
+
+    _storeData = async () => {
+        try {
+            await AsyncStorage.setItem('events', JSON.stringify(this.events));
+        } catch (error) {
+            console.error('Error storing to AsyncStorage', error);
+        }
+    };
+
 
     generateEventMarkers() {
         let eventMarkers = {};
@@ -121,6 +139,10 @@ export default class CalendarScreen extends React.Component {
     }
 
     render() {
+
+        this._storeData();
+
+        //this._retrieveData();
 
         console.log(this.formattedString(this.state.selected));
         /*
