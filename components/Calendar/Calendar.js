@@ -84,7 +84,6 @@ export default class CalendarComponent extends React.Component {
      * @private
      */
     _storeData = async () => {
-        console.log('halo');
         try {
             await AsyncStorage.setItem('events', JSON.stringify(this.events));
             console.log('Wrote to AsyncStorage');
@@ -234,11 +233,9 @@ export default class CalendarComponent extends React.Component {
                 const {action, year, month, day} = await DatePickerAndroid.open({
                     date: new Date()
                 });
-                console.log(action, year, month, day);
                 if (action === 'dateSetAction'){
                     // Looks like month is 0-indexed
                     let newDate = moment(`${year}-${month + 1}-${day}`, 'YYYY-M-D').format(this.df);
-                    console.log('newDate:', newDate);
                     callback(newDate);
                 }
             } catch ({code, message}) {
@@ -330,8 +327,6 @@ export default class CalendarComponent extends React.Component {
                     }}
                     // Handler which gets executed on day long press. Default = undefined
                     onDayLongPress={(day) => {
-                        console.log();
-                        console.log('long press on ', day);
                         this.setSelected(day.dateString, this.modal._toggleModal);
                     }}
                     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
