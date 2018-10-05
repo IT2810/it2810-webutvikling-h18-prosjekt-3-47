@@ -136,11 +136,7 @@ export default class CalendarComponent extends React.Component {
             // Add marker dots for the events that are in `events`
             if (events.hasOwnProperty(key)){
                 events[key].forEach(()=> {
-                    if (this.state.selected.format(this.df) === key) {
-                        dots.push({color: this.colors[i % this.colors.length], selected: true})
-                    } else {
-                        dots.push({color: this.colors[i % this.colors.length]})
-                    }
+                    dots.push({color: this.colors[i % this.colors.length]});
                     i++;
                 });
             }
@@ -150,6 +146,32 @@ export default class CalendarComponent extends React.Component {
         }
 
         return eventMarkers;
+    }
+
+
+    /**
+     * Checks if eventMarkers are initialised. Makes a copy of `this.state.eventMarkers`, with changes on the
+     * previously selected date entry and the new selected date entry.
+     * Copies in order to not mutate the current state, which will be prevState after the results are set to `state`.
+     * Mutating objects in state could lead to trouble as you are essentially rewriting history, and making later
+     * comparisons based on prevState very difficult.
+     * @param prevSelected <string> date string on format specified in `this.df` of the previously selected date.
+     * @return {*} object if eventMarkers is initialised. Else `null`
+     */
+    updateEventMarkerSelected(prevSelected) {
+        // In case eventMarkers aren't initialised
+        if (this.state.eventMarkers){
+            // Generating a copy, in order to not mutate the values in `state`
+            return Object.assign({}, this.state.eventMarkers, {
+                [prevSelected]: {
+                    selected: false
+                },
+                [this.state.selected.format(this.df)]: {
+                    selected: true
+                }
+            });
+        }
+        return null;
     }
 
     /**
@@ -243,30 +265,35 @@ export default class CalendarComponent extends React.Component {
 
 
     /**
-     * Runs every time the component is updated. Checks some cases on prevState to see if action is needed
+     * Runs every time the component is updated.
+     * Generates new markers if new events are received or month and/or year changed.
+     * Updating markers if only date changed.
+     * If there was any updates, these are set in the end. Ended up with this solution in case more values might be
+     * changed from here.
      * @param prevProps
      * @param prevState
      */
     componentDidUpdate(prevProps, prevState) {
-        console.log('componentDidUpdate!!!!');
-        let toUpdate = {}; // In case more stuff in the state need to be updated here in the future
+        // console.log('componentDidUpdate!!!!');
+        let toUpdate = {};
 
-
-        /**
-         * Generating new markers if new events are received.
-         * Updating markers if date changed
-         * FIXME: Generates new markers on date change by now, comment is therefore incorrect
-         */
         if (prevState.events !== this.state.events){
             // New events received
             toUpdate.eventMarkers = this.generateEventMarkers(this.state.events);
 
         } else if (prevState.selected.format(this.df) !== this.state.selected.format(this.df)){
             // Selected date changed
+            if (prevState.selected.format('YYYY-MM') !== this.state.selected.format('YYYY-MM')){
+                // Month change (Month and/or year changed)
+                toUpdate.eventMarkers = this.generateEventMarkers(this.state.events);
 
-            // TODO: Might add a separate updateEventMarkers here.
-            // Will be way more efficient than generating from scratch each time
-            toUpdate.eventMarkers = this.generateEventMarkers(this.state.events);
+            } else {
+                // Only day in month changed
+                let newEventMarkers = this.updateEventMarkerSelected(prevState.selected.format(this.df));
+                if (newEventMarkers) {
+                    toUpdate.eventMarkers = newEventMarkers;
+                }
+            }
         }
 
 
