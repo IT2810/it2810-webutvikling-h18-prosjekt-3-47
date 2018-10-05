@@ -24,7 +24,7 @@ export default class CalendarComponent extends React.Component {
 
         // Setting react-native-calendars locales
         LocaleConfig.locales['no'] = {
-            monthNames: ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','October','November','Desember'],
+            monthNames: ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'],
             monthNamesShort: ['Jan.','Feb.','Mars','April','Mai','Juni','Juli.','Aug.','Sept.','Okt.','Nov.','Des.'],
             dayNames: ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'],
             dayNamesShort: ['Søn.','Man.','Tir.','Ons.','Tor.','Fre.','Lør.']
@@ -36,7 +36,7 @@ export default class CalendarComponent extends React.Component {
             selected: moment(), // now
             events: {},
             eventMarkers: {},
-            showModal: true
+            modalVisible: false
         };
 
         // Binding `this`
@@ -45,6 +45,7 @@ export default class CalendarComponent extends React.Component {
         this.openDatePicker = this.openDatePicker.bind(this);
         this.generateEventMarkers = this.generateEventMarkers.bind(this);
         this.receiveNewEntry = this.receiveNewEntry.bind(this);
+        this.setSelected = this.setSelected.bind(this);
     }
 
     /**
@@ -185,11 +186,15 @@ export default class CalendarComponent extends React.Component {
      * Asynchronous
      * Sets selected date in state to a moment object of the given dateString
      * @param dateString <string>
+     * @param callback <function> to be called after setState is finished
      */
-    setSelected(dateString) {
+    setSelected(dateString, callback) {
         this.setState({
             selected: moment(dateString, this.df)
-        }, console.log('updated, selected set:', this.state.selected.format(this.df)));
+        }, () => {
+            console.log('updated, selected set:', this.state.selected.format(this.df));
+            if (callback) {callback()}
+        });
     }
 
     /**
@@ -199,7 +204,7 @@ export default class CalendarComponent extends React.Component {
      * TODO: Date picker for iOS
      * @return {Promise<void>}
      */
-    async openDatePicker (){
+    async openDatePicker (callback){
         if (Platform.OS === 'ios'){
 
         } else {
@@ -210,10 +215,12 @@ export default class CalendarComponent extends React.Component {
                 console.log(action, year, month, day);
                 if (action === 'dateSetAction'){
                     // Looks like month is 0-indexed
-                    this.setSelected(`${year}-${month + 1}-${day}`);
+                    let newDate = moment(`${year}-${month + 1}-${day}`, 'YYYY-M-D').format(this.df);
+                    console.log('newDate:', newDate);
+                    callback(newDate);
                 }
             } catch ({code, message}) {
-                console.warn('Cannot open date picker', message);
+                console.warn('Something went wrong with the date picker', message);
             }
         }
 
@@ -295,9 +302,10 @@ export default class CalendarComponent extends React.Component {
                         this.setSelected(day.dateString);
                     }}
                     // Handler which gets executed on day long press. Default = undefined
-                    // TODO: These should probably be handled separately
                     onDayLongPress={(day) => {
-                        this.setSelected(day.dateString)
+                        console.log();
+                        console.log('long press on ', day);
+                        this.setSelected(day.dateString, this.modal._toggleModal);
                     }}
                     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                     monthFormat={'MMMM yyyy'}
@@ -323,7 +331,7 @@ export default class CalendarComponent extends React.Component {
                     onPressArrowRight={this.addMonth}
                 />
                 <Button style={styles.button}
-                    onPress={this.openDatePicker}
+                    onPress={() => {this.openDatePicker(this.setSelected)}}
                     title="Open date picker"
                     color="#841584"
                     accessibilityLabel="Open the date picker"
@@ -339,10 +347,13 @@ export default class CalendarComponent extends React.Component {
                          dayName={this.state.selected.format('dddd')}
                 />
 
-                { /* Only render if showModal*/
-                    this.state.showModal &&
-                    <CalendarEntryInput callback={this.receiveNewEntry}/>
-                }
+                <CalendarEntryInput
+                    ref={instance => { this.modal = instance; }}
+                    callback={this.receiveNewEntry}
+                    openDatePicker={this.openDatePicker}
+                    defaultDate={this.state.selected}
+                    isModalVisible={this.state.modalVisible}
+                />
             </View>
         )
     }
