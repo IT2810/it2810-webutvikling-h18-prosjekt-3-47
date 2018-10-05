@@ -14,15 +14,21 @@ export default class CreateContactScreen extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
-            name: "",
-            phoneNumber: "",
-            address: ""
+            name: null,
+            phoneNumber: null,
+            address: null
         };
     }
 
-    saveContact () => {
+    sendContact() {
+        if (this.state.name && this.state.phoneNumber && this.state.address) {
+            this.props.callback(this.state)
+        } else {
+            // Not all fields are filled
+            console.log('manglende informasjon');
+        }
 
-    };
+    }
 
     render() {
         return (
@@ -43,12 +49,16 @@ export default class CreateContactScreen extends React.Component {
                     onChangeText={(text) => this.setState({address: text})}
                     placeholder="Fill in address here"
                 />
+                {/* sddsd*/}
                 <Button
-                    title={Save}
-                    onPress={saveContact}
+                    title={'Save'}
+                    onPress={() => {
+                        this.sendContact();
+                        this.props.popupDialog.dismiss()
+                    }}
                 />
             </View>
-        )
+        );
     }
 }
 const styles = StyleSheet.create({

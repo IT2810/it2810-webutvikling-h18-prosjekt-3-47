@@ -8,6 +8,7 @@ import {
     TouchableOpacity,
     View,
     Button,
+    AsyncStorage
 } from 'react-native';
 
 import SimpleButton from '../components/SimpleButton';
@@ -23,10 +24,68 @@ export default class ContactsScreen extends React.Component {
         title: 'Contacts',
     };
 
+    constructor(props){
+        super(props);
+
+        this.state = {
+            contacts: []
+        };
+
+        this.recieveNewContact = this.recieveNewContact.bind(this);
+    }
+
+    _loadContacts = async () => {
+        try {
+            const value = await AsyncStorage.getItem('contacts');
+            if (value !== null) {
+                console.log(value);
+                console.log(JSON.parse(value));
+                this.setState(() => ({
+                    contacts: JSON.parse(value)
+                }));
+            }
+        } catch (error) {
+            console.log('AsyncStorage error while loading: ' + error.message);
+        }
+    };
+
+    contacts = [
+            {
+                name: "Navn Navnesen 1",
+                phoneNumber: 12345678,
+                address: "Adresse 1"
+            },
+            {
+                name: "Navn Navnesen 2",
+                phoneNumber: 87654321,
+                address: "Adresse 2"
+            }
+        ];
+
+    _storeContact = async () => {
+        try{
+            await AsyncStorage.setItem('contacts', JSON.stringify(this.contacts));
+        } catch (error) {
+            console.log('AsyncStorage error while storing: ' + error.message);
+        }
+    };
+
+    recieveNewContact(contact) {
+        this.setState(prevState => ({
+           contacts: prevState.contacts.push(contact)
+        }), console.log(this.state.contacts));
+        // console.log(contact);
+    }
+
+    componentDidMount() {
+        // this._storeContact();
+        this._loadContacts();
+    }
+
     render() {
         return (
             <View style={styles.container}>
-                <ContactList/>
+                <ContactList contacts={this.state.contacts}/>
                 <Text style={styles.noNotesText}>You have no contacts</Text>
                 <Button
                     title='Create Contact'
@@ -35,7 +94,7 @@ export default class ContactsScreen extends React.Component {
                     }}
                 />
                 <PopupDialog ref={(popupDialog) => { this.popupDialog = popupDialog; }}>
-                    <CreateContactScreen/>
+                    <CreateContactScreen callback={this.recieveNewContact} popupDialog={this.popupDialog}/>
                 </PopupDialog>
             </View>
         );

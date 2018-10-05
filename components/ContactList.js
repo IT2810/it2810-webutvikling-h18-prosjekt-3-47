@@ -22,21 +22,17 @@ export default class ContactList extends React.Component {
     render() {
         return (
             <ListView
-            dataSource={
-                this.ds.cloneWithRows([
-                    {name: "Jørgen", tlf: "12345678", id: 1},
-                    {name: "Sigurd", tlf: "87654321", id: 2}
-                ])
-            }
-            renderRow={
-                (rowData) => {
-                    return (
-                        <TouchableHighlight onPress={() => console.log(rowData)}>
-                            <Text>{rowData.name}</Text>
-                        </TouchableHighlight>
-                    )
+                dataSource = {this.ds.cloneWithRows(this.props.contacts)}
+                renderRow={
+                    (rowData) => {
+                        return (
+                            <TouchableHighlight onPress={() => console.log(rowData)}>
+                                <Text>{rowData.name}</Text>
+                            </TouchableHighlight>
+                        )
+                    }
                 }
-            }/>
+            />
         )
     }
 }
