@@ -4,9 +4,10 @@
  * TODO: Update this text
  */
 import React from 'react';
-import {StyleSheet, View, Button, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, Button, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
 import { Calendar, LocaleConfig} from 'react-native-calendars';
 import DayView from './DayView'
+import CalendarEntryInput from './CalendarEntryInput'
 import moment from 'moment';
 import 'moment/locale/nb';
 
@@ -34,7 +35,8 @@ export default class CalendarComponent extends React.Component {
             now: moment(), // now
             selected: moment(), // now
             events: {},
-            eventMarkers: {}
+            eventMarkers: {},
+            showModal: true
         };
 
         // Binding `this`
@@ -42,6 +44,7 @@ export default class CalendarComponent extends React.Component {
         this.addMonth = this.addMonth.bind(this);
         this.openDatePicker = this.openDatePicker.bind(this);
         this.generateEventMarkers = this.generateEventMarkers.bind(this);
+        this.receiveNewEntry = this.receiveNewEntry.bind(this);
     }
 
     /**
@@ -268,6 +271,10 @@ export default class CalendarComponent extends React.Component {
         } else console.log('Nothing to update');
     }
 
+    receiveNewEntry(calendarEntry) {
+        console.log(calendarEntry);
+    }
+
     render() {
 
         console.log('rendering', this.state.selected.format(this.df));
@@ -331,6 +338,11 @@ export default class CalendarComponent extends React.Component {
                          events={this.state.events[this.state.selected.format(this.df)]}
                          dayName={this.state.selected.format('dddd')}
                 />
+
+                { /* Only render if showModal*/
+                    this.state.showModal &&
+                    <CalendarEntryInput callback={this.receiveNewEntry}/>
+                }
             </View>
         )
     }
