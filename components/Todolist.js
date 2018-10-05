@@ -12,10 +12,12 @@ import {
   Platform
 } from "react-native";
 
-const isAndroid = Platform.OS == "android";
+//Sjekker hvilken plattform vi er på
+const isAndroid = Platform.OS === "android";
 const viewPadding = 10;
 
 export default class Todolist extends Component {
+  //Lager default state
   state = {
     tasks: [],
     text: ""
@@ -24,7 +26,7 @@ export default class Todolist extends Component {
   changeTextHandler = text => {
     this.setState({ text: text });
   };
-
+  //Legger til oppgave og lagrer ny state
   addTask = () => {
     let notEmpty = this.state.text.trim().length > 0;
 
@@ -41,7 +43,7 @@ export default class Todolist extends Component {
       );
     }
   };
-
+  //Sletter oppgave og lagrer ny state
   deleteTask = i => {
     this.setState(
       prevState => {
@@ -56,11 +58,12 @@ export default class Todolist extends Component {
   };
 
   componentDidMount() {
+    //Viser keyboard ut ifra plattform
     Keyboard.addListener(
       isAndroid ? "keyboardDidShow" : "keyboardWillShow",
       e => this.setState({ viewPadding: e.endCoordinates.height + viewPadding })
     );
-
+    //Gjemmer keyboard ut ifra plattform
     Keyboard.addListener(
       isAndroid ? "keyboardDidHide" : "keyboardWillHide",
       () => this.setState({ viewPadding: viewPadding })
@@ -72,6 +75,7 @@ export default class Todolist extends Component {
   render() {
     return (
       <View
+      //Henter style fra stylesheet lenger ned
         style={[styles.container, { paddingBottom: this.state.viewPadding }]}
       >
         <FlatList
@@ -83,7 +87,7 @@ export default class Todolist extends Component {
                 <Text style={styles.listItem}>
                   {item.text}
                 </Text>
-                <Button title="X" onPress={() => this.deleteTask(index)} />
+                <Button style={styles.button} title="X" onPress={() => this.deleteTask(index)} />
               </View>
               <View style={styles.hr} />
             </View>}
@@ -103,24 +107,38 @@ export default class Todolist extends Component {
 }
 
 let Tasks = {
+  //Lager liste med objekter
   convertToArrayOfObject(tasks, callback) {
+    //console.log('convertToArrayOfObject');
+    //console.log(tasks);
+    //console.log(tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : [])
     return callback(
       tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : []
     );
   },
+  //Lager en streng med teksten til objektene
   convertToStringWithSeparators(tasks) {
+    //console.log('convertToStringWithSeparators');
     return tasks.map(task => task.text).join("||");
   },
+  //Henter oppgaver ved hjelp av AsyncStorage
   all(callback) {
+    //console.log('all');
+    //console.log('callback:', callback);
     return AsyncStorage.getItem("TASKS", (err, tasks) =>
       this.convertToArrayOfObject(tasks, callback)
     );
   },
+  //Lagrer oppgaver ved hjelp av AsyncStorage
   save(tasks) {
+    //console.log('save');
     AsyncStorage.setItem("TASKS", this.convertToStringWithSeparators(tasks));
   }
 };
 
+
+
+//For å style elementene til todolist
 const styles = StyleSheet.create({
   container: {
     flex: 1,
@@ -136,7 +154,8 @@ const styles = StyleSheet.create({
   listItem: {
     paddingTop: 2,
     paddingBottom: 2,
-    fontSize: 18
+    fontSize: 18,
+    width: "90%"
   },
   hr: {
     height: 1,
@@ -154,6 +173,9 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
+  },
+  button: {
+    
   }
 });
 
