@@ -1,8 +1,6 @@
 import React from 'react';
 import {
-    Image,
     Platform,
-    ScrollView,
     StyleSheet,
     Text,
     TouchableOpacity,
@@ -11,13 +9,13 @@ import {
     AsyncStorage
 } from 'react-native';
 
-import SimpleButton from '../components/SimpleButton';
-
 import PopupDialog from 'react-native-popup-dialog';
+import DialogTitle from "react-native-popup-dialog/src/components/DialogTitle";
 
 import ContactList from '../components/ContactList';
 
 import CreateContactScreen from './CreateContactScreen'
+
 
 export default class ContactsScreen extends React.Component {
     static navigationOptions = {
@@ -31,7 +29,7 @@ export default class ContactsScreen extends React.Component {
             contacts: []
         };
 
-        this.recieveNewContact = this.recieveNewContact.bind(this);
+        this.receiveNewContact = this.receiveNewContact.bind(this);
     }
 
     _loadContacts = async () => {
@@ -70,15 +68,20 @@ export default class ContactsScreen extends React.Component {
         }
     };
 
-    recieveNewContact(contact) {
-        this.setState(prevState => ({
-           contacts: prevState.contacts.push(contact)
-        }), console.log(this.state.contacts));
-        // console.log(contact);
+    receiveNewContact(contact) {
+        //console.log(contact);
+        //console.log(JSON.parse(contact));
+        let contacts = this.state.contacts.slice();
+        contacts.push(contact);
+        this.setState({contacts: contacts});
+        //this.setState(prevState => ({
+        //   contacts: prevState.contacts.push(contact)
+        //}));
+        console.log(this.state.contacts);
     }
 
     componentDidMount() {
-        // this._storeContact();
+        //this._storeContact();
         this._loadContacts();
     }
 
@@ -93,8 +96,12 @@ export default class ContactsScreen extends React.Component {
                         this.popupDialog.show();
                     }}
                 />
-                <PopupDialog ref={(popupDialog) => { this.popupDialog = popupDialog; }}>
-                    <CreateContactScreen callback={this.recieveNewContact} popupDialog={this.popupDialog}/>
+                <PopupDialog
+                    style={styles.container}
+                    dialogTitle={<DialogTitle title="New Contact" />}
+                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    height={Number(600)}>
+                    <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.popupDialog}/>
                 </PopupDialog>
             </View>
         );

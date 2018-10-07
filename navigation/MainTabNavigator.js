@@ -64,7 +64,7 @@ ContactsStack.navigationOptions = {
     tabBarIcon: ({ focused }) => (
         <TabBarIcon
             focused={focused}
-            name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-contact'}
+            name={Platform.OS === 'ios' ? `ios-contact${focused ? '' : '-outline'}` : 'md-contact'}
         />
     ),
 };
