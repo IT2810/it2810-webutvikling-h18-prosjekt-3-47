@@ -5,7 +5,7 @@
  * Instantiates a DayView that displays the current date and the events on that date, if any
  */
 import React from 'react';
-import {StyleSheet, View, Button, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
 import { Calendar, LocaleConfig} from 'react-native-calendars';
 import DayView from './DayView'
 import CalendarEntryInput from './CalendarEntryInput'
@@ -366,18 +366,18 @@ export default class CalendarComponent extends React.Component {
                     // Handler which gets executed when press arrow icon left.
                     onPressArrowRight={this.addMonth}
                 />
-                <Button style={styles.button}
+                <TouchableOpacity style={styles.button}
                     onPress={() => {this.openDatePicker(this.setSelected)}}
-                    title="Open date picker"
                     color="#841584"
-                    accessibilityLabel="Open the date picker"
-                />
-                <Button style={styles.button}
+                    accessibilityLabel="Open the date picker">
+                    <Text style={styles.buttonText}>Open date picker</Text>
+                </TouchableOpacity>
+                <TouchableOpacity style={styles.button}
                     onPress={() => {this.setSelected(moment().format(df.defaultDate))}}
-                    title="Today"
                     color="#841584"
-                    accessibilityLabel="Set calendar to today"
-                />
+                    accessibilityLabel="Set calendar to today">
+                    <Text style={styles.buttonText}>Go to today</Text>
+                </TouchableOpacity>
                 <CalendarEntryInput style={styles.calendarEntryInput}
                     ref={instance => { this.modal = instance; }} // To be able to toggle the modal on day long press
                     callback={this.receiveNewEntry}
@@ -414,7 +414,11 @@ const styles = StyleSheet.create({
         paddingTop: 30
     },
     button: {
-        // TODO: The buttons really need some styling
+        flex: 0,
+        alignItems: 'center'
+    },
+    buttonText: {
+        fontSize: 20
     },
     calendarEntryInput: {
         height: 10

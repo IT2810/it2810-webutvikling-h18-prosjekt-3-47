@@ -17,15 +17,17 @@ export default class DayView extends React.Component {
 
         let events = [];
 
-        let i = 0;
-        if (Array.isArray(this.props.events)) {
-            for (let event of this.props.events){
+        let eArr = this.props.events;
+        if (Array.isArray(eArr)) {
+            for (let i = 0; i < eArr.length; i++){
                 events.push(
                     <View key={i} style={styles.eventContainer}>
-                        <Text style={styles.eventTitle}>{event.text}</Text>
+                        <Text style={styles.eventTitle}>{eArr[i].text}</Text>
+                        {(i !== eArr.length-1) &&
+                        <View style={styles.hr}/>
+                        }
                     </View>
                 );
-                i++;
             }
         }
 
@@ -63,12 +65,16 @@ const styles = StyleSheet.create({
     },
     eventContainer: {
         flex: 1,
-        margin: 10,
+        margin: 10
+    },
+    hr: {
+        borderBottomWidth: 1,
+        borderBottomColor: '#ccc'
     },
     eventTitle: {
         fontSize: 20,
         marginRight: 10,
-        marginTop: 17,
+        marginTop: 7,
         padding: 10,
         color: '#303030'
     }

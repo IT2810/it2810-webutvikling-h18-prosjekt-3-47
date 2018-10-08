@@ -8,6 +8,7 @@
  */
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, TextInput, Button} from 'react-native';
+import { TextField } from 'react-native-material-textfield';
 import Modal from 'react-native-modal';
 import moment from 'moment';
 import df from '../../constants/dateFormats' // Importing date format constants
@@ -22,16 +23,27 @@ export default class CalendarEntryInput extends React.Component {
         this.state = {
             isModalVisible: false,
             newEventDate: null,
-            newEventText: null
+            newEventText: ''
         };
+
+        this.inputError = null;
 
         this.requestClose = this.requestClose.bind(this);
         this.sendData = this.sendData.bind(this);
         this.receiveDate = this.receiveDate.bind(this);
+        this.toggleModal = this.toggleModal.bind(this);
     }
 
     toggleModal(){
-        this.setState({ isModalVisible: !this.state.isModalVisible });
+        this.setState({ isModalVisible: !this.state.isModalVisible }, () => {
+            if (this.state.isModalVisible){
+                this.textInput.focus();
+            }
+        });
+    }
+
+    componentWillUnmount() {
+        this.requestClose();
     }
 
     requestClose() {
@@ -39,20 +51,51 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     sendData() {
-
-        if (this.state.newEventText) {
+        if (this.validateInput(this.state.newEventText, 'submit') && this.state.newEventText) {
             this.props.callback({
                 dateString:
                     this.state.newEventDate ?
                     this.state.newEventDate.format(df.defaultDate) :
                     this.props.defaultDate.format(df.defaultDate),
 
-                text: this.state.newEventText,
+                text: this.state.newEventText.trim(),
             });
 
             this.requestClose();
             this.textInput.clear();
         }
+    }
+
+    validateInput(text, type) {
+
+        if (text) {
+            let textTrimmed = text.trim();
+
+            this.inputError = null;
+            console.log('textTrimmed:', textTrimmed);
+            console.log('textTrimmed.length:', textTrimmed.length);
+            console.log('text.length:', text.length);
+            if (textTrimmed.length < 3) {
+                this.inputError = 'Må være minst tre tegn lang';
+                return false;
+            }
+        } else if (type === 'submit') {
+            console.log('validating submit');
+            console.log('input error!!!');
+            this.inputError = 'Dette feltet er påkrevd';
+
+            /*
+            react-native-material-textfield does not seem to display a new error message
+            unless there is a value change, so here is a hacky solution
+            */
+            this.setState(prevState => ({
+               newEventText: prevState.newEventText + ' '
+            }));
+
+            return false;
+        }
+
+        return true;
     }
 
     receiveDate(data) {
@@ -65,7 +108,7 @@ export default class CalendarEntryInput extends React.Component {
         return (
             <View style={[styles.view, {flex: this.state.isModalVisible? 1 : 0}]}>
                 <TouchableOpacity style={this.touchableOpacity} onPress={this.toggleModal}>
-                    <Text style={styles.toggleModalText}>Show Modal</Text>
+                    <Text style={styles.buttonText}>Show modal</Text>
                 </TouchableOpacity>
                 <Modal
                     style={styles.modalContainer}
@@ -79,14 +122,23 @@ export default class CalendarEntryInput extends React.Component {
                     <View style={styles.modalView}>
 
                         <TouchableOpacity onPress={this.toggleModal}>
-                            <Text style={styles.toggleModalText}>Hide me!</Text>
+                            <Text style={styles.buttonText}>Hide modal</Text>
                         </TouchableOpacity>
 
-                        <TextInput
+                        <TextField
                             ref={input => { this.textInput = input }}
-                            style={{height: 40, borderColor: 'gray', borderWidth: 1}}
-                            onChangeText={(text) => this.setState({newEventText: text})}
-                            placeholder='Event text'
+                            label='Event description'
+                            placeholder='Møte med Siv Jensen'
+                            error={this.inputError}
+                            value={this.state.newEventText}
+                            onChangeText={(text) => {
+                                this.validateInput(text, 'textChange');
+                                this.setState({newEventText: text});
+                            }}
+                            fontSize={18}
+                            labelFontSize={16}
+                            titleFontSize={16}
+                            multiline={true}
                         />
 
                         <Text>
@@ -99,18 +151,12 @@ export default class CalendarEntryInput extends React.Component {
 
 
 
-                        <Button style={styles.button}
-                                onPress={this.sendData}
-                                title="Submit!"
-                                color="#841584"
-                                accessibilityLabel="Submit the new entry"
-                        />
-                        <Button style={styles.button}
-                                onPress={() => {this.props.openDatePicker(this.receiveDate)}}
-                                title="Open date picker!"
-                                color="#841584"
-                                accessibilityLabel="Open the date picker"
-                        />
+                        <TouchableOpacity style={styles.button} onPress={this.sendData}>
+                            <Text style={styles.buttonText}> Submit! </Text>
+                        </TouchableOpacity>
+                        <TouchableOpacity style={styles.button} onPress={() => {this.props.openDatePicker(this.receiveDate)}}>
+                            <Text style={styles.buttonText}> Open date picker </Text>
+                        </TouchableOpacity>
                     </View>
                 </Modal>
             </View>
@@ -123,9 +169,10 @@ let styles = StyleSheet.create({
         alignItems:'center'
     },
     touchableOpacity: {
-        flex: 1
+        flex: 1,
+        alignItems:'center'
     },
-    toggleModalText: {
+    buttonText: {
         fontSize: 20
     },
     modalContainer: {
@@ -133,7 +180,8 @@ let styles = StyleSheet.create({
         alignItems: 'center'
     },
     modalView: {
-        width: '90%',
+        width: '85%',
+        padding: '2.5%',
         flex: 1,
         backgroundColor: '#fff'
     },
