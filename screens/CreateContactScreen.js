@@ -6,7 +6,6 @@ import {
     TextInput,
     Button,
 } from 'react-native';
-import PopupDialog from "react-native-popup-dialog";
 
 export default class CreateContactScreen extends React.Component {
     constructor (props) {
@@ -17,7 +16,10 @@ export default class CreateContactScreen extends React.Component {
             address: null
         };
     }
-
+    /**
+     * Send the state (a new contact) back to the receiveNewContact-method in ContactScreen, if all fields are set
+     * Then clears the textInputs and dismisses the popup, to make ready for new contact creations
+     */
     sendContact() {
         //console.log(this.state);
         if (this.state.name && this.state.phoneNumber && this.state.address) {
@@ -54,7 +56,6 @@ export default class CreateContactScreen extends React.Component {
                     onChangeText={(text) => this.setState({address: text})}
                     placeholder="Fill in address here"
                 />
-                {/* sddsd*/}
                 <Button
                     title={'Save'}
                     onPress={() => {

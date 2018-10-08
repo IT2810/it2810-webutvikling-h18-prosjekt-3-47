@@ -1,3 +1,4 @@
+
 import React from 'react';
 import {
     Platform,
@@ -22,22 +23,27 @@ export default class ContactsScreen extends React.Component {
         title: 'Contacts',
     };
 
-    constructor(props){
+    constructor(props) {
         super(props);
 
         this.state = {
             contacts: []
         };
 
+        // Calling this inside receiveNewContact will point to ContactScreen
         this.receiveNewContact = this.receiveNewContact.bind(this);
     }
 
+    /**
+     * Loading existing contacts using AsyncStorage, into the state of ContactScreen
+     *
+     */
     _loadContacts = async () => {
         try {
             const value = await AsyncStorage.getItem('contacts');
             if (value !== null) {
-                console.log(value);
-                console.log(JSON.parse(value));
+                //console.log(value);
+                //console.log(JSON.parse(value));
                 this.setState(() => ({
                     contacts: JSON.parse(value)
                 }));
@@ -47,27 +53,36 @@ export default class ContactsScreen extends React.Component {
         }
     };
 
+    // Placeholders
     contacts = [
-            {
-                name: "Navn Navnesen 1",
-                phoneNumber: 12345678,
-                address: "Adresse 1"
-            },
-            {
-                name: "Navn Navnesen 2",
-                phoneNumber: 87654321,
-                address: "Adresse 2"
-            }
-        ];
+        {
+            name: "Navn Navnesen 1",
+            phoneNumber: 12345678,
+            address: "Adresse 1"
+        },
+        {
+            name: "Navn Navnesen 2",
+            phoneNumber: 87654321,
+            address: "Adresse 2"
+        }
+    ];
 
+    /**
+     *  Storing the current contacts using AsyncStorage, from the state of ContactScreen
+     *
+     */
     _storeContact = async () => {
-        try{
+        try {
             await AsyncStorage.setItem('contacts', JSON.stringify(this.contacts));
         } catch (error) {
             console.log('AsyncStorage error while storing: ' + error.message);
         }
     };
 
+    /**
+     *  Receives a newly created contact object from CreateContactScreen, and push it to the state of ContactScreen
+     *  @param contact <object>
+     */
     receiveNewContact(contact) {
         //console.log(contact);
         //console.log(JSON.parse(contact));
@@ -77,7 +92,7 @@ export default class ContactsScreen extends React.Component {
         //this.setState(prevState => ({
         //   contacts: prevState.contacts.push(contact)
         //}));
-        console.log(this.state.contacts);
+        //console.log(this.state.contacts);
     }
 
     componentDidMount() {
@@ -92,53 +107,22 @@ export default class ContactsScreen extends React.Component {
                 <Text style={styles.noNotesText}>You have no contacts</Text>
                 <Button
                     title='Create Contact'
-                    onPress={() =>{
+                    onPress={() => {
                         this.popupDialog.show();
                     }}
                 />
                 <PopupDialog
                     style={styles.container}
-                    dialogTitle={<DialogTitle title="New Contact" />}
-                    ref={(popupDialog) => { this.popupDialog = popupDialog; }}
+                    dialogTitle={<DialogTitle title="New Contact"/>}
+                    ref={(popupDialog) => {
+                        this.popupDialog = popupDialog;
+                    }}
                     height={Number(600)}>
                     <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.popupDialog}/>
                 </PopupDialog>
             </View>
         );
     }
-
-  _maybeRenderDevelopmentModeWarning() {
-    if (__DEV__) {
-      const learnMoreButton = (
-        <Text onPress={this._handleLearnMorePress} style={styles.helpLinkText}>
-          Learn more
-        </Text>
-      );
-
-      return (
-        <Text style={styles.developmentModeText}>
-          Development mode is enabled, your app will be slower but you can use useful development
-          tools. {learnMoreButton}
-        </Text>
-      );
-    } else {
-      return (
-        <Text style={styles.developmentModeText}>
-          You are not in development mode, your app will run at full speed.
-        </Text>
-      );
-    }
-  }
-
-  _handleLearnMorePress = () => {
-    WebBrowser.openBrowserAsync('https://docs.expo.io/versions/latest/guides/development-mode');
-  };
-
-  _handleHelpPress = () => {
-    WebBrowser.openBrowserAsync(
-      'https://docs.expo.io/versions/latest/guides/up-and-running.html#can-t-see-your-changes'
-    );
-  };
 }
 
 const styles = StyleSheet.create({
@@ -147,7 +131,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-
   },
   developmentModeText: {
     marginBottom: 20,
@@ -231,4 +214,4 @@ const styles = StyleSheet.create({
     fontSize: 14,
     color: '#2e78b7',
   },
-});
+})
