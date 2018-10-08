@@ -1,12 +1,19 @@
+/**
+ * A modal view for entering events with a description and date.
+ *
+ * Initialised with the following props:
+ * callback: function that is called whenever a
+ * openDatePicker: This function will be called when the user presses the button to open the date picker
+ * defaultDate: the date that wil be selected when opening the modal
+ */
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Button, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, TextInput, Button} from 'react-native';
 import Modal from "react-native-modal";
 import moment from "moment";
-
+import df from '../../constants/dateFormats' // Importing date format constants
 
 export default class CalendarEntryInput extends React.Component {
 
-    df = 'YYYY-MM-DD';
     constructor (props){
         super(props);
 
@@ -17,7 +24,6 @@ export default class CalendarEntryInput extends React.Component {
             newEventDate: null,
             newEventText: null
         };
-
 
         this.requestClose = this.requestClose.bind(this);
         this.sendData = this.sendData.bind(this);
@@ -33,27 +39,32 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     sendData() {
-        console.log('newEventText:', this.state.newEventText);
-        console.log('newEventDate:', this.state.newEventDate);
 
-        if (this.state.newEventDate && this.state.newEventText) {
+        if (this.state.newEventText) {
             this.props.callback({
-                newEventDate: this.state.newEventDate,
-                newEventText: this.state.newEventText,
-            })
+                dateString:
+                    this.state.newEventDate ?
+                    this.state.newEventDate.format(df.defaultDate) :
+                    this.props.defaultDate.format(df.defaultDate),
+
+                text: this.state.newEventText,
+            });
+
+            this.requestClose();
+            this.textInput.clear();
         }
     }
 
     receiveDate(data) {
         console.log(data);
-        this.setState({ newEventDate: moment(data, this.df)});
+        this.setState({ newEventDate: moment(data, df.defaultDate)});
     }
 
     render() {
 
         return (
-            <View style={styles.view}>
-                <TouchableOpacity onPress={this._toggleModal}>
+            <View style={[styles.view, {flex: this.state.isModalVisible? 1 : 0}]}>
+                <TouchableOpacity style={this.touchableOpacity} onPress={this._toggleModal}>
                     <Text style={styles.toggleModalText}>Show Modal</Text>
                 </TouchableOpacity>
                 <Modal
@@ -72,6 +83,7 @@ export default class CalendarEntryInput extends React.Component {
                         </TouchableOpacity>
 
                         <TextInput
+                            ref={input => { this.textInput = input }}
                             style={{height: 40, borderColor: 'gray', borderWidth: 1}}
                             onChangeText={(text) => this.setState({newEventText: text})}
                             placeholder='Event text'
@@ -79,9 +91,10 @@ export default class CalendarEntryInput extends React.Component {
 
                         <Text>
                             {'Valgt dato: '}
+                            {/* Shows the user selected date if it is set, otherwise shows defaultDate from it props*/}
                             {this.state.newEventDate?
-                                this.state.newEventDate.format('Do MMMM YYYY') :
-                                this.props.defaultDate.format('Do MMMM YYYY')}
+                                this.state.newEventDate.format(df.longDisplayDate) :
+                                this.props.defaultDate.format(df.longDisplayDate)}
                         </Text>
 
 
@@ -105,17 +118,19 @@ export default class CalendarEntryInput extends React.Component {
     }
 }
 
-const styles = StyleSheet.create({
+let styles = StyleSheet.create({
     view: {
-        flex: 1,
         alignItems:'center'
     },
+    touchableOpacity: {
+        flex: 1
+    },
     toggleModalText: {
-      fontSize: 20
+        fontSize: 20
     },
     modalContainer: {
-      flex: 1,
-      alignItems: 'center'
+        flex: 1,
+        alignItems: 'center'
     },
     modalView: {
         width: '90%',
