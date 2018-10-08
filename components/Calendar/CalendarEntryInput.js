@@ -8,8 +8,8 @@
  */
 import React from 'react';
 import {StyleSheet, Text, View, TouchableOpacity, TextInput, Button} from 'react-native';
-import Modal from "react-native-modal";
-import moment from "moment";
+import Modal from 'react-native-modal';
+import moment from 'moment';
 import df from '../../constants/dateFormats' // Importing date format constants
 
 export default class CalendarEntryInput extends React.Component {
@@ -30,9 +30,9 @@ export default class CalendarEntryInput extends React.Component {
         this.receiveDate = this.receiveDate.bind(this);
     }
 
-
-    _toggleModal = () =>
+    toggleModal(){
         this.setState({ isModalVisible: !this.state.isModalVisible });
+    }
 
     requestClose() {
         this.setState({ isModalVisible: false })
@@ -64,7 +64,7 @@ export default class CalendarEntryInput extends React.Component {
 
         return (
             <View style={[styles.view, {flex: this.state.isModalVisible? 1 : 0}]}>
-                <TouchableOpacity style={this.touchableOpacity} onPress={this._toggleModal}>
+                <TouchableOpacity style={this.touchableOpacity} onPress={this.toggleModal}>
                     <Text style={styles.toggleModalText}>Show Modal</Text>
                 </TouchableOpacity>
                 <Modal
@@ -78,7 +78,7 @@ export default class CalendarEntryInput extends React.Component {
 
                     <View style={styles.modalView}>
 
-                        <TouchableOpacity onPress={this._toggleModal}>
+                        <TouchableOpacity onPress={this.toggleModal}>
                             <Text style={styles.toggleModalText}>Hide me!</Text>
                         </TouchableOpacity>
 

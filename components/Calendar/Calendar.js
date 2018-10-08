@@ -341,41 +341,29 @@ export default class CalendarComponent extends React.Component {
         return (
             <View style={styles.container}>
                 <Calendar
+                    // Initially visible month. Default = Date()
                     current={this.state.selected.format(df.defaultDate)}
-
+                    // Collection of dates that have to be marked. Default = {}
                     markedDates={this.state.eventMarkers}
-
+                    // How the marked dates are displayed in the calendar
                     markingType={'multi-dot'}
-
                     // Handler which gets executed on day press. Default = undefined
                     onDayPress={(day) => {
                         this.setSelected(day.dateString);
                     }}
                     // Handler which gets executed on day long press. Default = undefined
                     onDayLongPress={(day) => {
-                        this.setSelected(day.dateString, this.modal._toggleModal);
+                        this.setSelected(day.dateString, this.modal.toggleModal);
                     }}
                     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                     monthFormat={df.monthNameAndYear}
-                    // Handler which gets executed when visible month changes in calendar. Default = undefined
-
-                    /* Seems redundant
-                    onMonthChange={(month) => {
-                        console.log('month changed', month);
-                        this.setSelected(month.dateString);
-                    }}
-                    */
-                    // Hide month navigation arrows. Default = false
-                    hideArrows={false}
                     // If firstDay=1 week starts from Monday. Note that dayNames and dayNamesShort should still start from Sunday.
                     firstDay={1}
-                    // Hide day names. Default = false
-                    hideDayNames={false}
                     // Show week numbers to the left. Default = false
                     showWeekNumbers={true}
-                    // Handler which gets executed when press arrow icon left. It receive a callback can go back month
+                    // Handler which gets executed when press arrow icon left.
                     onPressArrowLeft={this.subtractMonth}
-                    // Handler which gets executed when press arrow icon left. It receive a callback can go next month
+                    // Handler which gets executed when press arrow icon left.
                     onPressArrowRight={this.addMonth}
                 />
                 <Button style={styles.button}
