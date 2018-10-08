@@ -2,11 +2,13 @@
  * A component showing a day and its events.
  *
  * Initialised with the following props:
- * day: The day formatted as 'Do'. ex: '31.'
- * dayName: The day name. ex: 'Mandag'
+ * date: moment.js date object
+ * events: an array of all events on the given date (empty array if no events on that day)
  */
 import React from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
+import 'moment/locale/nb';
+import df from '../../constants/dateFormats' // Importing date format constants
 
 
 export default class DayView extends React.Component {
@@ -21,7 +23,10 @@ export default class DayView extends React.Component {
         if (Array.isArray(eArr)) {
             for (let i = 0; i < eArr.length; i++){
                 events.push(
-                    <View key={i} style={styles.eventContainer}>
+                    <View key={i}
+                          style={styles.eventContainer}
+                          accessibilityLabel={'Kalenderhendelse nummer ' + i+1 + ' den ' +
+                          this.props.date.format(df.longDisplayDate) + ':' + eArr[i].text}>
                         <Text style={styles.eventTitle}>{eArr[i].text}</Text>
                         {(i !== eArr.length-1) &&
                         <View style={styles.hr}/>
@@ -31,12 +36,12 @@ export default class DayView extends React.Component {
             }
         }
 
-        let dayName = this.props.dayName;
+        let dayName = this.props.date.format(df.dayName);
 
         return (
             <View style={styles.container}>
                 <ScrollView style={styles.dayContainer}>
-                    <Text style={styles.dayHeader}>{this.props.day} <Text style={styles.dayHeaderName}>{dayName.charAt(0).toUpperCase() + dayName.slice(1)}</Text></Text>
+                    <Text style={styles.dayHeader}>{this.props.date.format('Do')} <Text style={styles.dayHeaderName}>{dayName.charAt(0).toUpperCase() + dayName.slice(1)}</Text></Text>
                     {events}
                 </ScrollView>
             </View>

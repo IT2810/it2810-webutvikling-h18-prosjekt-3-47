@@ -5,5 +5,7 @@
 export default {
     defaultDate: 'YYYY-MM-DD',
     longDisplayDate: 'Do MMMM YYYY',
-    monthNameAndYear: 'MMMM yyyy'
+    monthNameAndYear: 'MMMM yyyy',
+    dayName: 'dddd',
+    dayInMonth: 'Do'
 }

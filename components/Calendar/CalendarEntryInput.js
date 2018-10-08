@@ -104,30 +104,38 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     render() {
+        // Shows the user selected date if it is set, otherwise shows defaultDate from its props
+        let chosenDate = this.state.newEventDate?
+            this.state.newEventDate.format(df.longDisplayDate) :
+            this.props.defaultDate.format(df.longDisplayDate);
 
         return (
             <View style={[styles.view, {flex: this.state.isModalVisible? 1 : 0}]}>
-                <TouchableOpacity style={this.touchableOpacity} onPress={this.toggleModal}>
-                    <Text style={styles.buttonText}>Show modal</Text>
+                <TouchableOpacity style={this.touchableOpacity}
+                                  onPress={this.toggleModal}
+                                  accessibilityLabel='Legg til en ny kalenderhendelse'>
+                    <Text style={styles.buttonText}>Legg til ny hendelse</Text>
                 </TouchableOpacity>
                 <Modal
                     style={styles.modalContainer}
                     isVisible={this.state.isModalVisible}
                     onBackdropPress={this.requestClose}
                     onSwipe={this.requestClose}
-                    swipeDirection="down"
+                    swipeDirection='down'
                     onRequestClose={this.requestClose}
                     >
 
                     <View style={styles.modalView}>
 
-                        <TouchableOpacity onPress={this.toggleModal}>
-                            <Text style={styles.buttonText}>Hide modal</Text>
+                        <TouchableOpacity onPress={this.toggleModal}
+                                          accessibilityLabel='Skjul ny-kalenderhendelse-popupen'>
+                            <Text style={styles.buttonText}>Skjul popup</Text>
                         </TouchableOpacity>
 
                         <TextField
                             ref={input => { this.textInput = input }}
-                            label='Event description'
+                            label='Hendelsesbeskrivelse'
+                            accessibilityLabel='Skriv inn tekstbeskrivelse av ny kalenderhendelse'
                             placeholder='Møte med Siv Jensen'
                             error={this.inputError}
                             value={this.state.newEventText}
@@ -141,21 +149,19 @@ export default class CalendarEntryInput extends React.Component {
                             multiline={true}
                         />
 
-                        <Text>
-                            {'Valgt dato: '}
-                            {/* Shows the user selected date if it is set, otherwise shows defaultDate from it props*/}
-                            {this.state.newEventDate?
-                                this.state.newEventDate.format(df.longDisplayDate) :
-                                this.props.defaultDate.format(df.longDisplayDate)}
+                        <Text accessibilityLabel={'Valgt dato for den nye kalenderhendelsen er ' + chosenDate}>
+                            Valgt dato: {chosenDate}
                         </Text>
 
-
-
-                        <TouchableOpacity style={styles.button} onPress={this.sendData}>
-                            <Text style={styles.buttonText}> Submit! </Text>
+                        <TouchableOpacity style={styles.button}
+                                          onPress={() => {this.props.openDatePicker(this.receiveDate)}}
+                                          accessibilityLabel='Åpne datovelgeren for å velge dato for den nye kalenderhendelsen'>
+                            <Text style={styles.buttonText}> Åpne datovelgeren</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button} onPress={() => {this.props.openDatePicker(this.receiveDate)}}>
-                            <Text style={styles.buttonText}> Open date picker </Text>
+                        <TouchableOpacity style={styles.button}
+                                          onPress={this.sendData}
+                                          accessibilityLabel='Lagre kalenderhendelsen'>
+                            <Text style={styles.buttonText}> Lagre </Text>
                         </TouchableOpacity>
                     </View>
                 </Modal>

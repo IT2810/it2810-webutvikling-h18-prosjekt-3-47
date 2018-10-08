@@ -250,9 +250,12 @@ export default class CalendarComponent extends React.Component {
         let events = {
             '2018-10-02': [{text: 'Møte med Per'}],
             '2018-10-03': [{text: 'Møte med Pål'}],
-            '2018-10-04': [],
-            '2018-10-05': [{text: 'Møte med Espen'},{text: 'Møte med Jens'}, {text: 'Møte med Siri'},{text: 'Møte med Gunvor'}],
-            '2018-11-02': [{text: 'Møte med Arild'}]
+            '2018-10-08': [],
+            '2018-10-15': [{text: 'Møte med Espen'},{text: 'Møte med Jens'}, {text: 'Møte med Siri'},{text: 'Møte med Gunvor'}],
+            '2018-10-23': [{text: 'Møte med Trump'}, {text: 'Tur til Rockheim med Erna Solberg'}],
+            '2018-11-08': [{text: 'Møte med Barack Obama'}],
+            '2018-11-31': [{text: 'Kaffe med Per Sandberg'}],
+            '2018-12-24': [{text: 'Julefeiring med Rune Øygard'}]
         };
         this.storeData('events', events).then(() => {
             console.log('Wrote example events to AsyncStorage');
@@ -368,15 +371,14 @@ export default class CalendarComponent extends React.Component {
                 />
                 <TouchableOpacity style={styles.button}
                     onPress={() => {this.openDatePicker(this.setSelected)}}
-                    color="#841584"
-                    accessibilityLabel="Open the date picker">
-                    <Text style={styles.buttonText}>Open date picker</Text>
+                    accessibilityLabel='Åpne datovelgeren'>
+                    <Text style={styles.buttonText}>Åpne datovelgeren</Text>
                 </TouchableOpacity>
-                <TouchableOpacity style={styles.button}
+                <TouchableOpacity
+                    style={styles.button}
                     onPress={() => {this.setSelected(moment().format(df.defaultDate))}}
-                    color="#841584"
-                    accessibilityLabel="Set calendar to today">
-                    <Text style={styles.buttonText}>Go to today</Text>
+                    accessibilityLabel='Sett kalenderen til i dag'>
+                    <Text style={styles.buttonText}>I dag</Text>
                 </TouchableOpacity>
                 <CalendarEntryInput style={styles.calendarEntryInput}
                     ref={instance => { this.modal = instance; }} // To be able to toggle the modal on day long press
@@ -384,9 +386,8 @@ export default class CalendarComponent extends React.Component {
                     openDatePicker={this.openDatePicker}
                     defaultDate={this.state.selected}
                 />
-                <DayView day={this.state.selected.format('Do')}
+                <DayView date={this.state.selected}
                          events={this.state.events[this.state.selected.format(df.defaultDate)]}
-                         dayName={this.state.selected.format('dddd')}
                 />
 
 
