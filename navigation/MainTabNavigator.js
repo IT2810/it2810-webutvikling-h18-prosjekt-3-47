@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import TodolistScreen from '../screens/TodolistScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -53,7 +54,22 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+const TodolistStack = createStackNavigator({
+  Todolist: TodolistScreen,
+});
+
+TodolistStack.navigationOptions = {
+  tabBarLabel: 'Todolist',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-checkbox'}
+    />
+  ),
+};
+
 export default createBottomTabNavigator({
+  TodolistStack,
   HomeStack,
   LinksStack,
   SettingsStack,
