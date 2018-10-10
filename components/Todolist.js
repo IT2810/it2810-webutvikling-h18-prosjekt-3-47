@@ -36,12 +36,13 @@ export default class Todolist extends Component {
           let { tasks, text } = prevState;
           return {
             tasks: tasks.concat({ key: tasks.length.toString(), text: text }),
+            //når vi lager tasken setter vi text til ""
             text: ""
           };
         },
         () => Tasks.save(this.state.tasks)
       );
-    }
+    } 
   };
   //Sletter oppgave og lagrer ny state
   deleteTask = i => {
@@ -173,10 +174,9 @@ const styles = StyleSheet.create({
     borderColor: "gray",
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
-  },
-  button: {
-    
   }
 });
 
 AppRegistry.registerComponent("TodoList", () => TodoList);
+
+module.exports = Todolist;
