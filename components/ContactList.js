@@ -38,7 +38,9 @@ export default class ContactList extends React.Component {
     render(dataBlob, rowIdentities) {
         return (
             <View style={styles.container}>
-                <ListView
+                {/* Setting `enableEmptySections` to surpress warning which will be gone in a future release
+                https://facebook.github.io/react-native/docs/listview.html#enableemptysections */}
+                <ListView enableEmptySections={true}
                     dataSource = {this.ds.cloneWithRows(this.props.contacts, rowIdentities)}
                     renderRow={
                         (rowData) => {

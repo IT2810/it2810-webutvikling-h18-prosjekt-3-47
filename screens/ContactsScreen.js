@@ -27,7 +27,8 @@ export default class ContactsScreen extends React.Component {
         super(props);
 
         this.state = {
-            contacts: []
+            contacts: [],
+            popupDialog: null
         };
 
         // Calling this inside receiveNewContact will point to ContactScreen
@@ -107,16 +108,20 @@ export default class ContactsScreen extends React.Component {
                 <Button
                     title='Create Contact'
                     onPress={() => {
-                        this.popupDialog.show();
+                        this.state.popupDialog.show();
                     }}
                 />
                 <PopupDialog
                     dialogTitle={<DialogTitle title="New Contact"/>}
                     ref={(popupDialog) => {
-                        this.popupDialog = popupDialog;
+                        if (!this.state.popupDialog){
+                            this.setState({
+                                popupDialog: popupDialog
+                            })
+                        }
                     }}
                     height={Number(400)}>
-                    <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.popupDialog}/>
+                    <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.state.popupDialog}/>
                 </PopupDialog>
             </View>
         );

@@ -24,7 +24,7 @@ export default class CreateContactScreen extends React.Component {
     sendContact() {
         //console.log(this.state);
         if (this.state.name && this.state.phoneNumber && this.state.address) {
-            this.props.callback(this.state)
+            this.props.callback(this.state);
             this.address.clear();
             this.phoneNumber.clear();
             this.name.clear();
