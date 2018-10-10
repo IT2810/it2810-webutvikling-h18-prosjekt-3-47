@@ -28,8 +28,10 @@ export default class DayView extends React.Component {
                           accessibilityLabel={'Kalenderhendelse nummer ' + i+1 + ' den ' +
                           this.props.date.format(df.longDisplayDate) + ':' + eArr[i].text}>
                         <Text style={styles.eventTitle}>{eArr[i].text}</Text>
-                        {(i !== eArr.length-1) &&
-                        <View style={styles.hr}/>
+
+                        {/* Showing horizontal divider after all but the last item of the day */
+                            (i !== eArr.length-1) &&
+                            <View style={styles.hr}/>
                         }
                     </View>
                 );
@@ -54,13 +56,12 @@ const styles = StyleSheet.create({
         flex: 1
     },
     dayContainer: {
-        backgroundColor: '#fff',
-        flex: 1
+        // backgroundColor: '#fff',
+        flex: 1,
+        paddingLeft: 10,
+        paddingRight: 10
     },
     dayHeader: {
-        padding: 10,
-        marginRight: 10,
-        marginTop: 17,
         fontSize: 40,
         color: '#696969'
     },

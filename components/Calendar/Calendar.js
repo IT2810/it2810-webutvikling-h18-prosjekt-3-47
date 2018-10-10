@@ -389,8 +389,6 @@ export default class CalendarComponent extends React.Component {
                 <DayView date={this.state.selected}
                          events={this.state.events[this.state.selected.format(df.defaultDate)]}
                 />
-
-
             </View>
         )
     }
