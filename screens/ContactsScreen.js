@@ -104,7 +104,6 @@ export default class ContactsScreen extends React.Component {
         return (
             <View style={styles.container}>
                 <ContactList contacts={this.state.contacts}/>
-                <Text style={styles.noNotesText}>You have no contacts</Text>
                 <Button
                     title='Create Contact'
                     onPress={() => {
@@ -112,12 +111,11 @@ export default class ContactsScreen extends React.Component {
                     }}
                 />
                 <PopupDialog
-                    style={styles.container}
                     dialogTitle={<DialogTitle title="New Contact"/>}
                     ref={(popupDialog) => {
                         this.popupDialog = popupDialog;
                     }}
-                    height={Number(600)}>
+                    height={Number(400)}>
                     <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.popupDialog}/>
                 </PopupDialog>
             </View>
@@ -215,3 +213,4 @@ const styles = StyleSheet.create({
     color: '#2e78b7',
   },
 })
+

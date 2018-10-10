@@ -5,6 +5,7 @@ import {
     View,
     TextInput,
     Button,
+    Alert,
 } from 'react-native';
 
 export default class CreateContactScreen extends React.Component {
@@ -30,7 +31,8 @@ export default class CreateContactScreen extends React.Component {
             this.props.popupDialog.dismiss();
         } else {
             // Not all fields are filled
-            console.log('Manglende informasjon');
+            //console.log('Manglende informasjon');
+            alert('Not all fields are filled');
         }
 
     }
@@ -40,18 +42,22 @@ export default class CreateContactScreen extends React.Component {
             <View style={styles.container}>
                 <Text>Name:</Text>
                 <TextInput
+                    style={styles.input}
                     ref={ (name) => this.name = name}
                     onChangeText={(text) => this.setState({name: text})}
                     placeholder="Fill in name here"
                 />
                 <Text>Phone Number:</Text>
                 <TextInput
+                    keyboardType={'numeric'}
+                    style={styles.input}
                     ref={ (phoneNumber) => this.phoneNumber = phoneNumber}
                     onChangeText={(text) => this.setState({phoneNumber: text})}
                     placeholder="Fill in phone number here"
                 />
                 <Text>Address:</Text>
                 <TextInput
+                    style={styles.input}
                     ref={ (address) => this.address = address}
                     onChangeText={(text) => this.setState({address: text})}
                     placeholder="Fill in address here"
@@ -70,8 +76,11 @@ const styles = StyleSheet.create({
     container: {
         flex: 1,
         backgroundColor: '#fff',
-        justifyContent: 'center',
+        justifyContent: 'flex-start',
         alignItems: 'center',
-
+    },
+    input: {
+        height: 40,
+        width: 300,
     }
-})
+});
