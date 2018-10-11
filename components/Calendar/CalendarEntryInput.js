@@ -1,15 +1,22 @@
 /**
  * A modal view for entering events with a description and date.
  *
+ * Didn't have much time to test on iOS, so the iOS solution for the date picker is somewhat hacky and not that great.
+ * But it is a proof of concept, and it seems to work. The problem I ran into is that the iOS date picker cannot be
+ * displayed over the modal. Therefore, the modal closes, and then waits a bit for the animation before it opens the
+ * date picker. Likewise, when the date picker is closed, it waits for the animation before it opens the modal again.
+ * Exception when the date picker is closed and a date was chosen, then react-native-modal-datetime-picker provides a
+ * callback after the animation is done.
+ *
  * Initialised with the following props:
  * callback: function that is called whenever a
- * openDatePicker: This function will be called when the user presses the button to open the date picker
  * defaultDate: the date that wil be selected when opening the modal
  */
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, TextInput, Button} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Keyboard, TextInput, Button, Platform} from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Modal from 'react-native-modal';
+import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import df from '../../constants/dateFormats' // Importing date format constants
 
@@ -23,33 +30,50 @@ export default class CalendarEntryInput extends React.Component {
         this.state = {
             isModalVisible: false,
             newEventDate: null,
-            newEventText: ''
+            newEventText: '',
+            isDateTimePickerVisible: false
         };
 
         this.inputError = null;
 
-        this.requestClose = this.requestClose.bind(this);
+        this.requestShowModal = this.requestShowModal.bind(this);
+        this.requestCloseModal = this.requestCloseModal.bind(this);
         this.sendData = this.sendData.bind(this);
         this.receiveDate = this.receiveDate.bind(this);
-        this.toggleModal = this.toggleModal.bind(this);
+        //this.toggleModal = this.toggleModal.bind(this);
+        this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
+        this.showDateTimePicker = this.showDateTimePicker.bind(this);
     }
 
-    toggleModal(){
-        this.setState({ isModalVisible: !this.state.isModalVisible }, () => {
-            if (this.state.isModalVisible){
-                this.textInput.focus();
-            }
-        });
-    }
-
+    /**
+     * TODO
+     */
     componentWillUnmount() {
-        this.requestClose();
+        this.requestCloseModal();
     }
 
-    requestClose() {
-        this.setState({ isModalVisible: false })
+    /**
+     * TODO
+     */
+    requestShowModal() {
+        this.setState({ isModalVisible: true});
     }
 
+    /**
+     * TODO
+     * @param iOSCallback
+     */
+    requestCloseModal(iOSCallback) {
+        this.setState({ isModalVisible: false }, () => {
+            if (Platform.OS === 'ios' && typeof(iOSCallback) === 'function') {
+                iOSCallback();
+            }
+            })
+    }
+
+    /**
+     * TODO
+     */
     sendData() {
         if (this.validateInput(this.state.newEventText, 'submit') && this.state.newEventText) {
             this.props.callback({
@@ -61,11 +85,45 @@ export default class CalendarEntryInput extends React.Component {
                 text: this.state.newEventText.trim(),
             });
 
-            this.requestClose();
+            this.requestCloseModal();
             this.textInput.clear();
         }
     }
 
+    /**
+     * TODO
+     */
+    showDateTimePicker(){
+        this.setState({ isDateTimePickerVisible: true });
+    }
+
+    /**
+     * TODO
+     * @param iOSCallback
+     */
+    hideDateTimePicker(iOSCallback) {
+        this.setState({ isDateTimePickerVisible: false }, () => {
+            if (Platform.OS === 'ios' && typeof iOSCallback === 'function') {
+                iOSCallback();
+            }
+        });
+    }
+
+    /**
+     * TODO
+     * @param data
+     */
+    receiveDate(data) {
+        this.hideDateTimePicker();
+        this.setState({ newEventDate: moment(data)});
+    }
+
+    /**
+     * TODO
+     * @param text
+     * @param type
+     * @return {boolean}
+     */
     validateInput(text, type) {
 
         if (text) {
@@ -98,10 +156,6 @@ export default class CalendarEntryInput extends React.Component {
         return true;
     }
 
-    receiveDate(data) {
-        console.log(data);
-        this.setState({ newEventDate: moment(data, df.defaultDate)});
-    }
 
     render() {
         // Shows the user selected date if it is set, otherwise shows defaultDate from its props
@@ -112,22 +166,22 @@ export default class CalendarEntryInput extends React.Component {
         return (
             <View style={[styles.view, {flex: this.state.isModalVisible? 1 : 0}]}>
                 <TouchableOpacity style={this.touchableOpacity}
-                                  onPress={this.toggleModal}
+                                  onPress={this.requestShowModal}
                                   accessibilityLabel='Legg til en ny kalenderhendelse'>
                     <Text style={styles.buttonText}>Legg til ny hendelse</Text>
                 </TouchableOpacity>
                 <Modal
                     style={styles.modalContainer}
                     isVisible={this.state.isModalVisible}
-                    onBackdropPress={this.requestClose}
-                    onSwipe={this.requestClose}
+                    onBackdropPress={this.requestCloseModal}
+                    onSwipe={this.requestCloseModal}
                     swipeDirection='down'
-                    onRequestClose={this.requestClose}
+                    onRequestClose={this.requestCloseModal}
                     >
 
                     <View style={styles.modalView}>
 
-                        <TouchableOpacity onPress={this.toggleModal}
+                        <TouchableOpacity onPress={this.requestCloseModal}
                                           accessibilityLabel='Skjul ny-kalenderhendelse-popupen'>
                             <Text style={styles.buttonText}>Skjul popup</Text>
                         </TouchableOpacity>
@@ -154,7 +208,17 @@ export default class CalendarEntryInput extends React.Component {
                         </Text>
 
                         <TouchableOpacity style={styles.button}
-                                          onPress={() => {this.props.openDatePicker(this.receiveDate)}}
+                                          onPress={() => {
+                                              if (Platform.OS === 'ios') {
+                                                  Keyboard.dismiss();
+                                                  this.requestCloseModal(() => {
+                                                      // Waiting arbitrary amount of time before showing the date picker
+                                                      setTimeout(this.showDateTimePicker, 500);
+                                                  });
+                                              } else {
+                                                  this.showDateTimePicker();
+                                              }
+                                          }}
                                           accessibilityLabel='Åpne datovelgeren for å velge dato for den nye kalenderhendelsen'>
                             <Text style={styles.buttonText}> Åpne datovelgeren</Text>
                         </TouchableOpacity>
@@ -165,6 +229,26 @@ export default class CalendarEntryInput extends React.Component {
                         </TouchableOpacity>
                     </View>
                 </Modal>
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this.receiveDate}
+                    onCancel={() => {
+                        this.hideDateTimePicker(() => {
+                            /*
+                            iOS specific callback, waiting arbitray amount of time before showing modal after
+                            picker closing
+                             */
+                            setTimeout(this.requestShowModal, 500);
+                            }
+                        );
+                    }}
+                    onHideAfterConfirm={() => {
+                        if (Platform.OS === 'ios') {
+                            // No need for delay here, as this is called after the animation is done.
+                            this.requestShowModal();
+                        }
+                    }}
+                />
             </View>
         )
     }

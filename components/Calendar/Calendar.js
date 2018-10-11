@@ -10,7 +10,8 @@ import { Calendar, LocaleConfig} from 'react-native-calendars';
 import DayView from './DayView'
 import CalendarEntryInput from './CalendarEntryInput'
 import moment from 'moment';
-import 'moment/locale/nb';
+import DateTimePicker from 'react-native-modal-datetime-picker';
+import 'moment/locale/nb'; // Importing nb locale for moment
 import df from '../../constants/dateFormats' // Importing date format constants
 
 export default class CalendarComponent extends React.Component {
@@ -37,16 +38,20 @@ export default class CalendarComponent extends React.Component {
             selected: moment(), // now
             events: {},
             eventMarkers: {},
-            modalVisible: false
+            modalVisible: false,
+            isDateTimePickerVisible: false
         };
 
         // Binding `this`
         this.subtractMonth = this.subtractMonth.bind(this);
         this.addMonth = this.addMonth.bind(this);
-        this.openDatePicker = this.openDatePicker.bind(this);
+        // this.openDatePicker = this.openDatePicker.bind(this);
         this.generateEventMarkers = this.generateEventMarkers.bind(this);
         this.receiveNewEntry = this.receiveNewEntry.bind(this);
         this.setSelected = this.setSelected.bind(this);
+        this.handleDatePicked = this.handleDatePicked.bind(this);
+        this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
+        this.showDateTimePicker= this.showDateTimePicker.bind(this);
     }
 
     /**
@@ -245,6 +250,7 @@ export default class CalendarComponent extends React.Component {
      */
     componentDidMount() {
 
+
         /*
         // Only for initialising AsyncStorage with some example events:
         let events = {
@@ -335,6 +341,29 @@ export default class CalendarComponent extends React.Component {
         });
     }
 
+    /**
+     * TODO
+     */
+    showDateTimePicker(){
+        this.setState({ isDateTimePickerVisible: true });
+    }
+
+    /**
+     * TODO
+     */
+    hideDateTimePicker() {
+        this.setState({ isDateTimePickerVisible: false });
+    }
+
+    /**
+     * TODO
+     * @param date
+     */
+    handleDatePicked(date) {
+        this.setSelected(moment(date).format(df.defaultDate));
+        this.hideDateTimePicker();
+    }
+
     render() {
 
         console.log('rendering', this.state.selected.format(df.defaultDate));
@@ -356,7 +385,7 @@ export default class CalendarComponent extends React.Component {
                     }}
                     // Handler which gets executed on day long press. Default = undefined
                     onDayLongPress={(day) => {
-                        this.setSelected(day.dateString, this.modal.toggleModal);
+                        this.setSelected(day.dateString, this.modal.requestShowModal);
                     }}
                     // Month format in calendar title. Formatting values: http://arshaw.com/xdate/#Formatting
                     monthFormat={df.monthNameAndYear}
@@ -370,7 +399,10 @@ export default class CalendarComponent extends React.Component {
                     onPressArrowRight={this.addMonth}
                 />
                 <TouchableOpacity style={styles.button}
-                    onPress={() => {this.openDatePicker(this.setSelected)}}
+                    onPress={() => {
+                        this.showDateTimePicker();
+                        //this.openDatePicker(this.setSelected)
+                    }}
                     accessibilityLabel='Åpne datovelgeren'>
                     <Text style={styles.buttonText}>Åpne datovelgeren</Text>
                 </TouchableOpacity>
@@ -383,11 +415,20 @@ export default class CalendarComponent extends React.Component {
                 <CalendarEntryInput style={styles.calendarEntryInput}
                     ref={instance => { this.modal = instance; }} // To be able to toggle the modal on day long press
                     callback={this.receiveNewEntry}
-                    openDatePicker={this.openDatePicker}
                     defaultDate={this.state.selected}
+                    // openDatePicker={this.showDateTimePicker}
                 />
                 <DayView date={this.state.selected}
                          events={this.state.events[this.state.selected.format(df.defaultDate)]}
+                />
+                <DateTimePicker
+                    isVisible={this.state.isDateTimePickerVisible}
+                    onConfirm={this.handleDatePicked}
+                    onCancel={this.hideDateTimePicker}
+                    cancelTextIOS='Avbryt'
+                    confirmTextIOS='Velg'
+                    titleIOS='Velg en dato'
+                    locale='nb'
                 />
             </View>
         )
