@@ -24,15 +24,21 @@ export default class CreateContactScreen extends React.Component {
     sendContact() {
         //console.log(this.state);
         if (this.state.name && this.state.phoneNumber && this.state.address) {
-            this.props.callback(this.state);
-            this.address.clear();
-            this.phoneNumber.clear();
-            this.name.clear();
-            this.props.popupDialog.dismiss();
-        } else {
+            if (this.state.name.trim().length > 0 && this.state.name.trim().length > 0 && this.state.name.trim().length > 0) {
+                this.props.callback(this.state);
+                this.address.clear();
+                this.phoneNumber.clear();
+                this.name.clear();
+                this.props.popupDialog.dismiss();
+            }
+            else {
+                // Some field contain only whitespace
+                Alert.alert('Warning','All field must contain signs')
+            }
+        }
+        else {
             // Not all fields are filled
-            //console.log('Manglende informasjon');
-            alert('Not all fields are filled');
+            Alert.alert('Warning', 'All fields must be filled');
         }
 
     }
