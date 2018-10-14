@@ -6,6 +6,8 @@ import {
     TouchableHighlight,
     View,
     Button,
+    TouchableOpacity,
+    ScrollView,
 } from 'react-native';
 
 import PopupDialog from "react-native-popup-dialog";
@@ -39,19 +41,27 @@ export default class ContactList extends React.Component {
         return (
             <View style={styles.container}>
                 {/* Setting `enableEmptySections` to surpress warning which will be gone in a future release
-                https://facebook.github.io/react-native/docs/listview.html#enableemptysections */}
+                https://facebook.github.io/react-native/docs/listview.html#enableemptysections
+                <Button
+                                    title={rowData.name}
+                                    style={styles.button}
+                                    onPress={() =>{
+                                        this.openContact(rowData)
+                                    }}
+                                />
+                */}
                 <ListView enableEmptySections={true}
                     dataSource = {this.ds.cloneWithRows(this.props.contacts, rowIdentities)}
                     renderRow={
                         (rowData) => {
                             return (
-                                <Button
-                                    title={rowData.name}
-                                    style={styles.text}
-                                    onPress={() =>{
-                                        this.openContact(rowData)
-                                    }}
-                                />
+                                <View>
+                                    <TouchableOpacity
+                                        onPress={() => {
+                                            this.openContact(rowData)}}>
+                                        <Text style={styles.text}>{rowData.name}</Text>
+                                    </TouchableOpacity>
+                                </View>
                             )
                         }
                     }
@@ -77,12 +87,14 @@ const styles = StyleSheet.create({
         alignItems: 'center',
     },
     text: {
-        marginLeft: 12,
-        fontSize: 16,
+        marginLeft: 8,
+        fontSize: 18,
+        marginTop: 12,
+        marginBottom: 4,
     },
     separator: {
         flex: 1,
         height: StyleSheet.hairlineWidth,
         backgroundColor: '#8E8E8E',
-    }
+    },
 });

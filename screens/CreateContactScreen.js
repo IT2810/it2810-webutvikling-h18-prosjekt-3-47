@@ -33,7 +33,7 @@ export default class CreateContactScreen extends React.Component {
             }
             else {
                 // Some field contain only whitespace
-                Alert.alert('Warning','All field must contain signs')
+                Alert.alert('Warning','Input length must be more than 0')
             }
         }
         else {
@@ -46,14 +46,14 @@ export default class CreateContactScreen extends React.Component {
     render() {
         return (
             <View style={styles.container}>
-                <Text>Name:</Text>
+                <Text style={styles.text}>Name:</Text>
                 <TextInput
                     style={styles.input}
                     ref={ (name) => this.name = name}
                     onChangeText={(text) => this.setState({name: text})}
                     placeholder="Fill in name here"
                 />
-                <Text>Phone Number:</Text>
+                <Text style={styles.text}>Phone Number:</Text>
                 <TextInput
                     keyboardType={'numeric'}
                     style={styles.input}
@@ -61,32 +61,41 @@ export default class CreateContactScreen extends React.Component {
                     onChangeText={(text) => this.setState({phoneNumber: text})}
                     placeholder="Fill in phone number here"
                 />
-                <Text>Address:</Text>
+                <Text style={styles.text}>Address:</Text>
                 <TextInput
                     style={styles.input}
                     ref={ (address) => this.address = address}
                     onChangeText={(text) => this.setState({address: text})}
                     placeholder="Fill in address here"
                 />
-                <Button
-                    title={'Save'}
+                <View style={styles.button}>
+                    <Button
+                    title={'  Save  '}
                     onPress={() => {
                         this.sendContact();
                     }}
-                />
+                    />
+                </View>
             </View>
         );
     }
 }
 const styles = StyleSheet.create({
     container: {
-        flex: 1,
         backgroundColor: '#fff',
-        justifyContent: 'flex-start',
-        alignItems: 'center',
+        justifyContent: 'center',
     },
     input: {
         height: 40,
         width: 300,
+        marginLeft: 12,
+    },
+    text: {
+        marginLeft: 12,
+        fontSize: 16,
+        marginTop: 10,
+    },
+    button: {
+        alignItems: 'center',
     }
 });

@@ -15,7 +15,7 @@ import DialogTitle from "react-native-popup-dialog/src/components/DialogTitle";
 
 import ContactList from '../components/ContactList';
 
-import CreateContactScreen from './CreateContactScreen'
+import CreateContactScreen from './CreateContactScreen';
 
 
 export default class ContactsScreen extends React.Component {
@@ -85,15 +85,9 @@ export default class ContactsScreen extends React.Component {
      *  @param contact <object>
      */
     receiveNewContact(contact) {
-        //console.log(contact);
-        //console.log(JSON.parse(contact));
         let contacts = this.state.contacts.slice();
         contacts.push(contact);
         this.setState({contacts: contacts});
-        //this.setState(prevState => ({
-        //   contacts: prevState.contacts.push(contact)
-        //}));
-        //console.log(this.state.contacts);
     }
 
     componentDidMount() {
@@ -106,7 +100,7 @@ export default class ContactsScreen extends React.Component {
             <View style={styles.container}>
                 <ContactList contacts={this.state.contacts}/>
                 <Button
-                    title='Create Contact'
+                    title='Create New Contact'
                     onPress={() => {
                         this.state.popupDialog.show();
                     }}
@@ -134,88 +128,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-  },
-  developmentModeText: {
-    marginBottom: 20,
-    color: 'rgba(0,0,0,0.4)',
-    fontSize: 14,
-    lineHeight: 19,
-    textAlign: 'center',
-  },
-  contentContainer: {
-    paddingTop: 30,
-  },
-  welcomeContainer: {
-    alignItems: 'center',
-    marginTop: 10,
-    marginBottom: 20,
-  },
-  welcomeImage: {
-    width: 100,
-    height: 80,
-    resizeMode: 'contain',
-    marginTop: 3,
-    marginLeft: -10,
-  },
-  getStartedContainer: {
-    alignItems: 'center',
-    marginHorizontal: 50,
-  },
-  homeScreenFilename: {
-    marginVertical: 7,
-  },
-  codeHighlightText: {
-    color: 'rgba(96,100,109, 0.8)',
-  },
-  codeHighlightContainer: {
-    backgroundColor: 'rgba(0,0,0,0.05)',
-    borderRadius: 3,
-    paddingHorizontal: 4,
-  },
-  getStartedText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    lineHeight: 24,
-    textAlign: 'center',
-  },
-  tabBarInfoContainer: {
-    position: 'absolute',
-    bottom: 0,
-    left: 0,
-    right: 0,
-    ...Platform.select({
-      ios: {
-        shadowColor: 'black',
-        shadowOffset: { height: -3 },
-        shadowOpacity: 0.1,
-        shadowRadius: 3,
-      },
-      android: {
-        elevation: 20,
-      },
-    }),
-    alignItems: 'center',
-    backgroundColor: '#fbfbfb',
-    paddingVertical: 20,
-  },
-  tabBarInfoText: {
-    fontSize: 17,
-    color: 'rgba(96,100,109, 1)',
-    textAlign: 'center',
-  },
-  navigationFilename: {
-    marginTop: 5,
-  },
-  helpContainer: {
-    marginTop: 15,
-    alignItems: 'center',
-  },
-  helpLink: {
-    paddingVertical: 15,
-  },
-  helpLinkText: {
-    fontSize: 14,
-    color: '#2e78b7',
+      paddingBottom: 10,
   },
 })
-
