@@ -7,8 +7,8 @@
  */
 import React from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
-// import 'moment/locale/nb';
 import df from '../../constants/DateFormats' // Importing date format constants
+import c from '../../constants/Colors'
 
 
 export default class DayView extends React.Component {
@@ -56,32 +56,31 @@ const styles = StyleSheet.create({
         flex: 1
     },
     dayContainer: {
-        // backgroundColor: '#fff',
         flex: 1,
         paddingLeft: 10,
         paddingRight: 10
     },
     dayHeader: {
         fontSize: 40,
-        color: '#696969'
+        color: c.mutedText
     },
     dayHeaderName: {
         fontSize: 30,
-        color: '#909090'
+        color: c.moreMutedText
     },
     eventContainer: {
         flex: 1,
         margin: 10
     },
     hr: {
-        borderBottomWidth: 1,
-        borderBottomColor: '#ccc'
+        borderBottomWidth: StyleSheet.hairlineWidth * 2,
+        borderBottomColor: c.divider
     },
     eventTitle: {
         fontSize: 20,
         marginRight: 10,
         marginTop: 7,
         padding: 10,
-        color: '#303030'
+        color: c.normalTextColor
     }
 });

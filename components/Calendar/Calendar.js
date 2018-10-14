@@ -14,10 +14,10 @@ import 'moment/locale/nb'; // Importing nb locale for moment.js
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import df from '../../constants/DateFormats' // Importing project date format constants
 import lc from '../../constants/Locale' // Importing project locale constants
+import c from '../../constants/Colors'
 
 export default class CalendarComponent extends React.Component {
 
-    colors = ['green', 'blue', 'grey', 'orange', 'salmon', 'red'];
 
     constructor (props){
         super(props);
@@ -127,7 +127,7 @@ export default class CalendarComponent extends React.Component {
             // Add marker dots for the events that are in `events`
             if (events.hasOwnProperty(key)){
                 events[key].forEach(()=> {
-                    dots.push({color: this.colors[i % this.colors.length]});
+                    dots.push({color: c.safeColorList[i % c.safeColorList.length]});
                     i++;
                 });
             }
@@ -405,10 +405,10 @@ export default class CalendarComponent extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: c.appMainBackground,
     },
     item: {
-        backgroundColor: 'white',
+        backgroundColor: c.appMainBackground,
         flex: 1,
         borderRadius: 5,
         padding: 10,

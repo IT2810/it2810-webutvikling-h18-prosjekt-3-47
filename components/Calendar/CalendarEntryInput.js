@@ -22,6 +22,7 @@ import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
 import df from '../../constants/DateFormats' // Importing date format constants
 import lc from '../../constants/Locale' // Importing project locale constants
+import c from '../../constants/Colors'
 
 export default class CalendarEntryInput extends React.Component {
 
@@ -264,7 +265,7 @@ let styles = StyleSheet.create({
     },
     chosenDateText: {
         marginLeft: 5,
-        color: '#505050',
+        color: c.mutedText,
         fontSize: 16
     },
     buttonText: {
@@ -278,7 +279,7 @@ let styles = StyleSheet.create({
         width: '85%',
         padding: '2.5%',
         flex: 1,
-        backgroundColor: '#fff'
+        backgroundColor: c.appMainBackground
     },
     button: {
 
