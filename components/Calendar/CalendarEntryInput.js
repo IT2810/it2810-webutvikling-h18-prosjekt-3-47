@@ -15,7 +15,7 @@
  * defaultDate: the date that wil be preselected when opening the modal
  */
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Keyboard, Platform} from 'react-native';
+import {StyleSheet, Text, View, ScrollView, TouchableOpacity, Keyboard, Platform} from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
@@ -133,9 +133,9 @@ export default class CalendarEntryInput extends React.Component {
      * @return {boolean} true if input is valid, false otherwise
      */
     validateInput(text, type) {
-        if (text) {
-            let textTrimmed = text.trim();
+        let textTrimmed = text.trim();
 
+        if (text && textTrimmed.length > 0) {
             this.inputError = null;
             if (textTrimmed.length < 3) {
                 this.inputError = 'Må være minst tre tegn lang';
@@ -179,7 +179,7 @@ export default class CalendarEntryInput extends React.Component {
                     onRequestClose={this.requestCloseModal}
                     >
 
-                    <View style={styles.modalView}>
+                    <ScrollView style={styles.modalView}>
 
                         <TouchableOpacity onPress={this.requestCloseModal}
                                           accessibilityLabel='Skjul ny-kalenderhendelse-popupen'>
@@ -187,6 +187,7 @@ export default class CalendarEntryInput extends React.Component {
                         </TouchableOpacity>
 
                         <TextField
+                            //style={{maxHeight: 80}}
                             ref={input => { this.textInput = input }}
                             label='Hendelsesbeskrivelse'
                             accessibilityLabel='Skriv inn tekstbeskrivelse av ny kalenderhendelse'
@@ -208,8 +209,7 @@ export default class CalendarEntryInput extends React.Component {
                             Valgt dato: {chosenDate}
                         </Text>
 
-                        <TouchableOpacity style={styles.button}
-                                          onPress={() => {
+                        <TouchableOpacity onPress={() => {
                                               if (Platform.OS === 'ios') {
                                                   Keyboard.dismiss();
                                                   this.requestCloseModal(() => {
@@ -223,12 +223,11 @@ export default class CalendarEntryInput extends React.Component {
                                           accessibilityLabel='Åpne datovelgeren for å velge dato for den nye kalenderhendelsen'>
                             <Text style={styles.buttonText}> Åpne datovelgeren</Text>
                         </TouchableOpacity>
-                        <TouchableOpacity style={styles.button}
-                                          onPress={this.sendData}
+                        <TouchableOpacity onPress={this.sendData}
                                           accessibilityLabel='Lagre kalenderhendelsen'>
-                            <Text style={styles.buttonText}> Lagre </Text>
+                            <Text style={styles.buttonSubmitText}> Lagre </Text>
                         </TouchableOpacity>
-                    </View>
+                    </ScrollView>
                 </Modal>
                 <DateTimePicker
                     isVisible={this.state.isDateTimePickerVisible}
@@ -265,11 +264,17 @@ let styles = StyleSheet.create({
     },
     chosenDateText: {
         marginLeft: 5,
+        marginBottom: 10,
         color: c.mutedText,
         fontSize: 16
     },
     buttonText: {
         fontSize: 20
+    },
+    buttonSubmitText: {
+        marginTop: 10,
+        marginBottom: 15,
+        fontSize: 25
     },
     modalContainer: {
         flex: 1,
@@ -280,8 +285,5 @@ let styles = StyleSheet.create({
         padding: '2.5%',
         flex: 1,
         backgroundColor: c.appMainBackground
-    },
-    button: {
-
     }
 });

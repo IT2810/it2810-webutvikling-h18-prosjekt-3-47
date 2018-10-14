@@ -174,7 +174,7 @@ export default class CalendarComponent extends React.Component {
     subtractMonth() {
         this.setState(prevState => ({
             selected: this.dateCopy(prevState.selected).subtract(1, 'month')
-        }), console.log('updated, subtracted from selected month:', this.state.selected.format(df.defaultDate)));
+        }));
     }
 
     /**
@@ -184,7 +184,7 @@ export default class CalendarComponent extends React.Component {
     addMonth() {
         this.setState(prevState => ({
             selected: this.dateCopy(prevState.selected).add(1, 'month')
-        }), console.log('updated, subtracted from selected month:', this.state.selected.format(df.defaultDate)));
+        }));
     }
 
     /**
@@ -207,8 +207,16 @@ export default class CalendarComponent extends React.Component {
         this.setState({
             selected: moment(dateString, df.defaultDate)
         }, () => {
-            console.log('updated, selected set:', this.state.selected.format(df.defaultDate));
-            if (callback) {callback()}
+            if (callback) {
+                if (typeof(callback) === 'function'){
+                    callback()
+                } else {
+                    console.warn('`callback` argument given to setSelected is not a function! \n' +
+                        'expected type: function \n' +
+                        'actual type: ' + typeof callback
+                    )
+                }
+            }
         });
     }
 
@@ -335,7 +343,7 @@ export default class CalendarComponent extends React.Component {
 
     render() {
 
-        console.log('rendering', this.state.selected.format(df.defaultDate));
+        // console.log('rendering', this.state.selected.format(df.defaultDate));
 
         // Reference for react-native-calendars: https://github.com/wix/react-native-calendars
 
