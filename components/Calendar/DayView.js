@@ -7,8 +7,8 @@
  */
 import React from 'react';
 import {ScrollView, StyleSheet, View, Text} from 'react-native';
-import 'moment/locale/nb';
-import df from '../../constants/dateFormats' // Importing date format constants
+// import 'moment/locale/nb';
+import df from '../../constants/DateFormats' // Importing date format constants
 
 
 export default class DayView extends React.Component {

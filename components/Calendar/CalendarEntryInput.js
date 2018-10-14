@@ -9,23 +9,26 @@
  * callback after the animation is done.
  *
  * Initialised with the following props:
- * callback: function that is called whenever a
- * defaultDate: the date that wil be selected when opening the modal
+ * callback: function that is called whenever a valid new entry is submitted.
+ *     The callback receives an object with `dateString` and `text` keys
+ *
+ * defaultDate: the date that wil be preselected when opening the modal
  */
 import React from 'react';
-import {StyleSheet, Text, View, TouchableOpacity, Keyboard, TextInput, Button, Platform} from 'react-native';
+import {StyleSheet, Text, View, TouchableOpacity, Keyboard, Platform} from 'react-native';
 import { TextField } from 'react-native-material-textfield';
 import Modal from 'react-native-modal';
 import DateTimePicker from 'react-native-modal-datetime-picker';
 import moment from 'moment';
-import df from '../../constants/dateFormats' // Importing date format constants
+import df from '../../constants/DateFormats' // Importing date format constants
+import lc from '../../constants/Locale' // Importing project locale constants
 
 export default class CalendarEntryInput extends React.Component {
 
     constructor (props){
         super(props);
 
-        moment.locale('nb');
+        moment.locale(lc.languageCode);
 
         this.state = {
             isModalVisible: false,
@@ -40,28 +43,21 @@ export default class CalendarEntryInput extends React.Component {
         this.requestCloseModal = this.requestCloseModal.bind(this);
         this.sendData = this.sendData.bind(this);
         this.receiveDate = this.receiveDate.bind(this);
-        //this.toggleModal = this.toggleModal.bind(this);
         this.hideDateTimePicker = this.hideDateTimePicker.bind(this);
         this.showDateTimePicker = this.showDateTimePicker.bind(this);
     }
 
     /**
-     * TODO
-     */
-    componentWillUnmount() {
-        this.requestCloseModal();
-    }
-
-    /**
-     * TODO
+     * Updates state to show the modal
      */
     requestShowModal() {
         this.setState({ isModalVisible: true});
     }
 
     /**
-     * TODO
-     * @param iOSCallback
+     * Updates state to close the modal, calls iOSCallback if iOS
+     *
+     * @param iOSCallback <function> will be called if platform is iOS (and the argument is indeed a function)
      */
     requestCloseModal(iOSCallback) {
         this.setState({ isModalVisible: false }, () => {
@@ -72,7 +68,11 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     /**
-     * TODO
+     * Validates the input with the 'submit' parameter, and then calls the prop callback with a object.
+     * If newEventDate is not defined (e.g. the user has not set any new date in the date picker inside this component),
+     * it returns defaultDate, which is given as a prop by the parent.
+     * Returns newEventText trimmed to remove leading and trailing whitespace.
+     * Calls to close the Modal, and then clears the text input.
      */
     sendData() {
         if (this.validateInput(this.state.newEventText, 'submit') && this.state.newEventText) {
@@ -91,15 +91,16 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     /**
-     * TODO
+     * Updates state to hide the date picker
      */
     showDateTimePicker(){
         this.setState({ isDateTimePickerVisible: true });
     }
 
     /**
-     * TODO
-     * @param iOSCallback
+     * Updates state to hide the date picker, and calls a callback if the platform is iOS
+     *
+     * @param iOSCallback <function> will be called after the state has been updated
      */
     hideDateTimePicker(iOSCallback) {
         this.setState({ isDateTimePickerVisible: false }, () => {
@@ -110,8 +111,10 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     /**
-     * TODO
-     * @param data
+     * Sent as a callback function to react-native-modal-datetime-picker. Is called whenever a date has been chosen.
+     * This function hides the picker, and updates the state.
+     *
+     * @param data <object> JS Date Object sent from react-native-modal-datetime-picker
      */
     receiveDate(data) {
         this.hideDateTimePicker();
@@ -119,40 +122,36 @@ export default class CalendarEntryInput extends React.Component {
     }
 
     /**
-     * TODO
-     * @param text
-     * @param type
-     * @return {boolean}
+     * Checks if the text input is valid, and updates the inputError.
+     * Since react-native-material-textfield for some reason does not update its error unless there is a value change,
+     * the value is updated when the user tries to submit an empty field, so that the error message is displayed. Not
+     * the best solution, but there is not enough time to find a better solution.
+     *
+     * @param text <string> Value from the text input
+     * @param type <string> to tell if it is validating on submit or just text input change
+     * @return {boolean} true if input is valid, false otherwise
      */
     validateInput(text, type) {
-
         if (text) {
             let textTrimmed = text.trim();
 
             this.inputError = null;
-            console.log('textTrimmed:', textTrimmed);
-            console.log('textTrimmed.length:', textTrimmed.length);
-            console.log('text.length:', text.length);
             if (textTrimmed.length < 3) {
                 this.inputError = 'Må være minst tre tegn lang';
                 return false;
             }
         } else if (type === 'submit') {
-            console.log('validating submit');
-            console.log('input error!!!');
             this.inputError = 'Dette feltet er påkrevd';
-
             /*
             react-native-material-textfield does not seem to display a new error message
             unless there is a value change, so here is a hacky solution
             */
             this.setState(prevState => ({
-               newEventText: prevState.newEventText + ' '
+               newEventText: prevState.newEventText.trim()
             }));
 
             return false;
         }
-
         return true;
     }
 
@@ -203,7 +202,8 @@ export default class CalendarEntryInput extends React.Component {
                             multiline={true}
                         />
 
-                        <Text accessibilityLabel={'Valgt dato for den nye kalenderhendelsen er ' + chosenDate}>
+                        <Text style={styles.chosenDateText}
+                              accessibilityLabel={'Valgt dato for den nye kalenderhendelsen er ' + chosenDate}>
                             Valgt dato: {chosenDate}
                         </Text>
 
@@ -212,7 +212,7 @@ export default class CalendarEntryInput extends React.Component {
                                               if (Platform.OS === 'ios') {
                                                   Keyboard.dismiss();
                                                   this.requestCloseModal(() => {
-                                                      // Waiting arbitrary amount of time before showing the date picker
+                                                      // Waiting for animation to finish before showing the date picker
                                                       setTimeout(this.showDateTimePicker, 500);
                                                   });
                                               } else {
@@ -235,8 +235,8 @@ export default class CalendarEntryInput extends React.Component {
                     onCancel={() => {
                         this.hideDateTimePicker(() => {
                             /*
-                            iOS specific callback, waiting arbitray amount of time before showing modal after
-                            picker closing
+                            iOS specific callback as anonymous function, waiting for animation to finish
+                            before showing modal after date picker closing
                              */
                             setTimeout(this.requestShowModal, 500);
                             }
@@ -244,7 +244,7 @@ export default class CalendarEntryInput extends React.Component {
                     }}
                     onHideAfterConfirm={() => {
                         if (Platform.OS === 'ios') {
-                            // No need for delay here, as this is called after the animation is done.
+                            // No need for a timeout here, as this is called after the animation is done.
                             this.requestShowModal();
                         }
                     }}
@@ -261,6 +261,11 @@ let styles = StyleSheet.create({
     touchableOpacity: {
         flex: 1,
         alignItems:'center'
+    },
+    chosenDateText: {
+        marginLeft: 5,
+        color: '#505050',
+        fontSize: 16
     },
     buttonText: {
         fontSize: 20

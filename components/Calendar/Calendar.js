@@ -5,14 +5,15 @@
  * Instantiates a DayView that displays the current date and the events on that date, if any
  */
 import React from 'react';
-import {StyleSheet, View, Text, TouchableOpacity, DatePickerAndroid, Platform, AsyncStorage} from 'react-native';
+import {StyleSheet, View, Text, TouchableOpacity, AsyncStorage} from 'react-native';
 import { Calendar, LocaleConfig} from 'react-native-calendars';
 import DayView from './DayView'
 import CalendarEntryInput from './CalendarEntryInput'
 import moment from 'moment';
+import 'moment/locale/nb'; // Importing nb locale for moment.js
 import DateTimePicker from 'react-native-modal-datetime-picker';
-import 'moment/locale/nb'; // Importing nb locale for moment
-import df from '../../constants/dateFormats' // Importing date format constants
+import df from '../../constants/DateFormats' // Importing project date format constants
+import lc from '../../constants/Locale' // Importing project locale constants
 
 export default class CalendarComponent extends React.Component {
 
@@ -21,17 +22,12 @@ export default class CalendarComponent extends React.Component {
     constructor (props){
         super(props);
 
-        // Setting moment locale.
-        moment.locale('nb');
+        // Setting moment locale with project locale constant
+        moment.locale(lc.languageCode);
 
-        // Setting react-native-calendars locales
-        LocaleConfig.locales['no'] = {
-            monthNames: ['Januar','Februar','Mars','April','Mai','Juni','Juli','August','September','Oktober','November','Desember'],
-            monthNamesShort: ['Jan.','Feb.','Mars','April','Mai','Juni','Juli.','Aug.','Sept.','Okt.','Nov.','Des.'],
-            dayNames: ['Søndag','Mandag','Tirsdag','Onsdag','Torsdag','Fredag','Lørdag'],
-            dayNamesShort: ['Søn.','Man.','Tir.','Ons.','Tor.','Fre.','Lør.']
-        };
-        LocaleConfig.defaultLocale = 'no';
+        // Setting react-native-calendars locale with project locale constants
+        LocaleConfig.locales[lc.languageCode] = lc.reactNativeCalendarsLocale;
+        LocaleConfig.defaultLocale = lc.languageCode;
 
         this.state = {
             now: moment(), // now
@@ -45,7 +41,6 @@ export default class CalendarComponent extends React.Component {
         // Binding `this`
         this.subtractMonth = this.subtractMonth.bind(this);
         this.addMonth = this.addMonth.bind(this);
-        // this.openDatePicker = this.openDatePicker.bind(this);
         this.generateEventMarkers = this.generateEventMarkers.bind(this);
         this.receiveNewEntry = this.receiveNewEntry.bind(this);
         this.setSelected = this.setSelected.bind(this);
@@ -218,39 +213,11 @@ export default class CalendarComponent extends React.Component {
     }
 
     /**
-     * Asynchronous
-     * Opens a date picker if it runs on Android. If a date was set by the user, it updates the selected date in month
-     * TODO: Date picker for iOS
-     * @return {Promise<void>}
-     */
-    async openDatePicker (callback){
-        if (Platform.OS === 'ios'){
-
-        } else {
-            try {
-                const {action, year, month, day} = await DatePickerAndroid.open({
-                    date: new Date()
-                });
-                if (action === 'dateSetAction'){
-                    // Looks like month is 0-indexed
-                    let newDate = moment(`${year}-${month + 1}-${day}`, 'YYYY-M-D').format(df.defaultDate);
-                    callback(newDate);
-                }
-            } catch ({code, message}) {
-                console.warn('Something went wrong with the date picker', message);
-            }
-        }
-
-    }
-
-    /**
      * Asynchronous call to retrieveEvents
      * Runs on first 'mount' (first render). Asynchronous call to receive data,
      * will update state and re-render on success.
      */
     componentDidMount() {
-
-
         /*
         // Only for initialising AsyncStorage with some example events:
         let events = {
@@ -342,22 +309,24 @@ export default class CalendarComponent extends React.Component {
     }
 
     /**
-     * TODO
+     * Updates state to show date picker
      */
     showDateTimePicker(){
         this.setState({ isDateTimePickerVisible: true });
     }
 
     /**
-     * TODO
+     * Updates state to hide date picker
      */
     hideDateTimePicker() {
         this.setState({ isDateTimePickerVisible: false });
     }
 
     /**
-     * TODO
-     * @param date
+     * Sent as a callback function to react-native-modal-datetime-picker. Is called whenever a date has been chosen.
+     * This function hides the picker, and updates the state.
+     *
+     * @param date <object> JS Date Object sent from react-native-modal-datetime-picker
      */
     handleDatePicked(date) {
         this.setSelected(moment(date).format(df.defaultDate));
@@ -401,7 +370,6 @@ export default class CalendarComponent extends React.Component {
                 <TouchableOpacity style={styles.button}
                     onPress={() => {
                         this.showDateTimePicker();
-                        //this.openDatePicker(this.setSelected)
                     }}
                     accessibilityLabel='Åpne datovelgeren'>
                     <Text style={styles.buttonText}>Åpne datovelgeren</Text>
@@ -416,7 +384,6 @@ export default class CalendarComponent extends React.Component {
                     ref={instance => { this.modal = instance; }} // To be able to toggle the modal on day long press
                     callback={this.receiveNewEntry}
                     defaultDate={this.state.selected}
-                    // openDatePicker={this.showDateTimePicker}
                 />
                 <DayView date={this.state.selected}
                          events={this.state.events[this.state.selected.format(df.defaultDate)]}
