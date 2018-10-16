@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`TodoList Component renders correctly 1`] = `
 <View
   style={
     Array [
@@ -39,3 +39,5 @@ exports[`renders correctly 1`] = `
   />
 </View>
 `;
+
+exports[`TodoList Component should add a new task when addTask is called and there is text 1`] = `null`;
