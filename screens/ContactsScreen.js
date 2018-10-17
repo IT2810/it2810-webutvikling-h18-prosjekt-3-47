@@ -68,11 +68,11 @@ export default class ContactsScreen extends React.Component {
      *  Storing the current contacts using AsyncStorage, from the state of ContactScreen
      *
      */
-    _storeContact = async () => {
+    async storeData(path, data) {
         try {
-            await AsyncStorage.setItem('contacts', JSON.stringify(this.contacts));
+            await AsyncStorage.setItem(path, JSON.stringify(data));
         } catch (error) {
-            console.log('AsyncStorage error while storing: ' + error.message);
+            console.error('Error storing to AsyncStorage', error);
         }
     };
 
@@ -88,7 +88,9 @@ export default class ContactsScreen extends React.Component {
         if(callback && typeof callback === 'function'){
             callback();
         }
-        this.setState({contacts: contacts});
+        this.storeData('contacts', contacts).then(() => {
+            this._loadContacts();
+        });
     }
 
     componentDidMount() {
@@ -124,11 +126,11 @@ export default class ContactsScreen extends React.Component {
 }
 
 const styles = StyleSheet.create({
-  container: {
-      flex: 1,
-      backgroundColor: '#fff',
-      justifyContent: 'center',
-      alignItems: 'center',
-      paddingBottom: '3%',
-  },
+    container: {
+        flex: 1,
+        backgroundColor: '#fff',
+        justifyContent: 'center',
+        alignItems: 'center',
+        paddingBottom: '3%',
+    },
 })
