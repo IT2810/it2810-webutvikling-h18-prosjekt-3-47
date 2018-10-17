@@ -7,7 +7,7 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ContactsScreen from '../screens/ContactsScreen';
-import CreateContactsScreen from '../screens/CreateContactScreen';
+import CreateContactsScreen from '../components/Contacts/CreateContact';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,

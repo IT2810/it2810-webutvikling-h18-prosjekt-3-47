@@ -1,9 +1,9 @@
+/**
+ * DisplayContact displays the contact information, including phone number and address, of a contact.
+ * The contact is sent as props to the component and the contact information is displayed in three text components.
+ */
 import React from 'react';
-import {
-    StyleSheet,
-    Text,
-    View,
-} from 'react-native';
+import { StyleSheet, Text, View } from 'react-native';
 
 export default class DisplayContact extends React.Component {
 
@@ -26,8 +26,8 @@ const styles = StyleSheet.create({
         flex: 1,
     },
     text: {
-        marginLeft: 12,
+        marginLeft: '3%',
         fontSize: 16,
-        marginTop: 6,
+        marginTop: '1%',
     },
 });

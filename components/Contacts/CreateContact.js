@@ -1,14 +1,13 @@
+/**
+ * CreateContact displays a contact form.
+ * When pushing the save (after some input checks) a contact with the given information is sent back to the
+ * ContactsScreen, via the callback function, for storing. After the information is used in ContactScreen, a callback
+ * is sent back to CreateContact to notify that the input (via state) can be safely cleared.
+ */
 import React from 'react'
-import {
-    StyleSheet,
-    Text,
-    View,
-    TextInput,
-    Button,
-    Alert,
-} from 'react-native';
+import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
 
-export default class CreateContactScreen extends React.Component {
+export default class CreateContact extends React.Component {
     constructor (props) {
         super(props);
         this.state = {
@@ -16,19 +15,19 @@ export default class CreateContactScreen extends React.Component {
             phoneNumber: null,
             address: null
         };
+
+        this.clearInputs = this.clearInputs.bind(this);
     }
     /**
-     * Send the state (a new contact) back to the receiveNewContact-method in ContactScreen, if all fields are set
+     * Sends the state (a new contact) back to the receiveNewContact-method in ContactScreen, if all fields are set
      * Then clears the textInputs and dismisses the popup, to make ready for new contact creations
      */
     sendContact() {
         //console.log(this.state);
         if (this.state.name && this.state.phoneNumber && this.state.address) {
-            if (this.state.name.trim().length > 0 && this.state.name.trim().length > 0 && this.state.name.trim().length > 0) {
-                this.props.callback(this.state);
-                this.address.clear();
-                this.phoneNumber.clear();
-                this.name.clear();
+            if (this.state.name.trim().length > 0 && this.state.phoneNumber.trim().length > 0 && this.state.address.trim().length > 0) {
+
+                this.props.callback(this.state, this.clearInputs);
                 this.props.popupDialog.dismiss();
             }
             else {
@@ -40,7 +39,14 @@ export default class CreateContactScreen extends React.Component {
             // Not all fields are filled
             Alert.alert('Warning', 'All fields must be filled');
         }
+    }
 
+    clearInputs() {
+        this.setState({
+            address: null,
+            phoneNumber: null,
+            name: null
+        });
     }
 
     render() {
@@ -49,7 +55,7 @@ export default class CreateContactScreen extends React.Component {
                 <Text style={styles.text}>Name:</Text>
                 <TextInput
                     style={styles.input}
-                    ref={ (name) => this.name = name}
+                    value={this.state.name}
                     onChangeText={(text) => this.setState({name: text})}
                     placeholder="Fill in name here"
                 />
@@ -57,14 +63,14 @@ export default class CreateContactScreen extends React.Component {
                 <TextInput
                     keyboardType={'numeric'}
                     style={styles.input}
-                    ref={ (phoneNumber) => this.phoneNumber = phoneNumber}
+                    value={this.state.phoneNumber}
                     onChangeText={(text) => this.setState({phoneNumber: text})}
                     placeholder="Fill in phone number here"
                 />
                 <Text style={styles.text}>Address:</Text>
                 <TextInput
                     style={styles.input}
-                    ref={ (address) => this.address = address}
+                    value={this.state.address}
                     onChangeText={(text) => this.setState({address: text})}
                     placeholder="Fill in address here"
                 />
@@ -91,11 +97,12 @@ const styles = StyleSheet.create({
         marginLeft: '3%',
     },
     text: {
-        marginLeft: 12,
+        marginLeft: '3%',
         fontSize: 16,
-        marginTop: 10,
+        marginTop: '2%',
     },
     button: {
         alignItems: 'center',
+        marginTop: '2%',
     }
 });

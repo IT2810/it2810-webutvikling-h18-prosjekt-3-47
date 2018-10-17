@@ -1,21 +1,17 @@
-
+/**
+ * Contactscreen displays a list of the users contacts. The contacts are loaded using AsyncStorage.
+ * By selecting one contact from the list the a popup with the contacts phone number and address is displayed.
+ * The "Create New Contact"-button at the bottom of the screen triggers a popup with a contact information form.
+ * Receives new contacts from the CreateContact component and stores them using AsyncStorage.
+ */
 import React from 'react';
-import {
-    Platform,
-    StyleSheet,
-    Text,
-    TouchableOpacity,
-    View,
-    Button,
-    AsyncStorage
-} from 'react-native';
+import { StyleSheet, View, Button, AsyncStorage } from 'react-native';
 
 import PopupDialog from 'react-native-popup-dialog';
 import DialogTitle from "react-native-popup-dialog/src/components/DialogTitle";
 
-import ContactList from '../components/ContactList';
-
-import CreateContactScreen from './CreateContactScreen';
+import ContactList from '../components/Contacts/ContactList';
+import CreateContact from '../components/Contacts/CreateContact';
 
 
 export default class ContactsScreen extends React.Component {
@@ -81,12 +77,17 @@ export default class ContactsScreen extends React.Component {
     };
 
     /**
-     *  Receives a newly created contact object from CreateContactScreen, and push it to the state of ContactScreen
+     *  Receives a newly created contact object and a reference to the clearInputs function from CreateContact.
+     *  Pushes the contact to the state of ContactScreen and fires the clearInput function in CreateContactScreeen
      *  @param contact <object>
+     *  @param callback <function>
      */
-    receiveNewContact(contact) {
+    receiveNewContact(contact, callback) {
         let contacts = this.state.contacts.slice();
         contacts.push(contact);
+        if(callback && typeof callback === 'function'){
+            callback();
+        }
         this.setState({contacts: contacts});
     }
 
@@ -115,7 +116,7 @@ export default class ContactsScreen extends React.Component {
                         }
                     }}
                     height={Number(400)}>
-                    <CreateContactScreen callback={this.receiveNewContact} popupDialog={this.state.popupDialog}/>
+                    <CreateContact callback={this.receiveNewContact} popupDialog={this.state.popupDialog}/>
                 </PopupDialog>
             </View>
         );
@@ -128,6 +129,6 @@ const styles = StyleSheet.create({
       backgroundColor: '#fff',
       justifyContent: 'center',
       alignItems: 'center',
-      paddingBottom: 10,
+      paddingBottom: '3%',
   },
 })
