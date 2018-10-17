@@ -6,6 +6,7 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import CalendarScreen from '../screens/CalendarScreen';
 import TodolistScreen from '../screens/TodolistScreen';
 
 const HomeStack = createStackNavigator({
@@ -54,6 +55,20 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
+});
+
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? `ios-calendar${focused ? '' : '-outline'}` : 'md-calendar'}
+      />
+    ),
+};
+
 const TodolistStack = createStackNavigator({
   Todolist: TodolistScreen,
 });
@@ -70,7 +85,8 @@ TodolistStack.navigationOptions = {
 
 export default createBottomTabNavigator({
   TodolistStack,
+  CalendarStack,
   HomeStack,
   LinksStack,
-  SettingsStack,
+  SettingsStack
 });
