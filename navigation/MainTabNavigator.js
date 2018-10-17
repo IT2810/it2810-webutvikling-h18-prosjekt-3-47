@@ -7,7 +7,8 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import ContactsScreen from '../screens/ContactsScreen';
-import CreateContactsScreen from '../components/Contacts/CreateContact';
+import CalendarScreen from '../screens/CalendarScreen';
+import TodolistScreen from '../screens/TodolistScreen';
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -69,14 +70,39 @@ ContactsStack.navigationOptions = {
     ),
 };
 
-const CreatContactsStack = createStackNavigator({
-    CreateContacts : CreateContactsScreen
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
 });
 
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? `ios-calendar${focused ? '' : '-outline'}` : 'md-calendar'}
+      />
+    ),
+};
+
+const TodolistStack = createStackNavigator({
+  Todolist: TodolistScreen,
+});
+
+TodolistStack.navigationOptions = {
+  tabBarLabel: 'Todolist',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-checkbox'}
+    />
+  ),
+};
 
 export default createBottomTabNavigator({
-    HomeStack,
-    LinksStack,
-    SettingsStack,
-    ContactsStack,
+  CalendarStack,
+  ContactsStack,
+  TodolistStack,
+  HomeStack,
+  LinksStack,
+  SettingsStack,
 });
