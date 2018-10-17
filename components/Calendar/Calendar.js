@@ -294,6 +294,27 @@ export default class CalendarComponent extends React.Component {
     }
 
     /**
+     * Checking against new incoming state to determine if the component should update or not.
+     * Will prevent the component from re-rendering if the day is not changed.
+     * Will not re-render if eventMarkers or modalVisible changes, as those are passed down to Calendar and Modal,
+     * respectively.
+     * For some reason DateTimePicker does not re-render when isDateTimePickerVisible changes,
+     * so I had to re-render when this updates.
+     *
+     * @param nextProps <object>
+     * @param nextState <object>
+     * @return {boolean} if component should update or not
+     */
+    shouldComponentUpdate(nextProps, nextState) {
+        return (
+            nextState.selected.format(df.defaultDate) !== this.state.selected.format(df.defaultDate) ||
+            nextState.events !== this.state.events ||
+            nextState.eventMarkers !== this.state.eventMarkers ||
+            nextState.isDateTimePickerVisible !== this.state.isDateTimePickerVisible
+        )
+    }
+
+    /**
      * Asynchronous call to retrieveEvents
      * Copies `this.state.events` to avoid mutation of the state.
      * Merges the received entry into the copy, and sets the state with the new events object.
