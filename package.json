@@ -22,10 +22,9 @@
     "react-test-renderer": "latest"
   },
   "devDependencies": {
-    "enzyme-adapter-react-16": "^1.6.0",
     "jest": "^23.6.0",
     "jest-expo": "30.0.0",
-    "react-dom": "^16.5.2",
+    "react-dom": "^16.3.1",
     "react-native-mock": "^0.3.1",
     "react-native-mock-render": "^0.1.2"
   }

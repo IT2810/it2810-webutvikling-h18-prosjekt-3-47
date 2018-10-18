@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`TodoList Component renders correctly 1`] = `
+exports[`Snapshot renders correctly 1`] = `
 <View
   style={
     Array [
@@ -40,4 +40,61 @@ exports[`TodoList Component renders correctly 1`] = `
 </View>
 `;
 
-exports[`TodoList Component should add a new task when addTask is called and there is text 1`] = `null`;
+exports[`Snapshot renders correctly with ShallowRenderer 1`] = `
+<Component
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#F5FCFF",
+        "flex": 1,
+        "justifyContent": "center",
+        "padding": 10,
+        "paddingTop": 20,
+      },
+      Object {
+        "paddingBottom": undefined,
+      },
+    ]
+  }
+>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    onSubmitEditing={[Function]}
+    placeholder="Add Tasks"
+    returnKeyLabel="done"
+    returnKeyType="done"
+    style={
+      Object {
+        "borderColor": "gray",
+        "borderWidth": 1,
+        "height": 40,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+</Component>
+`;

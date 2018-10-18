@@ -1,11 +1,74 @@
-import {View} from 'react-native';
+// import {View} from 'react-native';
 import React from 'react';
 import Todolist from '../Todolist';
 import renderer from 'react-test-renderer';
+import ShallowRenderer from 'react-test-renderer/shallow';
 
 
 
-describe('TodoList Component', () => {
+
+/*
+
+//let testData = ['Husk å ta ut søpla', 'Husk å vanne blomstene'];
+
+function mockGetTestData() {
+    return 'Husk å ta ut søpla||Husk å vanne blomstene'
+}
+jest.mock('AsyncStorage', () => ({
+    setItem: jest.fn(() => {
+        return new Promise((resolve, reject) => {
+            resolve((data) => {console.log('\n\n\n AsyncStorage.setItem: ', data)});
+        });
+    }),
+    multiSet:  jest.fn(() => {
+        return new Promise((resolve, reject) => {
+            resolve(null);
+        });
+    }),
+    getItem: jest.fn(() => {
+        return new Promise((resolve, reject) => {
+            resolve(JSON.stringify(mockGetTestData()));
+        });
+    }),
+    multiGet: jest.fn(() => {
+        return new Promise((resolve, reject) => {
+            resolve(mockGetTestData());
+        });
+    }),
+    removeItem: jest.fn(() => {
+        return new Promise((resolve, reject) => {
+            resolve(null);
+        });
+    }),
+    getAllKeys: jest.fn(() => {
+        return new Promise((resolve) => {
+            resolve(['TASKS']);
+        });
+    })
+}));
+
+*/
+
+
+describe('Snapshot', () => {
+    it('renders correctly', () => {
+        const todos = renderer.create(<Todolist />);
+
+        expect(todos.toJSON()).toMatchSnapshot();
+    });
+
+    it('renders correctly with ShallowRenderer', () => {
+        const renderer = new ShallowRenderer();
+        renderer.render(<Todolist />);
+        const result = renderer.getRenderOutput();
+
+        expect(result).toMatchSnapshot();
+    });
+});
+
+
+describe('Logic', () => {
+
 
     /*
     it('should render new tasks when they are added', () => {
@@ -20,16 +83,11 @@ describe('TodoList Component', () => {
 
     */
 
-    it('renders correctly', () => {
-        const todos = renderer.create(<Todolist />);
-
-        expect(todos.toJSON()).toMatchSnapshot();
-    });
-
 
     it('should have empty tasks in state when first loading', () => {
         const todoLists = renderer.create(<Todolist />).getInstance();
 
+        console.log(todoLists.state.tasks);
         expect(todoLists.state.tasks).toEqual([])
     });
 
@@ -63,7 +121,7 @@ describe('TodoList Component', () => {
     it('should add a new task when addTask is called and there is text', () => {
         const todoLists = renderer.create(<Todolist />);
         const todoListsInstance = todoLists.getInstance();
-        const todoListInstanceRendered = renderer.create(todoListsInstance.instance);
+        // const todoListInstanceRendered = renderer.create(todoListsInstance.instance);
 
         todoListsInstance.setState({
             text: 'TODO-dkfkdfjfjjdf-1'
@@ -77,25 +135,6 @@ describe('TodoList Component', () => {
                 text: 'TODO-dkfkdfjfjjdf-1'
             }
         ]);
-
-        // expect(todoLists.findByType())
-
-        console.log(todoLists.toJSON());
-        console.log(todoLists.toJSON().children);
-        //console.log(todoListsInstance);
-
-
-        /*
-
-        console.log(renderer.create(todoListsInstance.instance));
-        console.log(todoListInstanceRendered);
-        console.log(todoListInstanceRendered.toJSON());
-        console.log(todoListInstanceRendered.toTree());
-
-        */
-
-
-        expect(todoListInstanceRendered.toJSON()).toMatchSnapshot();
     });
 
     it('should clear state.text when adding a task', () => {
