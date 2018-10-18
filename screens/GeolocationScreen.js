@@ -4,7 +4,7 @@ import Geolocation from '../components/Geolocation';
 
 export default class GeolocationScreen extends React.Component {
   static navigationOptions = {
-    title: 'app.json',
+    title: 'Geolocation',
   };
 
   render() {

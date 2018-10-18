@@ -1,3 +1,11 @@
+/**
+ * Forfatter: Jørgen og Sigurd
+ * Denne komponenten skal lage et kart med react-native-maps
+ * Kartet skal så inneholde forskjellige markører som man kan besøke
+ * Ettersom man besøker disse markørene vil de bli sjekket.
+ * Samt at bruker får poeng og en melding for sin progresjon.
+ */
+
 import React, {Component} from 'react';
 import {
     AppRegistry,
@@ -13,9 +21,9 @@ import MapView from 'react-native-maps'
 const width = Dimensions.get('window').width;
 const height = Dimensions.get('window').height;
 
-const ASPECT_RATIO = width/height;
-const LATITUDE_DELTA = 0.0922;
-const LONGITUDE_DELTA = LATITUDE_DELTA * ASPECT_RATIO;
+
+const LATITUDE_DELTA = 0.05;
+const LONGITUDE_DELTA = 0.05;
 
 const DISTANCE_THRESHOLD_FACTOR = 0.00001; //Konstant for begresning i distanse
 const TICK_INTERVAL = 10000; //Konstant for intervallet(satt til 10 sekunder)
@@ -83,125 +91,137 @@ export default class Geolocation extends Component{
             visited: [],
         }
 
+        //Passer på hva som er state, og det er dette scopet som skal brukes
         this.tick = this.tick.bind(this);
         this.checkGoals = this.checkGoals.bind(this);
     }
 
-    //Funksjon som lager en oppdatert liste med hva vi har besøkt
+    //Funksjon som tar inn en liste arr og et objekt removeElement, 
+    //der de elementene som er ulik removeElement blir satt 
+    //inn i en ny liste returnArr som returneres
     returnFilteredArray(arr, removeElement) {
         let returnArr = [];
 
         arr.forEach((elem) => {
             if (elem !== removeElement){
-                returnArr.push(elem)
+                returnArr.push(elem);
             }
         });
 
         return returnArr;
     }
 
-    //Funksjoner som sjekker om vi er i nærheten av målet vårt
+    //Funksjon som sjekker om vi er i radiusen av målet vårt
+    //hvis det er tilfellet, setter vi goals, visited, message og points med nye verdier
+    //currentPos og goalPos har type floats og inneholder lengde - og breddegrad, 
+    //de brukes for å regne ut distanse, goalPos brukes videre i funksjonen
     isNearby = (currentPos, goalPos) => {
-        console.log('checking goal:', goalPos.title)
-    if(this.getDistance(currentPos, goalPos) <= DISTANCE_THRESHOLD_FACTOR * currentPos.accuracy){
-        console.log('Is nearby a goal:', goalPos.title)
-
-        if(this.state.visited.indexOf(goalPos) < 0){
-            
-            console.log('Visited new point!!', goalPos.title);
-
-            this.setState((prevState) => {
-                let newGoals = this.returnFilteredArray(prevState.goals, goalPos);
-                let newVisited = prevState.visited.concat(goalPos);
-                let message = this.createMessage(newGoals, newVisited); 
-
-                return {
-                    goals: newGoals,
-                    visited: newVisited,
-                    message: message,
-                    points: this.getPoints(newVisited)
-                }
-            });
+        console.log('checking goal:', goalPos.title);
+        //Bruker getDistance for å få ut den euklidske distansen som vi kan sammenligne med 
+        if(this.getDistance(currentPos, goalPos) <= DISTANCE_THRESHOLD_FACTOR * currentPos.accuracy){
+            console.log('Is nearby a goal:', goalPos.title);
+            //Vi er da innenfor distansen
+            if(this.state.visited.indexOf(goalPos) < 0){
+                //Dette er da et ubesøkt punkt
+                console.log('Visited new point!!', goalPos.title);
+                
+                this.setState((prevState) => {
+                    //Vi oppdaterer newGoals med en ny verdi
+                    let newGoals = this.returnFilteredArray(prevState.goals, goalPos);
+                    //Vi oppdaterer newVisited med en ny denne goalPos verdien
+                    let newVisited = prevState.visited.concat(goalPos);
+                    //Vi lager så en ny melding
+                    let newMessage = this.createMessage(newGoals, newVisited); 
+                    
+                    return {
+                        goals: newGoals,
+                        visited: newVisited,
+                        message: newMessage,
+                        points: this.getPoints(newVisited)
+                    }
+                });
+            }
         }
     }
-    }
 
-    //Funksjon som returnerer distansen mellom to steder
+    //Funksjon som returnerer distansen mellom to steder ved hjelp av euklidsk distanse
+    //Utregning blir i grader og settes i distance som har typen float
+    //pos1 og pos2 har typen floats, og inneholder lengde -og breddegrad som brukes i formelen
     getDistance = (pos1,pos2) => {
-    let diff = (pos1.latitude-pos2.latitude)**2 + (pos1.longitude-pos2.longitude)**2;
-    let distance = Math.sqrt(diff);
-    return distance
+        let diff = (pos1.latitude-pos2.latitude)**2 + (pos1.longitude-pos2.longitude)**2;
+        let distance = Math.sqrt(diff);
+        return distance;
     }
 
-    //Funksjon som gir poengene til bruker
+    //Funksjon som returnerer poengene til bruker
     getPoints = (visited) => {
-        let userPoints = visited.length*100
-        return userPoints
+        let userPoints = visited.length*100;
+        return userPoints;
     }
 
-    //Lager en motiverende melding til bruker
+    //Funksjon som returnerer en melding til bruker
     createMessage = (goals, visited) => {
         let message;
         if(goals.length === 0){
-            message = "Bra jobba, du har besøkt alle stedene!"
+            message = "Bra jobba, du har besøkt alle stedene!";
         }else if(goals.length > 0 && goals.length <= 2){
-            message = "Strålende innsats, du er nesten i mål! Keep up the good work!"
+            message = "Strålende innsats, du er nesten i mål! Keep up the good work!";
         }else {
-            message = "Du er igang!"
+            message = "Du er igang!";
         }
         //console.log(message);
         return message;
     }
     
-    //Sjekker om målene våre er i nærheten
+    //Funksjon som sjekker om vi er i nærheten av målet vårt
     checkGoals() {
         this.state.goals.forEach((goal) => {
             this.isNearby(this.state.currentPosition, goal);
         });
     }
 
-    //Finner posisjons ved hjelp av en async funksjon
+    //Funksjon som finner posisjonen til bruker ved hjelp av en async callback(anonym funksjon)
     getLocationAsync = async (callback) => {
     //Setter status til om vi får lov til å bruke enhetens posisjon
-    let { status } = await Permissions.askAsync(Permissions.LOCATION);
-    if (status !== 'granted') {
-        this.setState({
-        errorMessage: 'Permission to access location was denied',
-        });
-    }
+        let { status } = await Permissions.askAsync(Permissions.LOCATION);
+        if (status !== 'granted') {
+            this.setState({
+            errorMessage: 'Permission to access location was denied',
+            });
+        }
     
-    //Finner posisjonen vår og setter den til en variabel
-    let location = await Location.getCurrentPositionAsync({});
-    //console.log(location);
+        //Finner posisjonen vår og setter den til en variabel
+        let location = await Location.getCurrentPositionAsync({});
+        //console.log(location);
 
-    //Hvis vi ikke har en initialRegion, tar vi inn data som er lagret i location
-    //Og setter latitudeDelta og longitudeDelta med hardkodet data
-    if (this.state.initialRegion === null) {
-        let latLng = {
+        //Hvis vi ikke har en initialRegion, tar vi inn data som er lagret i location
+        //Og setter latitudeDelta og longitudeDelta med konstanter
+        if (this.state.initialRegion === null) {
+            let latLng = {
+                latitude: location.coords.latitude,
+                longitude: location.coords.longitude,
+                latitudeDelta: LATITUDE_DELTA,
+                longitudeDelta: LONGITUDE_DELTA,
+            }
+            this.setState({
+                initialRegion: latLng
+            });
+        }
+        console.log(location);
+
+        //setter latitude, longitude og accuracy hos currentPosition
+        this.setState({ currentPosition: {
             latitude: location.coords.latitude,
             longitude: location.coords.longitude,
-            latitudeDelta: 0.05, // position.coords.latitudeDelta,
-            longitudeDelta: 0.05, // position.coords.longitudeDelta,
-        }
-        this.setState({
-            initialRegion: latLng
+            accuracy: location.coords.accuracy
+        }}, () => {
+            if(callback && typeof callback === 'function'){
+                //Endrer staten til parent
+                callback();
+            }
         });
-    }
-    console.log(location);
 
-    //setter latitude, longitude og accuracy hos currentPosition
-    this.setState({ currentPosition: {
-        latitude: location.coords.latitude,
-        longitude: location.coords.longitude,
-        accuracy: location.coords.accuracy
-    }}, () => {
-        if(callback && typeof callback === 'function'){
-            //Endrer staten til parent
-            callback();
-        }
-    });
-
-    //console.log(this.state);
+        //console.log(this.state);
     };
 
     //Funksjon som kaller getLocationAsync med checkGoals som parameter 
@@ -215,7 +235,7 @@ export default class Geolocation extends Component{
 
     //Vi hindrer at vi får flere markører fra vår posisjon
     componentWillUnmount(){
-        navigator.geolocation.stopWatch(this.state.watchID)
+        navigator.geolocation.stopWatch(this.state.watchID);
     }
     
     //Funksjon tick kjøres når vi rendrer komponenten
@@ -232,33 +252,31 @@ export default class Geolocation extends Component{
         return (nextState.visited !== this.state.visited || nextState.goals !== this.state.goals)
     }
     */
+
+    //Funksjon som tar inn en liste arr og en boolsk verdi isChecked
+    //Hvis isChecked er true vil vi returnere en liste med checked markører
+    //Hvis ikke returner vi en liste med markører uten noe custom image
+    populateMarkers = (arr, isChecked) => {
+        let visitedMarkers = [];
+        for(let i = 0; i < arr.length; i++){
+            visitedMarkers.push(<MapView.Marker
+                key={i}
+                coordinate = {arr[i]}
+                image={isChecked ? require('../assets/images/checked.png') : null}
+            />);
+        }
+        return visitedMarkers;
+    }
     
     render(){
         
         console.log('rendering!');
-
-        //Inititaliserer en tom liste med markører
-        let markers = [];
-        //console.log(markers.length);
-        //Inititaliserer en tom liste med besøkte markører
-        let markersVisited = [];
         
-        //Legger til markører i markers lista
-        for (let i=0; i < this.state.goals.length; i++) {
-            markers.push(<MapView.Marker
-                key={i}
-                coordinate = {this.state.goals[i]}
-            />); 
-        }
+        // Fyller arrays med kartmarkører (MapView.Marker)
+        let goalMarkers = this.populateMarkers(this.state.goals, false);
+        let visitedMarkers = this.populateMarkers(this.state.visited, true);
 
-        //Legger til markører i markersVisited lista
-        for(let i = 0; i < this.state.visited.length; i++){
-            markersVisited.push(<MapView.Marker
-                key={i}
-                coordinate = {this.state.visited[i]}
-                image={require('../assets/images/checked.png')}
-            />);
-        }
+
 
         //console.log(this.getDistance(this.state.goals[0],this.state.goals[1]))
 
@@ -268,7 +286,6 @@ export default class Geolocation extends Component{
                 <MapView //lager kartet
                     style = {styles.map}
                     initialRegion = {this.state.initialRegion}
-                    //maxZoomLevel = {16}
                     >
                     
                     <MapView.Marker //Gjør om posisjonen vår om til en markør
@@ -276,14 +293,14 @@ export default class Geolocation extends Component{
                         image={require('../assets/images/blue-dot.png')}
                     />
                     
-                    {markers /*Viser fram alle markørene vi har*/}
-                    {markersVisited /*Viser fram alle markørene vi har besøkt*/}
+                    {goalMarkers /*Viser fram alle markørene vi ikke har besøkt*/}
+                    {visitedMarkers /*Viser fram alle markørene vi har besøkt*/}
 
                 </MapView>
                 <Text style={styles.text} >
                     {this.state.points ? `Dine poeng er: ` + this.state.points + '\n' : null /*sjekker om vi har poeng, hvis ikke returner ingenting*/}
                     {this.state.message}
-                    {`\nAntall steder som gjenstår: `}{markers.length}
+                    {`\nAntall steder som gjenstår: `}{goalMarkers.length}
                 </Text>
             </View>
         )
