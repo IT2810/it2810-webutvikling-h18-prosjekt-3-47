@@ -1,15 +1,12 @@
 import 'react-native';
 import React from 'react';
-import ContactList, {mockOpenContact} from '..Contacts/ContactList';
+import ContactList from '../Contacts/ContactList';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import * as jest from "react-native";
 
-jest.mock('../ContactList');
+jest.mock('../Contacts/DisplayContact');
 
-let shallowRenderer = new ShallowRenderer();
-
-let contacts = [
+const contacts = [
     {
         name: "Navn Navnesen 1",
         phoneNumber: 12345678,
@@ -22,31 +19,16 @@ let contacts = [
     }
 ];
 
-
-beforeEach(() => {
-    // Clear all instances and calls to constructor and all methods:
-    ContactList.mockClear();
-    mockOpenContact.mockClear();
-});
-
 it('renders correctly', () => {
-    const tree = renderer.create(<ContactList contacts={this.contacts} />).toJSON();
+    const tree = renderer.create(<ContactList contacts={contacts} />).toJSON();
 
     expect(tree).toMatchSnapshot();
 });
 
 it('renders shallow correctly', () => {
-    shallowRenderer.render(<ContactList contacts={this.contacts} />);
+    let shallowRenderer = new ShallowRenderer();
+    shallowRenderer.render(<ContactList contacts={contacts} />);
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).toMatchSnapshot();
-});
-
-test('openContact', () => {
-    let contactList = new ContactList(contacts[0]);
-    expect(contactList.state.contact).toBeNull();
-
-    let contact = contacts[1];
-    contactList.openContact(contact);
-    expect(contactList.state.contact).toEqual(contact);
 });

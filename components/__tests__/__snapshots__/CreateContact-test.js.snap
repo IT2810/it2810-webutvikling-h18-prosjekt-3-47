@@ -1,0 +1,258 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Name:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="Fill in name here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Phone Number:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    keyboardType="numeric"
+    onChangeText={[Function]}
+    placeholder="Fill in phone number here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Address:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="Fill in address here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <View
+    style={
+      Object {
+        "alignItems": "center",
+        "marginTop": "2%",
+      }
+    }
+  >
+    <View
+      accessibilityComponentType="button"
+      accessibilityTraits={
+        Array [
+          "button",
+        ]
+      }
+      accessible={true}
+      isTVSelectable={true}
+      onResponderGrant={[Function]}
+      onResponderMove={[Function]}
+      onResponderRelease={[Function]}
+      onResponderTerminate={[Function]}
+      onResponderTerminationRequest={[Function]}
+      onStartShouldSetResponder={[Function]}
+      style={
+        Object {
+          "opacity": 1,
+        }
+      }
+    >
+      <View
+        style={
+          Array [
+            Object {},
+          ]
+        }
+      >
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          style={
+            Array [
+              Object {
+                "color": "#007AFF",
+                "fontSize": 18,
+                "padding": 8,
+                "textAlign": "center",
+              },
+            ]
+          }
+        >
+            Save  
+        </Text>
+      </View>
+    </View>
+  </View>
+</View>
+`;
+
+exports[`renders shallow correctly 1`] = `
+<Component
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "justifyContent": "center",
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Name:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="Fill in name here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Phone Number:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    keyboardType="numeric"
+    onChangeText={[Function]}
+    placeholder="Fill in phone number here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "2%",
+      }
+    }
+  >
+    Address:
+  </Text>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    placeholder="Fill in address here"
+    style={
+      Object {
+        "height": 40,
+        "marginLeft": "3%",
+        "width": "94%",
+      }
+    }
+    value={null}
+  />
+  <Component
+    style={
+      Object {
+        "alignItems": "center",
+        "marginTop": "2%",
+      }
+    }
+  >
+    <Button
+      onPress={[Function]}
+      title="  Save  "
+    />
+  </Component>
+</Component>
+`;

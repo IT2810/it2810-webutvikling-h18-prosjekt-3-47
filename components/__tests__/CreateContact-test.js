@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import CreateContact from '..Contacts/CreateContact';
+import CreateContact from '../Contacts/CreateContact';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
@@ -13,6 +13,7 @@ let contacts = [
         address: "Adresse 1"
     }
 ];
+
 
 it('renders correctly', () => {
     const tree = renderer.create(<CreateContact callback={null} popupDialog={null} />).toJSON();
