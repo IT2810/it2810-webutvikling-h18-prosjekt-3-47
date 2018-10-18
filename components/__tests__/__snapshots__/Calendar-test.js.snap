@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`Calendar Component renders correctly 1`] = `
+exports[`Rendering renders correctly with ShallowRenderer 1`] = `
 <Component
   style={
     Object {
@@ -10,7 +10,7 @@ exports[`Calendar Component renders correctly 1`] = `
   }
 >
   <Calendar
-    current="2018-10-17"
+    current="2017-02-02"
     firstDay={1}
     markedDates={Object {}}
     markingType="multi-dot"
@@ -71,7 +71,7 @@ exports[`Calendar Component renders correctly 1`] = `
   </TouchableOpacity>
   <CalendarEntryInput
     callback={[Function]}
-    defaultDate={"2018-10-17T11:52:50.606Z"}
+    defaultDate={"2017-02-02T12:54:59.218Z"}
     style={
       Object {
         "height": 10,
@@ -79,22 +79,102 @@ exports[`Calendar Component renders correctly 1`] = `
     }
   />
   <DayView
-    date={"2018-10-17T11:52:50.606Z"}
+    date={"2017-02-02T12:54:59.218Z"}
   />
   <CustomDatePickerIOS
     cancelTextIOS="Avbryt"
     confirmTextIOS="Velg"
-    date={2018-10-17T11:52:50.512Z}
     isVisible={false}
     locale="nb"
     mode="date"
     neverDisableConfirmIOS={false}
     onCancel={[Function]}
     onConfirm={[Function]}
-    onDateChange={[Function]}
-    onHideAfterConfirm={[Function]}
+    onDateChange={[MockFunction]}
+    onHideAfterConfirm={[MockFunction]}
     reactNativeModalPropsIOS={Object {}}
     titleIOS="Velg en dato"
   />
 </Component>
+`;
+
+exports[`Rendering renders correctly with renderer 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <View
+    accessibilityLabel="Åpne datovelgeren"
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 0,
+        "opacity": 1,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 20,
+        }
+      }
+    >
+      Åpne datovelgeren
+    </Text>
+  </View>
+  <View
+    accessibilityLabel="Sett kalenderen til i dag"
+    accessible={true}
+    isTVSelectable={true}
+    onResponderGrant={[Function]}
+    onResponderMove={[Function]}
+    onResponderRelease={[Function]}
+    onResponderTerminate={[Function]}
+    onResponderTerminationRequest={[Function]}
+    onStartShouldSetResponder={[Function]}
+    style={
+      Object {
+        "alignItems": "center",
+        "flex": 0,
+        "opacity": 1,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "fontSize": 20,
+        }
+      }
+    >
+      I dag
+    </Text>
+  </View>
+  <View
+    style={
+      Object {
+        "flex": 1,
+      }
+    }
+  />
+</View>
 `;

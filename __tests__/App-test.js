@@ -4,6 +4,13 @@ import App from '../App';
 import renderer from 'react-test-renderer';
 import NavigationTestUtils from 'react-navigation/NavigationTestUtils';
 
+/*
+'react-native-modal-datetime-picker' creates a lot of trouble with date and time in the snapshots,
+and there should be no need to render it fully in the test, since our mission is not to test third party components.
+*/
+jest.mock('react-native-modal-datetime-picker');
+
+
 describe('App snapshot', () => {
   jest.useFakeTimers();
   beforeEach(() => {
