@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import ContactList, {mockOpenContact} from '../ContactList';
+import ContactList, {mockOpenContact} from '..Contacts/ContactList';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 import * as jest from "react-native";

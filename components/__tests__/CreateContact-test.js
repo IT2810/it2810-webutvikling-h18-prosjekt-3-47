@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import DisplayContact from '..Contacts/DisplayContact';
+import CreateContact from '..Contacts/CreateContact';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
@@ -15,13 +15,13 @@ let contacts = [
 ];
 
 it('renders correctly', () => {
-    const tree = renderer.create(<DisplayContact contact={this.contacts[0]} />).toJSON();
+    const tree = renderer.create(<CreateContact callback={null} popupDialog={null} />).toJSON();
 
     expect(tree).toMatchSnapshot();
 });
 
 it('renders shallow correctly', () => {
-    shallowRenderer.render(<DisplayContact contact={this.contact[0]} />);
+    shallowRenderer.render(<CreateContact callback={null} popupDialog={null} />);
     const result = shallowRenderer.getRenderOutput();
 
     expect(result).toMatchSnapshot();
