@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import CalendarEntryInput from '../Calendar/CalendarEntryInput';
+import CalendarEntryInput from '../CalendarEntryInput';
 
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
@@ -34,7 +34,6 @@ describe('Rendering', () => {
 
         expect(calendarEntryInput).toMatchSnapshot();
     });
-
 });
 
 
@@ -56,7 +55,6 @@ describe('Logical', () => {
     });
 
     it('should open and close Modal', () => {
-
         let calendarEntryInput = renderer.create(
             <CalendarEntryInput callback={(data) => {console.log('callback!! ', data)}}
                                 defaultDate={momentMock}
@@ -64,18 +62,12 @@ describe('Logical', () => {
         );
         let calendarEntryInputInstance = calendarEntryInput.getInstance();
 
-
         calendarEntryInputInstance.requestShowModal();
-
         expect(calendarEntryInputInstance.state.isModalVisible).toEqual(true);
 
         calendarEntryInputInstance.requestCloseModal();
-
         expect(calendarEntryInputInstance.state.isModalVisible).toEqual(false);
     });
-
-
-
 });
 
 
@@ -109,7 +101,7 @@ describe('input validation', () => {
         expect(calendarEntryInputInstance.validateInput('      ddd    ', 'submit')).toEqual(true);
     });
 
-
+    // It only strips leading and trailing whitespace, so this one should be accepted:
     it('should allow strings over length of two', () => {
         expect(calendarEntryInputInstance.validateInput('      å e    ', 'submit')).toEqual(true);
     });
@@ -117,36 +109,29 @@ describe('input validation', () => {
 
 
 describe('callbacks and such', () => {
-
-
     it('should get a callback with the correct data', done => {
+        const eventText = '     \n\n\n   Aaaassdææaø112-w33a##sdad sdd sd 323 sdsdø ++ +   \n    ';
 
-        function failCallback(data) {
-            //expect
+        function callback(data) {
             expect(data.dateString).toEqual(dateString);
-            expect(data.text).toEqual('Aaaaa');
+            expect(data.text).toEqual(eventText.trim());
             done();
         }
 
-
         let calendarEntryInput = renderer.create(
-            <CalendarEntryInput callback={failCallback}
+            <CalendarEntryInput callback={callback}
                                 defaultDate={momentMock}
             />
         );
 
         let calendarEntryInputInstance = calendarEntryInput.getInstance();
-
-
         calendarEntryInputInstance.setState({
-            newEventText: 'Aaaaa',
+            newEventText: eventText,
             newEventDate: momentMock
         },() => {
             calendarEntryInputInstance.sendData();
         });
     });
-
-
 });
 
 

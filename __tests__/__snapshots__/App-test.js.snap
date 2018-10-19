@@ -1522,7 +1522,6 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                               style={
                                 Object {
                                   "alignItems": "center",
-                                  "backgroundColor": undefined,
                                   "height": 32,
                                   "opacity": 1,
                                   "width": 32,
@@ -1542,9 +1541,6 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                                       "fontSize": 16,
                                       "fontWeight": "300",
                                       "marginTop": 4,
-                                    },
-                                    Object {
-                                      "color": "#00adf5",
                                     },
                                   ]
                                 }
@@ -1580,6 +1576,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                               style={
                                 Object {
                                   "alignItems": "center",
+                                  "backgroundColor": undefined,
                                   "height": 32,
                                   "opacity": 1,
                                   "width": 32,
@@ -1599,6 +1596,9 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                                       "fontSize": 16,
                                       "fontWeight": "300",
                                       "marginTop": 4,
+                                    },
+                                    Object {
+                                      "color": "#00adf5",
                                     },
                                   ]
                                 }

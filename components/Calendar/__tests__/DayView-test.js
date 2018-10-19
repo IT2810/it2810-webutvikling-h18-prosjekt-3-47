@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import DayView from '../Calendar/DayView';
+import DayView from '../DayView';
 
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
@@ -51,12 +51,16 @@ describe('Rendering', () => {
 
     it('should not crash if events is not array', () => {
         const shallowRenderer = new ShallowRenderer();
+
+        // Should not accept string
         const dayView = shallowRenderer.render(
             <DayView
                 date={momentMock}
                 events={"ssd jd jdj jdjd jdj "}
             />
         );
+
+        // Should npt accept object
         const dayView2 = shallowRenderer.render(
             <DayView
                 date={momentMock}
@@ -64,6 +68,7 @@ describe('Rendering', () => {
             />
         );
 
+        // Should not accept number
         const dayView3 = shallowRenderer.render(
             <DayView
                 date={momentMock}
