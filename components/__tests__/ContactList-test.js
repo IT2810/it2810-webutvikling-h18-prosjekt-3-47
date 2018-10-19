@@ -19,16 +19,53 @@ const contacts = [
     }
 ];
 
-it('renders correctly', () => {
-    const tree = renderer.create(<ContactList contacts={contacts} />).toJSON();
+describe('Rendering', () => {
 
-    expect(tree).toMatchSnapshot();
+    it('renders correctly', () => {
+
+        const tree = renderer.create(
+            <ContactList contacts={contacts} />).toJSON();
+
+        expect(tree).toMatchSnapshot();
+    });
+
+
+    it('renders shallow correctly', () => {
+
+        const shallowRenderer = new ShallowRenderer();
+        shallowRenderer.render(<ContactList contacts={contacts} />);
+        const result = shallowRenderer.getRenderOutput();
+
+        expect(result).toMatchSnapshot();
+    });
 });
 
-it('renders shallow correctly', () => {
-    let shallowRenderer = new ShallowRenderer();
-    shallowRenderer.render(<ContactList contacts={contacts} />);
-    const result = shallowRenderer.getRenderOutput();
+describe('Logical', () => {
+    it('should have a contact with all information set to null on first render', () => {
 
-    expect(result).toMatchSnapshot();
+        let contactList = renderer.create(<ContactList contacts={contacts} />);
+        let contactListInstance = contactList.getInstance();
+
+        expect(contactListInstance.state.contact.name).toBeNull();
+        expect(contactListInstance.state.contact.phoneNumber).toBeNull();
+        expect(contactListInstance.state.contact.address).toBeNull();
+    });
+
+    it('should change state on calling of the openContact(contact) method', () => {
+
+        let contactList = renderer.create(<ContactList contacts={contacts} />);
+        let contactListInstance = contactList.getInstance();
+
+        let contact = contacts[0];
+
+        contactListInstance.openContact(contact);
+
+        expect(contactListInstance.state.contact.name).toEqual(contact.name);
+        expect(contactListInstance.state.contact.phoneNumber).toEqual(contact.phoneNumber);
+        expect(contactListInstance.state.contact.address).toEqual(contact.address);
+
+    });
+
 });
+
+

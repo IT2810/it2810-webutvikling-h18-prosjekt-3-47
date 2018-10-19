@@ -1,6 +1,6 @@
 // Jest Snapshot v1, https://goo.gl/fbAQLP
 
-exports[`renders correctly 1`] = `
+exports[`Rendering renders correctly 1`] = `
 <View
   style={
     Object {
@@ -121,7 +121,7 @@ exports[`renders correctly 1`] = `
 </View>
 `;
 
-exports[`renders shallow correctly 1`] = `
+exports[`Rendering renders shallow correctly 1`] = `
 <Component
   style={
     Object {
