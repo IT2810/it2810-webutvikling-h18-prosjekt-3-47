@@ -11,6 +11,7 @@ import {
   Keyboard,
   Platform
 } from "react-native";
+import c from '../constants/Colors'
 
 //Sjekker hvilken plattform vi er på
 const isAndroid = Platform.OS === "android";
@@ -144,7 +145,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: c.appMainBackground,
     padding: viewPadding,
     paddingTop: 20
   },
@@ -170,7 +171,7 @@ const styles = StyleSheet.create({
     height: 40,
     paddingRight: 10,
     paddingLeft: 10,
-    borderColor: "gray",
+    borderColor: c.appMainBackground,
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
   },
