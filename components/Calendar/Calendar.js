@@ -62,7 +62,7 @@ export default class CalendarComponent extends React.Component {
                 this.setState(() => ({
                     events: JSON.parse(value)
                 }));
-            } else console.warn('Got null from AsyncStorage')
+            }
         } catch (error) {
             console.error('Error reading from AsyncStorage', error);
         }
