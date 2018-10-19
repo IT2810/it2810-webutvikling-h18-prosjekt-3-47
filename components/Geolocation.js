@@ -113,17 +113,17 @@ export default class Geolocation extends Component{
 
     //Funksjon som sjekker om vi er i radiusen av målet vårt
     //hvis det er tilfellet, setter vi goals, visited, message og points med nye verdier
-    //currentPos og goalPos har type floats og inneholder lengde - og breddegrad, 
+    //currentPos og goalPos har type objekt og inneholder lengde - og breddegrad, 
     //de brukes for å regne ut distanse, goalPos brukes videre i funksjonen
     isNearby = (currentPos, goalPos) => {
-        console.log('checking goal:', goalPos.title);
+        //console.log('checking goal:', goalPos.title);
         //Bruker getDistance for å få ut den euklidske distansen som vi kan sammenligne med 
         if(this.getDistance(currentPos, goalPos) <= DISTANCE_THRESHOLD_FACTOR * currentPos.accuracy){
-            console.log('Is nearby a goal:', goalPos.title);
+            //console.log('Is nearby a goal:', goalPos.title);
             //Vi er da innenfor distansen
             if(this.state.visited.indexOf(goalPos) < 0){
                 //Dette er da et ubesøkt punkt
-                console.log('Visited new point!!', goalPos.title);
+                //console.log('Visited new point!!', goalPos.title);
                 
                 this.setState((prevState) => {
                     //Vi oppdaterer newGoals med en ny verdi
@@ -145,8 +145,8 @@ export default class Geolocation extends Component{
     }
 
     //Funksjon som returnerer distansen mellom to steder ved hjelp av euklidsk distanse
-    //Utregning blir i grader og settes i distance som har typen float
-    //pos1 og pos2 har typen floats, og inneholder lengde -og breddegrad som brukes i formelen
+    //Utregning blir i grader og settes i distance som har typen number
+    //pos1 og pos2 har typen number, og inneholder lengde -og breddegrad som brukes i formelen
     getDistance = (pos1,pos2) => {
         let diff = (pos1.latitude-pos2.latitude)**2 + (pos1.longitude-pos2.longitude)**2;
         let distance = Math.sqrt(diff);
@@ -173,14 +173,16 @@ export default class Geolocation extends Component{
         return message;
     }
     
-    //Funksjon som sjekker om vi er i nærheten av målet vårt
+    //Funksjon som sjekker om vi er i nærheten av et mål
     checkGoals() {
         this.state.goals.forEach((goal) => {
             this.isNearby(this.state.currentPosition, goal);
         });
     }
 
-    //Funksjon som finner posisjonen til bruker ved hjelp av en async callback(anonym funksjon)
+    //Asynchronous som etterspør posisjonstillatelse, deretter skaffer posisjon og oppdaterer state. 
+    //Kaller callback når setState er ferdig. 
+    //Benytter seg av Expo sine Permissions og Location
     getLocationAsync = async (callback) => {
     //Setter status til om vi får lov til å bruke enhetens posisjon
         let { status } = await Permissions.askAsync(Permissions.LOCATION);
@@ -207,7 +209,7 @@ export default class Geolocation extends Component{
                 initialRegion: latLng
             });
         }
-        console.log(location);
+        //console.log(location);
 
         //setter latitude, longitude og accuracy hos currentPosition
         this.setState({ currentPosition: {
@@ -224,18 +226,11 @@ export default class Geolocation extends Component{
         //console.log(this.state);
     };
 
-    //Funksjon som kaller getLocationAsync med checkGoals som parameter 
+    //Funksjon som etterspør posisjon med getLocationAsync, 
+    //og this.checkGoals som callback som blir kalt når getLocationAsync er ferdig.
     tick() {
         // Sending checkGoals as callback
     this.getLocationAsync(this.checkGoals);
-    }
-
-
-    watchID = null;
-
-    //Vi hindrer at vi får flere markører fra vår posisjon
-    componentWillUnmount(){
-        navigator.geolocation.stopWatch(this.state.watchID);
     }
     
     //Funksjon tick kjøres når vi rendrer komponenten
@@ -244,7 +239,6 @@ export default class Geolocation extends Component{
         this.tick();
         
         setInterval(this.tick, TICK_INTERVAL);
-        
     }
 
     /*For å få opp ytelse om nødvendig
@@ -270,15 +264,9 @@ export default class Geolocation extends Component{
     
     render(){
         
-        console.log('rendering!');
-        
         // Fyller arrays med kartmarkører (MapView.Marker)
         let goalMarkers = this.populateMarkers(this.state.goals, false);
         let visitedMarkers = this.populateMarkers(this.state.visited, true);
-
-
-
-        //console.log(this.getDistance(this.state.goals[0],this.state.goals[1]))
 
         return(
             <View style= {StyleSheet.container}>
