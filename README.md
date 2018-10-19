@@ -56,8 +56,40 @@ Jest skal være lagt til i package.json fila.
 
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO
 
+#### ContactsScreen
+Vi har ikke lagt ved unit-tester for metodene i ContactsScreen. Dette kommer av at vi ikke har klart å finne en hensiktsmessig måte å mocke AsyncStorage. Det ble da utfordrende å skrive unit-tester for metodene, siden disse bruker AsyncStorage enten direkte eller indirekte. Om vi hadde fått til mocking ville vi ha gjort et kall med receiveNewContact(contact, callback) med full kontaktinformasjon i contact og null i callback, og sjekket om kontaktinformasjonen ble skrevet til state via storeData(path, data) og loadContacts som begge ville benyttet den mockede versjonen av AsyncStorage. 
+
+Det fantes heller ingen enkel måte å unit-teste selve AsyncStorage. Våre akseptansetester tyder på at AsyncStorage fungerer som den skal.  
+##### Test av oppretting av kontakt:
+- åpne appen
+- gå til tabben "Contacts"
+- åpne "Create New Contact" med knappen nederst
+- trykk "Save"-knappen og få feilmeldding om fylling av felt
+- fyll inn et navne-feltet
+- trykk "Save"-knappen og få feilmeldding om fylling av felt
+- fyll inn et telefonnummer-feltet
+- trykk "Save"-knappen og få feilmeldding om fylling av felt
+- fyll inn bare space i adresse-feltet
+- trykk "Save"-knappen og få feilmeldding om lengde på input
+- fyll inn en adresse
+- trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
+
+##### Test av lagring under lukking av appen
+- åpne appen
+- gå til tabben "Contacts"
+- åpne "Create New Contact" med knappen nederst
+- fyll inn et navne-feltet
+- fyll inn et telefonnummer-feltet
+- fyll inn en adresse
+- trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
+- lukk appen
+- åpne appen og se at den nye kontakten fortsatt finnees i kontakt-listen 
+
+Når appen består disse testene vil det si at den nye kontaktinformasjonen blir hentet av AsyncStorage både når den skrives til listen første gang, og når den skrives til listen ved åpning av appen.
+
 ### Snapshot testing
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO
+
 
 ## Kodestruktur og kommentering
 Vi har valgt å kalle variabler og funksjoner ut ifra hva de gjør, og legge til kommentarer som sier koden gjør.
