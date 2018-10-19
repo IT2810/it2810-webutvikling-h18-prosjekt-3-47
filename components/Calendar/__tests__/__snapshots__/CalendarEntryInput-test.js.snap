@@ -183,9 +183,10 @@ exports[`Rendering renders correctly with ShallowRenderer 1`] = `
     </ScrollViewMock>
   </ReactNativeModal>
   <CustomDatePickerIOS
-    cancelTextIOS="Cancel"
-    confirmTextIOS="Confirm"
+    cancelTextIOS="Avbryt"
+    confirmTextIOS="Velg"
     isVisible={false}
+    locale="nb"
     mode="date"
     neverDisableConfirmIOS={false}
     onCancel={[Function]}
@@ -193,7 +194,7 @@ exports[`Rendering renders correctly with ShallowRenderer 1`] = `
     onDateChange={[MockFunction]}
     onHideAfterConfirm={[Function]}
     reactNativeModalPropsIOS={Object {}}
-    titleIOS="Pick a date"
+    titleIOS="Velg en dato"
   />
 </Component>
 `;

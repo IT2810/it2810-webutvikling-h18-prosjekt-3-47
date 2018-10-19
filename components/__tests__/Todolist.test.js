@@ -93,7 +93,6 @@ describe('Logic', () => {
     it('should have empty tasks in state when first loading', () => {
         const todoLists = renderer.create(<Todolist />).getInstance();
 
-        console.log(todoLists.state.tasks);
         expect(todoLists.state.tasks).toEqual([])
     });
 
