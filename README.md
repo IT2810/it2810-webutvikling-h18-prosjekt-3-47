@@ -66,7 +66,7 @@ De fleste issues har blitt tildelt én person, men noen har blitt tildelt flere.
 
 
 
-## Testing.
+## Enheststesting.
 ### Jest
 Jest skal være lagt til i package.json fila.
 
@@ -74,6 +74,43 @@ Jest skal være lagt til i package.json fila.
 
 ### Snapshot testing
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO
+
+## Akseptansetesting
+### Calendar
+Vi kjørte akseptansetesting av Calendar ved å åpne CalendarScreen (velge _Calendar_ på bunn-menyen) og deretter følge følgende steg:
+
+1. Trykk på "Åpne datovelgeren", velg 1. januar 1900, men ikke send inn, trykk 'Avbryt' i stedet. Verifisér at kalenderen fortsatt viser dagens måned og at dagens dato er markert med blå fylt sirkel. Verifiser at riktig dag og dato står under lenkene.
+1. Trykk på "Åpne datovelgeren", velg 1. januar 1900 og send inn. Verifisér at kalenderen nå viser januar 1900, og at 1. januar er markert med blå fylt sirkel.
+1. Trykk på "I dag" og verifiser at kalenderen nå går til dagens måned og at dagens dato er markert med blå fylt sirkel.
+1. Trykk kort på en annen dag i måneden. Verifiser at denne blir markert med blå fylt sirkel, og at dagens dato er markert med blå tekst på tallet. Langtrykk på siste dag i måneden, verifisér at det kommer opp en "popup". 
+    1. Verifisér at datoen du langtrykket på står som "Valgt dato"
+    1. Fyll inn `        ds        ` i tekstfeltet.
+    1. Trykk "Send inn" og verifiser at du får feilmelding om at inputen er for kort.
+    1. Fyll inn `Møte med Neil Armstrong` i tekstfeltet og trykk "Send inn". Verifiser at popupen lukker seg.
+    1. Verifisér at det er en farget "dott" på datoen du valgte, og verifisér at du kan se den nye hendelsen din på bunnen av skjermen.
+    1. Klikk på "Åpne datovelgeren" og verifiser at det kun er en placeholder (Møte med Erna Solberg) i tekstfeltet.
+1. Trykk på på pilene for å gå frem to måneder, og så tilbake fire måneder. Verifisér at dotten som markerer hendelsen din laster når du passerer den "på vei tilbake".
+1. Klikk på "I dag"
+1. Trykk på "Legg til en ny kalenderhendelse". Trykk på "Åpne datovelgeren" inni popupen og velg 24. desember 2020. Verifisér at det står "Valgt dato: 24. Desember 2020".
+1. Skriv inn "Julegrøt med Jens Stoltenberg" i feltet, men klikk så på "Lukk popup".
+1. Klikk på "Åpne datovelgeren". Verifisér at det ikke står "Valgt dato: 24. Desember 2020" (med mindre du tester dette på julaften 2020). Verifisér at det fortsatt står "Julegrøt med Jens Stoltenberg" i tekstfeltet, og "Valgt dato: 24. Desember 2020".
+1. Klikk "Send inn".
+1. Klikk "Legg til ny hendelse". Verifisér at tekstfeltet er tomt.
+1. Klikk på "Send inn". Verifisér at du får advarsel "Dette feltet er påkrevd"
+
+Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS 
+
+### Todolist
+Vi kjørte akseptansetesting av Todolist ved å åpne TodolistScreen (velge _Todolist_ på bunn-menyen) og deretter følge følgende steg:
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
+
+### Contacts
+Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Contacts_ på bunn-menyen) og deretter følge følgende steg:
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
+
+### Geolocation
+Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velge _Geolocation_ på bunn-menyen) og deretter følge følgende steg:
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
 
 ## Kodestruktur og kommentering
 Vi har valgt å kalle variabler og funksjoner ut ifra hva de gjør, og legge til kommentarer som sier noe om hva funksjonen gjør, hvilken type input og output er, samt hva de gjør i funksjonen.
