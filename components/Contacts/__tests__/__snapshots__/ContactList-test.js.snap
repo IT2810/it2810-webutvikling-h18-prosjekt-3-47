@@ -1,0 +1,55 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "flexDirection": "row",
+      "padding": "3%",
+    }
+  }
+/>
+`;
+
+exports[`Rendering renders shallow correctly 1`] = `
+<Component
+  style={
+    Object {
+      "alignItems": "center",
+      "backgroundColor": "#fff",
+      "flex": 1,
+      "flexDirection": "row",
+      "padding": "3%",
+    }
+  }
+>
+  <ListViewMock
+    enableEmptySections={true}
+    renderRow={[Function]}
+    renderScrollComponent={[MockFunction]}
+    renderSeparator={[Function]}
+  />
+  <PopupDialog
+    dialogTitle={
+      <DialogTitle
+        hasTitleBar={true}
+        title={null}
+        titleAlign="center"
+      />
+    }
+  >
+    <DisplayContact
+      contact={
+        Object {
+          "address": null,
+          "name": null,
+          "phoneNumber": null,
+        }
+      }
+    />
+  </PopupDialog>
+</Component>
+`;

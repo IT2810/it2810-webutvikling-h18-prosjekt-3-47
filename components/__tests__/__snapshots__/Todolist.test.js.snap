@@ -1,0 +1,100 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Snapshot renders correctly 1`] = `
+<View
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#fff",
+        "flex": 1,
+        "justifyContent": "center",
+        "padding": 10,
+        "paddingTop": 20,
+      },
+      Object {
+        "paddingBottom": undefined,
+      },
+    ]
+  }
+>
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    onSubmitEditing={[Function]}
+    placeholder="Add Tasks"
+    returnKeyLabel="done"
+    returnKeyType="done"
+    style={
+      Object {
+        "borderColor": "#fff",
+        "borderWidth": 1,
+        "height": 40,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+</View>
+`;
+
+exports[`Snapshot renders correctly with ShallowRenderer 1`] = `
+<Component
+  style={
+    Array [
+      Object {
+        "alignItems": "center",
+        "backgroundColor": "#fff",
+        "flex": 1,
+        "justifyContent": "center",
+        "padding": 10,
+        "paddingTop": 20,
+      },
+      Object {
+        "paddingBottom": undefined,
+      },
+    ]
+  }
+>
+  <FlatList
+    data={Array []}
+    disableVirtualization={false}
+    horizontal={false}
+    initialNumToRender={10}
+    keyExtractor={[Function]}
+    maxToRenderPerBatch={10}
+    numColumns={1}
+    onEndReachedThreshold={2}
+    renderItem={[Function]}
+    scrollEventThrottle={50}
+    style={
+      Object {
+        "width": "100%",
+      }
+    }
+    updateCellsBatchingPeriod={50}
+    windowSize={21}
+  />
+  <TextInput
+    allowFontScaling={true}
+    onChangeText={[Function]}
+    onSubmitEditing={[Function]}
+    placeholder="Add Tasks"
+    returnKeyLabel="done"
+    returnKeyType="done"
+    style={
+      Object {
+        "borderColor": "#fff",
+        "borderWidth": 1,
+        "height": 40,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+        "width": "100%",
+      }
+    }
+    value=""
+  />
+</Component>
+`;
