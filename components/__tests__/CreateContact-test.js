@@ -6,7 +6,7 @@ import ShallowRenderer from 'react-test-renderer/shallow';
 
 let shallowRenderer = new ShallowRenderer();
 
-const contacts = [
+let contacts = [
     {
         name: "Navn Navnesen 1",
         phoneNumber: 12345678,
@@ -18,7 +18,6 @@ const contacts = [
         address: "Adresse 2"
     }
 ];
-
 
 describe('Rendering', () => {
     it('renders correctly', () => {
@@ -34,7 +33,6 @@ describe('Rendering', () => {
         expect(result).toMatchSnapshot();
     });
 });
-
 
 describe('Logical', () => {
     it('should have all information set to null on first render', () => {
@@ -67,3 +65,4 @@ describe('Logical', () => {
         expect(createContactInstance.state.address).toBeNull();
     });
 });
+
