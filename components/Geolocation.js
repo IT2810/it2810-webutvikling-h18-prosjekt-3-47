@@ -233,8 +233,10 @@ export default class Geolocation extends Component{
     this.getLocationAsync(this.checkGoals);
     }
     
-    //Funksjon tick kjøres når vi rendrer komponenten
-    //Og setter et interval som kjører hvert 10 sekund
+    //Funksjonen tick kjøres med en gang komponenten mountes, deretter med et interval satt i TICK_INTERVAL. 
+    //Dette gjøres for å kontinuerlig oppdatere posisjonen. 
+    //Vi ville likt å bruke WatchPosition, men vi fikk den virkelig ikke til å fungere. 
+    //Dog, dette er noe vi ville likt å få til i en eventuell senere versjon.
     componentDidMount() {
         this.tick();
         
