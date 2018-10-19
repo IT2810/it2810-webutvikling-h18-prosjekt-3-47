@@ -38,8 +38,8 @@ export default class Todolist extends Component {
         prevState => {
           let { tasks, text } = prevState;
           return {
-            //La til toString() for å fjerne
-            tasks: tasks.concat({ key: tasks.length.toString(), text: text }),
+            tasks: tasks.concat({ key: Date.now().toString() + '_' + tasks.length.toString(), text: text }),
+
             text: ""
           };
         },
@@ -49,16 +49,18 @@ export default class Todolist extends Component {
   };
   //Denne funksjonen sletter en oppgave og lagrer resultatet av tilstanden
   deleteTask = i => {
-    this.setState(
-      prevState => {
-        let tasks = prevState.tasks.slice();
+    if(Number.isInteger(Number(i))){
+      this.setState(
+        prevState => {
+          let tasks = prevState.tasks.slice();
 
-        tasks.splice(i, 1);
+          tasks.splice(i, 1);
 
-        return { tasks: tasks };
-      },
-      () => Tasks.save(this.state.tasks)
-    );
+          return { tasks: tasks };
+        },
+        () => Tasks.save(this.state.tasks)
+      );
+    }
   };
 
   componentDidMount() {
@@ -117,8 +119,7 @@ let Tasks = {
     //console.log(tasks);
     //console.log(tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : [])
     return callback(
-      //La til toString() her for å fjerne warning
-      tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : []
+      tasks ? tasks.split("||").map((task, i) => ({ key: Date.now().toString() + '_' + i.toString() , text: task })) : []
     );
   },
   //Lager en streng med teksten til objektene
