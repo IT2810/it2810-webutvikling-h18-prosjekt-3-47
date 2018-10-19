@@ -89,7 +89,9 @@ Vi har tatt utgangspunkt i en komponent som vi fant på nett, løsningen hadde n
 
 
 ## Geolocation
-Denne komponenten rendrer et kart ved hjelp av react-native-maps og tar inn posisjon ved hjelp av expo sitt bibliotek for geolokasjon. Vi har så lagt til funksjonalitet for å vise markører, hvis de besøkes endrer de tilstand med et checkmerke, samt poeng og beskjed til bruker som oppdaterer seg ut ifra hvor mange som besøkes. Vi bruker usikkerheten vi får inn fra Location samt en konstant (`DISTANCE_THRESHOLD_FACTOR`) for å bestemme hvor nærme man må være for at et punkt skal regnes som besøkt. Denne løsningen har ikke brukt AsyncStorage eller testet med Jest på grunn tidsbegrensninger. Vi har dog gjort en akseptansetest som er beskrevet lenger ned. Vi ville egentlig likt å bruke WatchPosition heller enn `setInterval`, men vi fikk av en eller annen rar grunn ikke denne til å funke som forventet.
+Denne komponenten rendrer et kart ved hjelp av react-native-maps og tar inn posisjon ved hjelp av expo sitt bibliotek for geolokasjon. Vi har så lagt til funksjonalitet for å vise markører, hvis de besøkes endrer de tilstand med et checkmerke, samt poeng og beskjed til bruker som oppdaterer seg ut ifra hvor mange som besøkes. Vi bruker usikkerheten vi får inn fra Location samt en konstant (`DISTANCE_THRESHOLD_FACTOR`) for å bestemme hvor nærme man må være for at et punkt skal regnes som besøkt. Usikkerheten er høyere hvis kun WiFi/CelleID, eller man har svake GPS-signaler, mens usikkerheten er lav hvis det er gode GPS-signaler fra mange satelitter.
+
+Denne løsningen har ikke brukt AsyncStorage eller testet med Jest på grunn tidsbegrensninger. Vi har dog gjort en akseptansetest som er beskrevet lenger ned. Vi ville egentlig likt å bruke WatchPosition heller enn `setInterval`, men vi fikk av en eller annen rar grunn ikke denne til å funke som forventet.
 
 # Testing
 
