@@ -2,7 +2,7 @@ import 'react-native';
 import React from 'react';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
-import ContactsScreen from '../ContactsScreen';
+import Contacts from '../Contacts';
 
 jest.mock("react-native-popup-dialog");
 
@@ -10,13 +10,13 @@ let shallowRenderer = new ShallowRenderer();
 
 describe('Rendering', () => {
     it('renders correctly', () => {
-        const tree = renderer.create(<ContactsScreen />).toJSON();
+        const tree = renderer.create(<Contacts />).toJSON();
 
         expect(tree).toMatchSnapshot();
     });
 
     it('renders shallow correctly', () => {
-        shallowRenderer.render(<ContactsScreen />);
+        shallowRenderer.render(<Contacts />);
         const result = shallowRenderer.getRenderOutput();
 
         expect(result).toMatchSnapshot();
@@ -27,9 +27,9 @@ describe('Rendering', () => {
 describe('Logical', () => {
     it('should have an empty contact list on first render', () => {
 
-        let contactsScreen = renderer.create(<ContactsScreen/>);
-        let contactsScreenInstance = contactsScreen.getInstance();
+        let contacts = renderer.create(<Contacts />);
+        let contactsInstance = contacts.getInstance();
 
-        expect(contactsScreenInstance.state.contacts).toEqual([]);
+        expect(contactsInstance.state.contacts).toEqual([]);
     });
 });
