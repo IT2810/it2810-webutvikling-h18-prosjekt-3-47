@@ -102,31 +102,6 @@ Vi har lagt ved unit-tester for subkomponentene til ContactsScreen. Disse sjekke
 Vi har ikke lagt ved unit-tester for metodene i ContactsScreen. Dette kommer av at vi ikke har klart å finne en hensiktsmessig måte å mocke AsyncStorage. Det ble da utfordrende å skrive unit-tester for metodene, siden disse bruker AsyncStorage enten direkte eller indirekte. Om vi hadde fått til mocking ville vi ha gjort et kall med receiveNewContact(contact, callback) med full kontaktinformasjon i contact og null i callback, og sjekket om kontaktinformasjonen ble skrevet til state via storeData(path, data) og loadContacts som begge ville benyttet den mockede versjonen av AsyncStorage. 
 
 Det fantes heller ingen enkel måte å unit-teste selve AsyncStorage. Våre akseptansetester tyder på at AsyncStorage fungerer som den skal.  
-##### Test av oppretting av kontakt:
-- åpne appen
-- gå til tabben "Contacts"
-- åpne "Create New Contact" med knappen nederst
-- trykk "Save"-knappen og få feilmeldding om fylling av felt
-- fyll inn et navne-feltet
-- trykk "Save"-knappen og få feilmeldding om fylling av felt
-- fyll inn et telefonnummer-feltet
-- trykk "Save"-knappen og få feilmeldding om fylling av felt
-- fyll inn bare space i adresse-feltet
-- trykk "Save"-knappen og få feilmeldding om lengde på input
-- fyll inn en adresse
-- trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
-
-##### Test av lagring under lukking av appen
-- åpne appen
-- gå til tabben "Contacts"
-- åpne "Create New Contact" med knappen nederst
-- fyll inn et navne-feltet
-- fyll inn et telefonnummer-feltet
-- fyll inn en adresse
-- trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
-- lukk appen
-- åpne appen og se at den nye kontakten fortsatt finnees i kontakt-listen 
-
 Når appen består disse testene vil det si at den nye kontaktinformasjonen blir hentet av AsyncStorage både når den skrives til listen første gang, og når den skrives til listen ved åpning av appen.
 
 ### Snapshot testing
@@ -175,8 +150,30 @@ Vi kjørte akseptansetesting av Todolist ved å åpne TodolistScreen (velge _Tod
 Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
 
 ### Contacts
-Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Contacts_ på bunn-menyen) og deretter følge følgende steg:
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
+Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Contacts_ på bunn-menyen) og deretter følge følgende steg i de to testene:
+
+#### Test av oppretting av kontakt:
+1. Åpne "Create New Contact" med knappen nederst
+2. Trykk "Save"-knappen og få feilmeldding om fylling av felt
+3. Fyll inn et navne-feltet
+4. Trykk "Save"-knappen og få feilmeldding om fylling av felt
+5. Fyll inn et telefonnummer-feltet
+6. Trykk "Save"-knappen og få feilmeldding om fylling av felt
+7. Fyll inn bare space i adresse-feltet
+8. Trykk "Save"-knappen og få feilmeldding om lengde på input
+9. Fyll inn en adresse
+10. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
+
+##### Test av lagring under lukking av appen
+1. Åpne "Create New Contact" med knappen nederst
+2. Fyll inn et navne-feltet
+3. Fyll inn et telefonnummer-feltet
+4. Fyll inn en adresse
+5. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
+6. Lukk appen
+7. Åpne appen og se at den nye kontakten fortsatt finnees i kontakt-listen 
+
+Disse akseptansetestene ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testene i sin helhet på iOS.
 
 ### Geolocation
 Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velge _Geolocation_ på bunn-menyen) og deretter følge følgende steg:
@@ -187,6 +184,15 @@ Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velg
 5. Se at melding og poeng oppdateres.
 
 Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
+
+I bildene under viser vi hvordan geolocation ser ut ettersom man besøker de forskjellige markørene.
+Bildene 1-4 illustrerer hvordan det ser ut når vi beveger oss rundt på Gløshaugen, mens 5-6 illustrerer effekten av å skru opp konstanten (DISTANCE_THRESHOLD_FACTOR) som påvirker distansen som posisjonen vår gir.
+
+Litt |  Bilder
+------------- | -------------
+![image](https://user-images.githubusercontent.com/12127271/47214180-78835800-d39d-11e8-99e1-38970396cfe9.png)  | ![image](https://user-images.githubusercontent.com/12127271/47214214-90f37280-d39d-11e8-96e7-328a04fe095b.png)
+![image](https://user-images.githubusercontent.com/12127271/47214166-66a1b500-d39d-11e8-8af8-c51fdc1e1a18.png)  | ![image](https://user-images.githubusercontent.com/12127271/47214275-af596e00-d39d-11e8-8010-bbfc7aa52781.png)
+![image](https://user-images.githubusercontent.com/12127271/47214708-1deafb80-d39f-11e8-9503-8b03b65cea0e.png) | ![image](https://user-images.githubusercontent.com/12127271/47214716-20e5ec00-d39f-11e8-8512-a3a8b7b2658e.png)
 
 ## Kodestruktur og kommentering
 Vi har valgt å kalle variabler og funksjoner ut ifra hva de gjør, og legge til kommentarer som sier noe om hva funksjonen gjør, hvilken type input og output er, samt hva de gjør i funksjonen.

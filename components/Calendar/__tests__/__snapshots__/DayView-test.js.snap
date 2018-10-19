@@ -1,0 +1,379 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`Rendering renders correctly with ShallowRenderer empty events array 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollViewMock
+    style={
+      Object {
+        "flex": 1,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#505050",
+          "fontSize": 40,
+        }
+      }
+    >
+      2018-01-01
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#909090",
+            "fontSize": 30,
+          }
+        }
+      >
+        2018-01-01
+      </Text>
+    </Text>
+  </ScrollViewMock>
+</Component>
+`;
+
+exports[`Rendering renders correctly with ShallowRenderer with real events in array 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollViewMock
+    style={
+      Object {
+        "flex": 1,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#505050",
+          "fontSize": 40,
+        }
+      }
+    >
+      2018-01-01
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#909090",
+            "fontSize": 30,
+          }
+        }
+      >
+        2018-01-01
+      </Text>
+    </Text>
+    <Component
+      accessibilityLabel="Kalenderhendelse nummer 1 den 2018-01-01:Møte med Espen"
+      style={
+        Object {
+          "flex": 1,
+          "margin": 10,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#202020",
+            "fontSize": 20,
+            "marginRight": 10,
+            "marginTop": 7,
+            "padding": 10,
+          }
+        }
+      >
+        Møte med Espen
+      </Text>
+      <Component
+        style={
+          Object {
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+          }
+        }
+      />
+    </Component>
+    <Component
+      accessibilityLabel="Kalenderhendelse nummer 2 den 2018-01-01:Møte med Jens"
+      style={
+        Object {
+          "flex": 1,
+          "margin": 10,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#202020",
+            "fontSize": 20,
+            "marginRight": 10,
+            "marginTop": 7,
+            "padding": 10,
+          }
+        }
+      >
+        Møte med Jens
+      </Text>
+      <Component
+        style={
+          Object {
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+          }
+        }
+      />
+    </Component>
+    <Component
+      accessibilityLabel="Kalenderhendelse nummer 3 den 2018-01-01:Møte med Siri"
+      style={
+        Object {
+          "flex": 1,
+          "margin": 10,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#202020",
+            "fontSize": 20,
+            "marginRight": 10,
+            "marginTop": 7,
+            "padding": 10,
+          }
+        }
+      >
+        Møte med Siri
+      </Text>
+      <Component
+        style={
+          Object {
+            "borderBottomColor": "#ccc",
+            "borderBottomWidth": 1,
+          }
+        }
+      />
+    </Component>
+    <Component
+      accessibilityLabel="Kalenderhendelse nummer 4 den 2018-01-01:Møte med Gunvor"
+      style={
+        Object {
+          "flex": 1,
+          "margin": 10,
+        }
+      }
+    >
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#202020",
+            "fontSize": 20,
+            "marginRight": 10,
+            "marginTop": 7,
+            "padding": 10,
+          }
+        }
+      >
+        Møte med Gunvor
+      </Text>
+    </Component>
+  </ScrollViewMock>
+</Component>
+`;
+
+exports[`Rendering renders correctly with renderer 1`] = `
+<View
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+/>
+`;
+
+exports[`Rendering should not crash if events is not array 1`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollViewMock
+    style={
+      Object {
+        "flex": 1,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#505050",
+          "fontSize": 40,
+        }
+      }
+    >
+      2018-01-01
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#909090",
+            "fontSize": 30,
+          }
+        }
+      >
+        2018-01-01
+      </Text>
+    </Text>
+  </ScrollViewMock>
+</Component>
+`;
+
+exports[`Rendering should not crash if events is not array 2`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollViewMock
+    style={
+      Object {
+        "flex": 1,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#505050",
+          "fontSize": 40,
+        }
+      }
+    >
+      2018-01-01
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#909090",
+            "fontSize": 30,
+          }
+        }
+      >
+        2018-01-01
+      </Text>
+    </Text>
+  </ScrollViewMock>
+</Component>
+`;
+
+exports[`Rendering should not crash if events is not array 3`] = `
+<Component
+  style={
+    Object {
+      "flex": 1,
+    }
+  }
+>
+  <ScrollViewMock
+    style={
+      Object {
+        "flex": 1,
+        "paddingLeft": 10,
+        "paddingRight": 10,
+      }
+    }
+  >
+    <Text
+      accessible={true}
+      allowFontScaling={true}
+      ellipsizeMode="tail"
+      style={
+        Object {
+          "color": "#505050",
+          "fontSize": 40,
+        }
+      }
+    >
+      2018-01-01
+       
+      <Text
+        accessible={true}
+        allowFontScaling={true}
+        ellipsizeMode="tail"
+        style={
+          Object {
+            "color": "#909090",
+            "fontSize": 30,
+          }
+        }
+      >
+        2018-01-01
+      </Text>
+    </Text>
+  </ScrollViewMock>
+</Component>
+`;

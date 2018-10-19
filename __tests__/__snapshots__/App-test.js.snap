@@ -137,7 +137,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                       ellipsizeMode="tail"
                       style={
                         Object {
-                          "backgroundColor": "lightgrey",
+                          "backgroundColor": "#fff",
                           "fontSize": 20,
                           "fontWeight": "bold",
                         }
