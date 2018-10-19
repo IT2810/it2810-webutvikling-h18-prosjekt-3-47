@@ -16,6 +16,7 @@ import {
     PermissionsAndroid,
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
+import c from '../constants/Colors'
 
 import MapView from 'react-native-maps'
 const width = Dimensions.get('window').width;
@@ -302,7 +303,7 @@ const styles = StyleSheet.create({
         flex: 1,
         justifyContent: 'center',
         alignItems: 'center',
-        backgroundColor: '#F5FCFF'
+        backgroundColor: c.appMainBackground,
     },
     map:{
         position: 'absolute',
@@ -313,6 +314,6 @@ const styles = StyleSheet.create({
     text: {
         fontSize:20,
         fontWeight: "bold",
-        backgroundColor: 'lightgrey'
+        backgroundColor: c.appMainBackground,
     }
 });
