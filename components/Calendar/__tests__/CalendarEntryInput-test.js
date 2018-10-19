@@ -38,7 +38,7 @@ describe('Rendering', () => {
 
 
 describe('Logical', () => {
-    it('should have empty state and date prop', () => {
+    it('should have empty state and date prop when rendered', () => {
 
         let calendarEntryInput = renderer.create(
             <CalendarEntryInput callback={(data) => {console.log('callback!! ', data)}}

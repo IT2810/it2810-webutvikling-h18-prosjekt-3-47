@@ -110,7 +110,7 @@ describe('days in month', () => {
     });
 
     it('should find the number of days in feb 2016', () => {
-        let daysInFeb16 =  ["2016-02-01", "2016-02-02", "2016-02-03", "2016-02-04", "2016-02-05", "2016-02-06", "2016-02-07", "2016-02-08", "2016-02-09", "2016-02-10", "2016-02-11", "2016-02-12", "2016-02-13", "2016-02-14", "2016-02-15", "2016-02-16", "2016-02-17", "2016-02-18", "2016-02-19", "2016-02-20", "2016-02-21", "2016-02-22", "2016-02-23", "2016-02-24", "2016-02-25", "2016-02-26", "2016-02-27", "2016-02-28", "2016-02-29"];
+        let daysInFeb16 = ["2016-02-01", "2016-02-02", "2016-02-03", "2016-02-04", "2016-02-05", "2016-02-06", "2016-02-07", "2016-02-08", "2016-02-09", "2016-02-10", "2016-02-11", "2016-02-12", "2016-02-13", "2016-02-14", "2016-02-15", "2016-02-16", "2016-02-17", "2016-02-18", "2016-02-19", "2016-02-20", "2016-02-21", "2016-02-22", "2016-02-23", "2016-02-24", "2016-02-25", "2016-02-26", "2016-02-27", "2016-02-28", "2016-02-29"];
 
         let result = calendarInstance.getDaysInMonth(moment('2016-02-07', 'YYYY-MM-DD'));
         expect(result.length).toEqual(29);
@@ -203,6 +203,10 @@ describe('event markers', () => {
     let calendarInstance = calendar.getInstance();
 
     it('should generate event markers for october 03 2018 and then update them to markers for oct 10', () => {
+        /* This test is kinda spaghetti, but it enables us to actually test the event markers and it's flow.
+        If these functions were static, they could be tested independently, without any dependency on state, and
+        these tests would be a lot prettier
+         */
 
         // Setting a selected date for Calendar and populating the Calendar events
         calendarInstance.setState({
