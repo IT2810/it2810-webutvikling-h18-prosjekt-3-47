@@ -1,10 +1,10 @@
 import 'react-native';
 import React from 'react';
-import ContactList from '../Contacts/ContactList';
+import ContactList from '../ContactList';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-jest.mock('../Contacts/DisplayContact');
+jest.mock('../DisplayContact');
 jest.mock("react-native-popup-dialog");
 
 const contacts = [

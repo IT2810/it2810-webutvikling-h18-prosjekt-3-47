@@ -62,7 +62,7 @@ export default class CalendarComponent extends React.Component {
                 this.setState(() => ({
                     events: JSON.parse(value)
                 }));
-            } else console.warn('Got null from AsyncStorage')
+            }
         } catch (error) {
             console.error('Error reading from AsyncStorage', error);
         }
@@ -226,9 +226,11 @@ export default class CalendarComponent extends React.Component {
      * will update state and re-render on success.
      */
     componentDidMount() {
-        /*
-        // Only for initialising AsyncStorage with some example events:
-        let events = {
+        // Asynchronous call to AsyncStorage to retrieve events that are stored there. Updates state on success.
+        this.retrieveEvents();
+
+        /*  // Uncomment to write example events to AsyncStorage
+        const exampleEvents = {
             '2018-10-02': [{text: 'Møte med Per'}],
             '2018-10-03': [{text: 'Møte med Pål'}],
             '2018-10-08': [],
@@ -238,14 +240,16 @@ export default class CalendarComponent extends React.Component {
             '2018-11-31': [{text: 'Kaffe med Per Sandberg'}],
             '2018-12-24': [{text: 'Julefeiring med Rune Øygard'}]
         };
-        this.storeData('events', events).then(() => {
+        this.storeData('events', exampleEvents).then(() => {
             console.log('Wrote example events to AsyncStorage');
             this.retrieveEvents();
         });
         */
 
-        // Asynchronous call to AsyncStorage to retrieve events that are stored there. Updates state on success.
-        this.retrieveEvents();
+        
+        /*  // Uncomment to clear AsyncStorage
+        this.storeData('events', null);
+        */
     }
 
     /**

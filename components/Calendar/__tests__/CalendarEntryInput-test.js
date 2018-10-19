@@ -16,7 +16,6 @@ const dateString = '2018-02-07';
 
 describe('Rendering', () => {
     it('renders correctly with renderer', () => {
-        console.log(momentMock);
         const calendarEntryInput = renderer.create(
             <CalendarEntryInput
                 defaultDate={momentMock}
@@ -41,7 +40,7 @@ describe('Logical', () => {
     it('should have empty state and date prop when rendered', () => {
 
         let calendarEntryInput = renderer.create(
-            <CalendarEntryInput callback={(data) => {console.log('callback!! ', data)}}
+            <CalendarEntryInput callback={() => {return null}}
                                 defaultDate={momentMock}
             />
         );
@@ -56,7 +55,7 @@ describe('Logical', () => {
 
     it('should open and close Modal', () => {
         let calendarEntryInput = renderer.create(
-            <CalendarEntryInput callback={(data) => {console.log('callback!! ', data)}}
+            <CalendarEntryInput callback={() => {return null}}
                                 defaultDate={momentMock}
             />
         );
@@ -74,7 +73,7 @@ describe('Logical', () => {
 describe('input validation', () => {
 
     let calendarEntryInput = renderer.create(
-        <CalendarEntryInput callback={(data) => {console.log('callback!! ', data)}}
+        <CalendarEntryInput callback={() => {return null}}
                             defaultDate={momentMock}
         />
     );

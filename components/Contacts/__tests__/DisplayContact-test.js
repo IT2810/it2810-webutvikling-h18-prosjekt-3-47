@@ -1,6 +1,6 @@
 import 'react-native';
 import React from 'react';
-import DisplayContact from '../Contacts/DisplayContact';
+import DisplayContact from '../DisplayContact';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 

@@ -35,7 +35,7 @@ export default class ContactList extends React.Component {
             this.popupDialog.show()
         }
         catch(error) {
-            console.log(error);
+            console.warn('Problems showing popupDialog:', error);
         }
 
     };
