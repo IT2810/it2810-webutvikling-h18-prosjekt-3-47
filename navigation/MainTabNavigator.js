@@ -7,6 +7,10 @@ import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
 import GeolocationScreen from '../screens/GeolocationScreen';
+import ContactsScreen from '../screens/ContactsScreen';
+import CalendarScreen from '../screens/CalendarScreen';
+import TodolistScreen from '../screens/TodolistScreen';
+
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -54,6 +58,7 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+
 const GeolocationStack = createStackNavigator({
   Geolocation: GeolocationScreen,
 });
@@ -68,12 +73,57 @@ GeolocationStack.navigationOptions = {
           ? `ios-map${focused ? '' : '-outline'}`
           : 'md-map'
       }
+      />
+  ),
+};
+
+const ContactsStack = createStackNavigator({
+    Contacts: ContactsScreen,
+});
+
+ContactsStack.navigationOptions = {
+    tabBarLabel: 'Contacts',
+    tabBarIcon: ({ focused }) => (
+        <TabBarIcon
+            focused={focused}
+            name={Platform.OS === 'ios' ? `ios-contact${focused ? '' : '-outline'}` : 'md-contact'}
+        />
+    ),
+};
+
+const CalendarStack = createStackNavigator({
+  Calendar: CalendarScreen,
+});
+
+CalendarStack.navigationOptions = {
+  tabBarLabel: 'Calendar',
+    tabBarIcon: ({ focused }) => (
+      <TabBarIcon
+        focused={focused}
+        name={Platform.OS === 'ios' ? `ios-calendar${focused ? '' : '-outline'}` : 'md-calendar'}
+      />
+    ),
+};
+
+const TodolistStack = createStackNavigator({
+  Todolist: TodolistScreen,
+});
+
+TodolistStack.navigationOptions = {
+  tabBarLabel: 'Todolist',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={Platform.OS === 'ios' ? `ios-options${focused ? '' : '-outline'}` : 'md-checkbox'}
     />
   ),
 };
 
 export default createBottomTabNavigator({
   GeolocationStack,
+  CalendarStack,
+  ContactsStack,
+  TodolistStack,
   HomeStack,
   LinksStack,
   SettingsStack,
