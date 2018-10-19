@@ -95,6 +95,12 @@ Jest skal være lagt til i package.json fila.
 
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO skriv om todoList og kalender-testing
 
+##### Calendar
+Det er skrevet flere tester for Calendar og medhørende komponenter (`CalendarEntryInput` og `DayView`). Her er det noen tester som tester statiske funksjoner direkte, men de fleste funksjonene i `Calendar` og `CalendarEntryInput` avhenger av state eller AsyncStorage. Har skrevet en del tester som bruker state, og dette er selvfølgelig ikke en optimal løsning. Hvis jeg skulle skrevet disse komponentene på nytt, hadde jeg lagt mye mer logikk ut i statiske funksjoner og heller hatt enklere funksjoner som går på state. Hadde også veldig mye problemer med å mocke AsyncStorage, fikk dette aldri ordentlig til, og det er dermed en del jeg ikke fikk testet. Hvis jeg hadde fått til å mocke AsyncStorage, hadde jeg kjørt mer inngående tester på mer full lifecycle. 
+
+I `CalendarEntryInput` møtte jeg på et vanskelig problem med referanser. Jeg har en referanse til et textInput som jeg bruker til å cleare feltet. Denne referansen blir ikke satt når man kjører tester. Jeg leste en del om å mocke referanser, men fikk ikke dette til. Jeg bestemte meg for å ikke bruke mer tid på å få til dette lille problemet, og heller fokusere på viktigere saker. Derfor wrappet jeg `this.textInput.clear();` i en try-catch-blokk for å unngå å få breaking errors i testene, og heller bare kjøre `console.warn` på erroren. Dette er absolutt ikke en optimal løsning, ved å endre på kildekoden for å få testen til å fungere, men jeg så på dette som det klokeste valget, for å komme i havn med annen testing. Hadde allerede møtt på nok rare problemer når det kommer til testoppsettet, så hadde ikke overskudd til å prioritere dette.
+
+
 ##### ContactsScreen
 Vi har lagt ved unit-tester for subkomponentene til ContactsScreen. Disse sjekker for eksempel at state er som forventet ved rendring, og endrer seg som forventet når en metode blir kallet.
 
