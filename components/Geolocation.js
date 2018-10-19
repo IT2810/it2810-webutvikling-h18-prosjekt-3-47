@@ -130,7 +130,7 @@ export default class Geolocation extends Component{
                     //Vi oppdaterer newVisited med en ny denne goalPos verdien
                     let newVisited = prevState.visited.concat(goalPos);
                     //Vi lager så en ny melding
-                    let newMessage = this.createMessage(newGoals, newVisited); 
+                    let newMessage = this.createMessage(newGoals);
                     
                     return {
                         goals: newGoals,
@@ -157,7 +157,7 @@ export default class Geolocation extends Component{
     };
 
     //Funksjon som returnerer en melding til bruker
-    createMessage = (goals, visited) => {
+    createMessage = (goals) => {
         let message;
         if(goals.length === 0){
             message = "Bra jobba, du har besøkt alle stedene!";
