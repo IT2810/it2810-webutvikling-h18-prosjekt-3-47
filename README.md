@@ -136,12 +136,8 @@ Når appen består disse testene vil det si at den nye kontaktinformasjonen blir
 Snapshot testing er lagt ved for ContactsScreen og alle dens subkomponenter. Både rendering og shallow rendering er brukt.
 
 ### Hva som er testet:
-Med tanke på litt uklare krav, tidsbegrensninger og tekniske problemer med testingen har vi bare testet kalender, kontakter og todolist, og ikke geolocation. Alt fungerer som det skal i denne komponenten og vi har kjørt en akseptansetest for å se at alt fungerer.
-Måten vi har gjort det på er som følger:
-- Åpne appen med et punkt i nærheten.
-- Gå til det punktet, se at markøren blir besøkt(checkmerke) og få oppdatert poeng.
-- Deretter har vi økt threshold for distanse til 1 grad(dette tilsvarer 111 km i Trondheim) og sett at alle markørene blir besøkt og fått alle poengene som er mulig.
-Grader til meter kalkulator: http://www.csgnetwork.com/degreelenllavcalc.html
+Med tanke på litt uklare krav, tidsbegrensninger og tekniske problemer med testingen har vi bare testet kalender, kontakter og todolist, og ikke geolocation. Alt fungerer som det skal i denne komponenten og vi har kjørt en akseptansetest for å se at alt fungerer, den ligger under Akseptansetesting --> Geolocation. For å være sikre på at alle punktene kan nås har vi økt threshold for distanse til 1 grad(dette tilsvarer 111 km i Trondheim) og sett at alle markørene blir besøkt og fått alle poengene som er mulig.
+#### Grader til meter kalkulator: http://www.csgnetwork.com/degreelenllavcalc.html
 
 ## Akseptansetesting
 ### Calendar
@@ -166,11 +162,16 @@ Vi kjørte akseptansetesting av Calendar ved å åpne CalendarScreen (velge _Cal
 1. Klikk "Legg til ny hendelse". Verifisér at tekstfeltet er tomt.
 1. Klikk på "Send inn". Verifisér at du får advarsel "Dette feltet er påkrevd"
 
-Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS 
+Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS
 
 ### Todolist
 Vi kjørte akseptansetesting av Todolist ved å åpne TodolistScreen (velge _Todolist_ på bunn-menyen) og deretter følge følgende steg:
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
+1. Trykk på tekstenboksen nederst til venstre
+2. Skriv inn en oppgave du ønsker å gjøre og trykk send
+3. Deretter kan du velge å slette oppgaven ved å trykke på tilhørende X
+4. Eller så kan du gå ut av appen, gå inn igjen og se at oppgaven ligger der(og slette den med X hvis du ønsker det). 
+
+Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
 
 ### Contacts
 Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Contacts_ på bunn-menyen) og deretter følge følgende steg:
@@ -178,8 +179,13 @@ Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Con
 
 ### Geolocation
 Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velge _Geolocation_ på bunn-menyen) og deretter følge følgende steg:
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: skriv inn akseptansetesten
+1. Trykk på at du samtykker til at Expo kan hente inn din posisjon.
+2. Finn deg selv på skjermen med blå posisjons-ikon.
+3. Gå til punktet som er nærmest deg.
+4. Se at markøren endres med til et checkmark-ikon.
+5. Se at melding og poeng oppdateres.
 
+Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
 
 ## Kodestruktur og kommentering
 Vi har valgt å kalle variabler og funksjoner ut ifra hva de gjør, og legge til kommentarer som sier noe om hva funksjonen gjør, hvilken type input og output er, samt hva de gjør i funksjonen.
