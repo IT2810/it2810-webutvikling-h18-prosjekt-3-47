@@ -160,7 +160,7 @@ const styles = StyleSheet.create({
   },
   hr: {
     height: 1,
-    backgroundColor: "gray"
+    backgroundColor: c.divider,
   },
   listItemCont: {
     flexDirection: "row",
