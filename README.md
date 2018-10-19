@@ -19,8 +19,6 @@ Vi har valgt som sist å dele opp arbeidet(se bruk av git) i flere deler slik at
 Vi har valgt å dele opp (motivasjons)appen i flere deler med en todolist, kalender og kontaktliste, samt en GPS-/Kart-modul hvor man skal bli motivert til å fysisk besøke forskjellige punkter for å få poeng som skal fungere som motivasjonsmiddel. Disse forskjellige komponentene/delene er i stor grad uavhengige av hverandre. Vi valgte å gjøre dette for å komme fortere i gang med selve utviklingen. I nettsideprosjektet opplevde vi at veldig mye arbeid var veldig avhengig av annet arbeid, så det ble til tider litt vanskelig for tre personer å jobbe parallelt. I dette prosjektet opplevde vi at alle kunne begynne med sine issues fra dag én. Det hjalp også å bruke expo sin tab-template, da den allerede hadde oppsettet med overskrift og tabs på slutten av siden. Denne templaten håndterer også navigasjonen mellom screenene, så vi kunne gå rett på å utvikle innholdet, og slippe å bruke mye tid på formaliteter som ville hindret vår mulighet til å jobbe parallelt i starten.
 
 ## Valg av teknologi.
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: Skrive om teksten, gjøre den mer utfyllende og korrekt
-
 I dette prosjektet har vi tatt i bruk React Native, Expo, Node + npm, Jest og Asyncstorage.
 
 ### React Native 
@@ -57,7 +55,7 @@ Node er en JavaScript runtime som er designet for skalerbare nettverk applikasjo
 Jest er et testrammeverk laget for Unit testing i JavaScript, parallallisering av tester gjør at dette kjører fort og inkluderer en enkel og forståelig syntax som skal gjøre det lettere å skrive tester. Det følger også med snapshot-testing, som gjør det mulig å merke forskjeller i UI-komponentene.
 #### Hvordan bruke Jest:
 - For å installere Jest bruker man Node og kommandoen __npm install --save-dev jest__
-- Deretter kan du starte å skrive tester
+- Deretter kan du starte å skrive tester, dette er beskrevet nærmere under Enhetstesting.
 
 ### AsyncStorage
 AsyncStorage er et simpelt, asynkront key-value lagringssystem som gjør det mulig å lagre informasjon lokalt på enheten. Dette gjør at appen kan huske hvilke endringer bruker har gjort, lagre de og vise dem fram når bruker kommer tilbake for å bruke appen videre. AsyncStorage skal være implementert ifølge kravet hos Kontakter, Kalender og Todolist.
@@ -87,16 +85,17 @@ Vi har tatt utgangspunkt i en komponent som vi fant på nett, løsningen hadde n
 #### Koden er hentet fra: https://codeburst.io/todo-app-with-react-native-f889e97e398e 
 ### Geolocation
 Denne komponenten rendrer et kart ved hjelp av react-native-maps og tar inn posisjon ved hjelp av expo sitt bibliotek for geolokasjon. Vi har så lagt til funksjonalitet for å vise markører, hvis de besøkes endrer de tilstand med et checkmerke, samt poeng og beskjed til bruker som oppdaterer seg ut ifra hvor mange som besøkes. Denne løsningen har ikke brukt AsyncStorage eller testet med Jest på grunn tidsbegrensninger. Vi har dog gjort en akseptansetest som er beskrevet lenger ned.
+
 ## Testing.
 
-
-## Enheststesting.
 ### Jest
+#### Enheststesting.
+
 Jest skal være lagt til i package.json fila.
 
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO
+![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO skriv om todoList og kalender-testing
 
-#### ContactsScreen
+##### ContactsScreen
 Vi har lagt ved unit-tester for subkomponentene til ContactsScreen. Disse sjekker for eksempel at state er som forventet ved rendring, og endrer seg som forventet når en metode blir kallet.
 
 Vi har ikke lagt ved unit-tester for metodene i ContactsScreen. Dette kommer av at vi ikke har klart å finne en hensiktsmessig måte å mocke AsyncStorage. Det ble da utfordrende å skrive unit-tester for metodene, siden disse bruker AsyncStorage enten direkte eller indirekte. Om vi hadde fått til mocking ville vi ha gjort et kall med receiveNewContact(contact, callback) med full kontaktinformasjon i contact og null i callback, og sjekket om kontaktinformasjonen ble skrevet til state via storeData(path, data) og loadContacts som begge ville benyttet den mockede versjonen av AsyncStorage. 
@@ -104,18 +103,16 @@ Vi har ikke lagt ved unit-tester for metodene i ContactsScreen. Dette kommer av 
 Det fantes heller ingen enkel måte å unit-teste selve AsyncStorage. Våre akseptansetester tyder på at AsyncStorage fungerer som den skal.  
 Når appen består disse testene vil det si at den nye kontaktinformasjonen blir hentet av AsyncStorage både når den skrives til listen første gang, og når den skrives til listen ved åpning av appen.
 
-### Snapshot testing
+#### Snapshot testing
 Snapshot-testing er et nyttig verktøy for å forsikre seg om at brukergrensesnittet ikke endrer seg uventet. En typisk test case for en mobil-app rendrer brukergrensesnitt-komponenten, tar en skjermdump og sammenligner med et bilde som er lagret sammen med testen. Testen mislykkes om de to bildene ikke matcher. Enten er endringen uventet, eller så må skjermdumpen oppdateres med den nye versjonen av komponenten.
 
-Kilde: https://jestjs.io/docs/en/snapshot-testing
+Snapshot testing er lagt ved for alle hovedkomponenter og deres subkomponenter, med unntak av Geolocation. Både rendering og shallow rendering er brukt.
 
-Snapshot testing er lagt ved for ContactsScreen og alle dens subkomponenter. Både rendering og shallow rendering er brukt.
-
-### Hva som er testet:
-Med tanke på litt uklare krav, tidsbegrensninger og tekniske problemer med testingen har vi bare testet kalender, kontakter og todolist, og ikke geolocation. Alt fungerer som det skal i denne komponenten og vi har kjørt en akseptansetest for å se at alt fungerer, den ligger under Akseptansetesting --> Geolocation. For å være sikre på at alle punktene kan nås har vi økt threshold for distanse til 1 grad(dette tilsvarer 111 km i Trondheim) og sett at alle markørene blir besøkt og fått alle poengene som er mulig.
-#### Grader til meter kalkulator: http://www.csgnetwork.com/degreelenllavcalc.html
+#### Kilde: https://jestjs.io/docs/en/snapshot-testing
 
 ## Akseptansetesting
+Som beskrevet tidligere er akseptansetester brukt som komplement og som erstatning der unit-testing ikke er tilfredstillende. Under følger beskrivelser av disse.
+
 ### Calendar
 Vi kjørte akseptansetesting av Calendar ved å åpne CalendarScreen (velge _Calendar_ på bunn-menyen) og deretter følge følgende steg:
 
@@ -138,7 +135,7 @@ Vi kjørte akseptansetesting av Calendar ved å åpne CalendarScreen (velge _Cal
 1. Klikk "Legg til ny hendelse". Verifisér at tekstfeltet er tomt.
 1. Klikk på "Send inn". Verifisér at du får advarsel "Dette feltet er påkrevd"
 
-Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS
+Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
 
 ### Todolist
 Vi kjørte akseptansetesting av Todolist ved å åpne TodolistScreen (velge _Todolist_ på bunn-menyen) og deretter følge følgende steg:
@@ -153,25 +150,25 @@ Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk i
 Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Contacts_ på bunn-menyen) og deretter følge følgende steg i de to testene:
 
 #### Test av oppretting av kontakt:
-1. Åpne "Create New Contact" med knappen nederst
-2. Trykk "Save"-knappen og få feilmeldding om fylling av felt
-3. Fyll inn et navne-feltet
-4. Trykk "Save"-knappen og få feilmeldding om fylling av felt
-5. Fyll inn et telefonnummer-feltet
-6. Trykk "Save"-knappen og få feilmeldding om fylling av felt
-7. Fyll inn bare space i adresse-feltet
-8. Trykk "Save"-knappen og få feilmeldding om lengde på input
-9. Fyll inn en adresse
-10. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
+1. Åpne "Create New Contact" med knappen nederst.
+2. Trykk "Save"-knappen og få feilmeldding om fylling av felt.
+3. Fyll inn et navne-feltet.
+4. Trykk "Save"-knappen og få feilmeldding om fylling av felt.
+5. Fyll inn et telefonnummer-feltet.
+6. Trykk "Save"-knappen og få feilmeldding om fylling av felt.
+7. Fyll inn bare space i adresse-feltet.
+8. Trykk "Save"-knappen og få feilmeldding om lengde på input.
+9. Fyll inn en adresse.
+10. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen.
 
 ##### Test av lagring under lukking av appen
-1. Åpne "Create New Contact" med knappen nederst
-2. Fyll inn et navne-feltet
-3. Fyll inn et telefonnummer-feltet
-4. Fyll inn en adresse
-5. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen
-6. Lukk appen
-7. Åpne appen og se at den nye kontakten fortsatt finnees i kontakt-listen 
+1. Åpne "Create New Contact" med knappen nederst.
+2. Fyll inn et navne-feltet.
+3. Fyll inn et telefonnummer-feltet.
+4. Fyll inn en adresse.
+5. Trykk "Save"-knappen og se at den nye kontakten finnes i kontakt-listen.
+6. Lukk appen.
+7. Åpne appen og se at den nye kontakten fortsatt finnees i kontakt-listen.
 
 Disse akseptansetestene ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testene i sin helhet på iOS.
 
@@ -180,7 +177,7 @@ Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velg
 1. Trykk på at du samtykker til at Expo kan hente inn din posisjon.
 2. Finn deg selv på skjermen med blå posisjons-ikon.
 3. Gå til punktet som er nærmest deg.
-4. Se at markøren endres med til et checkmark-ikon.
+4. Se at markøren endres til et checkmark-ikon.
 5. Se at melding og poeng oppdateres.
 
 Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
@@ -197,8 +194,4 @@ Litt |  Bilder
 ## Kodestruktur og kommentering
 Vi har valgt å kalle variabler og funksjoner ut ifra hva de gjør, og legge til kommentarer som sier noe om hva funksjonen gjør, hvilken type input og output er, samt hva de gjør i funksjonen.
 
-![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO: Forklare dette mye bedre, kanskje snakke om prosjekt-konstanter osv
-
-## Kilder:
-- Todolist: https://codeburst.io/todo-app-with-react-native-f889e97e398e 
-
+Vi har valgt å lage en mappe med prosjekt-konstanter som inneholder farger, dager, layout og datoformat. Disse brukes i de forskjellige komponentene.
