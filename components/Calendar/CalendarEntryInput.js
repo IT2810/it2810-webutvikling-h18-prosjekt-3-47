@@ -248,6 +248,10 @@ export default class CalendarEntryInput extends React.Component {
                             this.requestShowModal();
                         }
                     }}
+                    cancelTextIOS='Avbryt'
+                    confirmTextIOS='Velg'
+                    titleIOS='Velg en dato'
+                    locale='nb'
                 />
             </View>
         )
