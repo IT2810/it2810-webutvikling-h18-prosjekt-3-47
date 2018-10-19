@@ -6,7 +6,7 @@ exports[`Snapshot renders correctly 1`] = `
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "#F5FCFF",
+        "backgroundColor": "#fff",
         "flex": 1,
         "justifyContent": "center",
         "padding": 10,
@@ -27,7 +27,7 @@ exports[`Snapshot renders correctly 1`] = `
     returnKeyType="done"
     style={
       Object {
-        "borderColor": "gray",
+        "borderColor": "#fff",
         "borderWidth": 1,
         "height": 40,
         "paddingLeft": 10,
@@ -46,7 +46,7 @@ exports[`Snapshot renders correctly with ShallowRenderer 1`] = `
     Array [
       Object {
         "alignItems": "center",
-        "backgroundColor": "#F5FCFF",
+        "backgroundColor": "#fff",
         "flex": 1,
         "justifyContent": "center",
         "padding": 10,
@@ -86,7 +86,7 @@ exports[`Snapshot renders correctly with ShallowRenderer 1`] = `
     returnKeyType="done"
     style={
       Object {
-        "borderColor": "gray",
+        "borderColor": "#fff",
         "borderWidth": 1,
         "height": 40,
         "paddingLeft": 10,

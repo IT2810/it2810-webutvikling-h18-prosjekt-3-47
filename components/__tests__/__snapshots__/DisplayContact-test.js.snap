@@ -4,6 +4,7 @@ exports[`renders correctly 1`] = `
 <View
   style={
     Object {
+      "backgroundColor": "#fff",
       "flex": 1,
     }
   }
@@ -60,6 +61,7 @@ exports[`renders shallow correctly 1`] = `
 <Component
   style={
     Object {
+      "backgroundColor": "#fff",
       "flex": 1,
     }
   }

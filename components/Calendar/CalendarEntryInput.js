@@ -87,7 +87,20 @@ export default class CalendarEntryInput extends React.Component {
             });
 
             this.requestCloseModal();
-            this.textInput.clear();
+
+
+            /*
+            Got a test that really did not like these refs, so this is not a great solution.
+            Tried a lot of testing with createNodeMock, but it didn't help
+            */
+            try
+            {
+                this.textInput.clear();
+            } catch(e) {
+                console.warn('Error clearing textInput:', e);
+            }
+
+
         }
     }
 

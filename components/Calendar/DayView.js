@@ -25,7 +25,7 @@ export default class DayView extends React.Component {
                 events.push(
                     <View key={i}
                           style={styles.eventContainer}
-                          accessibilityLabel={'Kalenderhendelse nummer ' + i+1 + ' den ' +
+                          accessibilityLabel={'Kalenderhendelse nummer ' + Number(i + 1) + ' den ' +
                           this.props.date.format(df.longDisplayDate) + ':' + eArr[i].text}>
                         <Text style={styles.eventTitle}>{eArr[i].text}</Text>
 

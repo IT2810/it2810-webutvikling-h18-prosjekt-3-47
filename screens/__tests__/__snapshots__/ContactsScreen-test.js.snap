@@ -16,6 +16,7 @@ exports[`Rendering renders correctly 1`] = `
     style={
       Object {
         "alignItems": "center",
+        "backgroundColor": "#fff",
         "flex": 1,
         "flexDirection": "row",
         "padding": "3%",
