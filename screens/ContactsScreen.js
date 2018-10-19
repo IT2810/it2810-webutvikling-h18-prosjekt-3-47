@@ -13,6 +13,8 @@ import DialogTitle from "react-native-popup-dialog/src/components/DialogTitle";
 import ContactList from '../components/Contacts/ContactList';
 import CreateContact from '../components/Contacts/CreateContact';
 
+import c from '../constants/Colors'
+
 
 export default class ContactsScreen extends React.Component {
     static navigationOptions = {
@@ -128,7 +130,7 @@ export default class ContactsScreen extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
-        backgroundColor: '#fff',
+        backgroundColor: c.appMainBackground,
         justifyContent: 'center',
         alignItems: 'center',
         paddingBottom: '3%',

@@ -1,0 +1,115 @@
+// Jest Snapshot v1, https://goo.gl/fbAQLP
+
+exports[`renders correctly 1`] = `
+<View
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Name: 
+    Navn Navnesen 1
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Telephone number: 
+    12345678
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Address: 
+    Adresse 1
+  </Text>
+</View>
+`;
+
+exports[`renders shallow correctly 1`] = `
+<Component
+  style={
+    Object {
+      "backgroundColor": "#fff",
+      "flex": 1,
+    }
+  }
+>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Name: 
+    Navn Navnesen 1
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Telephone number: 
+    12345678
+  </Text>
+  <Text
+    accessible={true}
+    allowFontScaling={true}
+    ellipsizeMode="tail"
+    style={
+      Object {
+        "fontSize": 16,
+        "marginLeft": "3%",
+        "marginTop": "1%",
+      }
+    }
+  >
+    Address: 
+    Adresse 1
+  </Text>
+</Component>
+`;

@@ -6,6 +6,7 @@
  */
 import React from 'react'
 import { StyleSheet, Text, View, TextInput, Button, Alert } from 'react-native';
+import c from '../../constants/Colors';
 
 export default class CreateContact extends React.Component {
     constructor (props) {
@@ -88,7 +89,7 @@ export default class CreateContact extends React.Component {
 }
 const styles = StyleSheet.create({
     container: {
-        backgroundColor: '#fff',
+        backgroundColor: c.appMainBackground,
         justifyContent: 'center',
     },
     input: {
