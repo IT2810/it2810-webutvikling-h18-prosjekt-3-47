@@ -11,6 +11,7 @@ import {
   Keyboard,
   Platform
 } from "react-native";
+import c from '../constants/Colors'
 
 //Sjekker hvilken plattform vi er på
 const isAndroid = Platform.OS === "android";
@@ -22,39 +23,45 @@ export default class Todolist extends Component {
     tasks: [],
     text: ""
   };
-
+  
+  //Funksjon som endrer tilstanden til text
   changeTextHandler = text => {
     this.setState({ text: text });
   };
-  //Legger til oppgave og lagrer ny state
+  //Funksjon som legger til en ny oppgave og lagrer dette ved hjelp av funksjonen save
   addTask = () => {
+    //Sjekker om det er noe tekst og setter den boolske verdien i notEmpty
     let notEmpty = this.state.text.trim().length > 0;
 
+    //Hvis notEmpty er true kan vi lage en ny task
     if (notEmpty) {
       this.setState(
         prevState => {
           let { tasks, text } = prevState;
           return {
-            tasks: tasks.concat({ key: tasks.length.toString(), text: text }),
+            tasks: tasks.concat({ key: Date.now().toString() + '_' + tasks.length.toString(), text: text }),
+
             text: ""
           };
         },
         () => Tasks.save(this.state.tasks)
       );
-    }
+    } 
   };
-  //Sletter oppgave og lagrer ny state
+  //Denne funksjonen sletter en oppgave og lagrer resultatet av tilstanden
   deleteTask = i => {
-    this.setState(
-      prevState => {
-        let tasks = prevState.tasks.slice();
+    if(Number.isInteger(Number(i))){
+      this.setState(
+        prevState => {
+          let tasks = prevState.tasks.slice();
 
-        tasks.splice(i, 1);
+          tasks.splice(i, 1);
 
-        return { tasks: tasks };
-      },
-      () => Tasks.save(this.state.tasks)
-    );
+          return { tasks: tasks };
+        },
+        () => Tasks.save(this.state.tasks)
+      );
+    }
   };
 
   componentDidMount() {
@@ -107,13 +114,13 @@ export default class Todolist extends Component {
 }
 
 let Tasks = {
-  //Lager liste med objekter
+  // Denne funksjone lager en liste med objekter
   convertToArrayOfObject(tasks, callback) {
     //console.log('convertToArrayOfObject');
     //console.log(tasks);
     //console.log(tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : [])
     return callback(
-      tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : []
+      tasks ? tasks.split("||").map((task, i) => ({ key: Date.now().toString() + '_' + i.toString() , text: task })) : []
     );
   },
   //Lager en streng med teksten til objektene
@@ -144,7 +151,7 @@ const styles = StyleSheet.create({
     flex: 1,
     justifyContent: "center",
     alignItems: "center",
-    backgroundColor: "#F5FCFF",
+    backgroundColor: c.appMainBackground,
     padding: viewPadding,
     paddingTop: 20
   },
@@ -159,7 +166,7 @@ const styles = StyleSheet.create({
   },
   hr: {
     height: 1,
-    backgroundColor: "gray"
+    backgroundColor: c.divider,
   },
   listItemCont: {
     flexDirection: "row",
@@ -170,13 +177,12 @@ const styles = StyleSheet.create({
     height: 40,
     paddingRight: 10,
     paddingLeft: 10,
-    borderColor: "gray",
+    borderColor: c.appMainBackground,
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
-  },
-  button: {
-    
   }
 });
 
 AppRegistry.registerComponent("TodoList", () => TodoList);
+
+module.exports = Todolist;

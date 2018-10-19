@@ -4,6 +4,7 @@
  */
 import React from 'react';
 import { StyleSheet, Text, View } from 'react-native';
+import c from '../../constants/Colors';
 
 export default class DisplayContact extends React.Component {
 
@@ -24,6 +25,7 @@ export default class DisplayContact extends React.Component {
 const styles = StyleSheet.create({
     container: {
         flex: 1,
+        backgroundColor: c.appMainBackground,
     },
     text: {
         marginLeft: '3%',

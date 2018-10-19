@@ -6,9 +6,11 @@ import TabBarIcon from '../components/TabBarIcon';
 import HomeScreen from '../screens/HomeScreen';
 import LinksScreen from '../screens/LinksScreen';
 import SettingsScreen from '../screens/SettingsScreen';
+import GeolocationScreen from '../screens/GeolocationScreen';
 import ContactsScreen from '../screens/ContactsScreen';
 import CalendarScreen from '../screens/CalendarScreen';
 import TodolistScreen from '../screens/TodolistScreen';
+
 
 const HomeStack = createStackNavigator({
   Home: HomeScreen,
@@ -56,6 +58,25 @@ SettingsStack.navigationOptions = {
   ),
 };
 
+
+const GeolocationStack = createStackNavigator({
+  Geolocation: GeolocationScreen,
+});
+
+GeolocationStack.navigationOptions = {
+  tabBarLabel: 'Geolocation',
+  tabBarIcon: ({ focused }) => (
+    <TabBarIcon
+      focused={focused}
+      name={
+        Platform.OS === 'ios'
+          ? `ios-map${focused ? '' : '-outline'}`
+          : 'md-map'
+      }
+      />
+  ),
+};
+
 const ContactsStack = createStackNavigator({
     Contacts: ContactsScreen,
 });
@@ -99,6 +120,7 @@ TodolistStack.navigationOptions = {
 };
 
 export default createBottomTabNavigator({
+  GeolocationStack,
   CalendarStack,
   ContactsStack,
   TodolistStack,
