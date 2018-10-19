@@ -132,6 +132,9 @@ Når appen består disse testene vil det si at den nye kontaktinformasjonen blir
 ### Snapshot testing
 ![#f03c15](https://placehold.it/15/f03c15/000000?text=+) TODO
 
+Snapshot-testing er et nyttig verktøy for å forsikre seg om at brukergrensesnittet ikke endrer seg uventet. En typisk test case for en mobil-app rendrer brukergrensesnitt-komponenten, tar en skjermdump og sammenligner med et bilde som er lagret sammen med testen. Testen misslykkes om de to bildene ikke matcher. Enten er endringen uventet, eller så må skjermdumpen oppdateres med den nye versjonen av komponenten.
+
+Kilde: https://jestjs.io/docs/en/snapshot-testing
 
 Snapshot testing er lagt ved for ContactsScreen og alle dens subkomponenter. Både rendering og shallow rendering er brukt.
 
