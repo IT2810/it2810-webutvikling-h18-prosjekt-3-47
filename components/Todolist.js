@@ -22,21 +22,24 @@ export default class Todolist extends Component {
     tasks: [],
     text: ""
   };
-
+  
+  //Funksjon som endrer tilstanden til text
   changeTextHandler = text => {
     this.setState({ text: text });
   };
-  //Legger til oppgave og lagrer ny state
+  //Funksjon som legger til en ny oppgave og lagrer dette ved hjelp av funksjonen save
   addTask = () => {
+    //Sjekker om det er noe tekst og setter den boolske verdien i notEmpty
     let notEmpty = this.state.text.trim().length > 0;
 
+    //Hvis notEmpty er true kan vi lage en ny task
     if (notEmpty) {
       this.setState(
         prevState => {
           let { tasks, text } = prevState;
           return {
+            //La til toString() for å fjerne
             tasks: tasks.concat({ key: tasks.length.toString(), text: text }),
-            //når vi lager tasken setter vi text til ""
             text: ""
           };
         },
@@ -44,7 +47,7 @@ export default class Todolist extends Component {
       );
     } 
   };
-  //Sletter oppgave og lagrer ny state
+  //Denne funksjonen sletter en oppgave og lagrer resultatet av tilstanden
   deleteTask = i => {
     this.setState(
       prevState => {
@@ -108,12 +111,13 @@ export default class Todolist extends Component {
 }
 
 let Tasks = {
-  //Lager liste med objekter
+  // Denne funksjone lager en liste med objekter
   convertToArrayOfObject(tasks, callback) {
     //console.log('convertToArrayOfObject');
     //console.log(tasks);
     //console.log(tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : [])
     return callback(
+      //La til toString() her for å fjerne warning
       tasks ? tasks.split("||").map((task, i) => ({ key: i.toString(), text: task })) : []
     );
   },
