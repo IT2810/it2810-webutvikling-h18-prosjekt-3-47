@@ -11,6 +11,8 @@ import DialogTitle from "react-native-popup-dialog/src/components/DialogTitle";
 
 import DisplayContact from "./DisplayContact";
 
+import c from '../../constants/Colors'
+
 export default class ContactList extends React.Component {
 
     constructor(props) {
@@ -78,6 +80,7 @@ const styles = StyleSheet.create({
         padding: '3%',
         flexDirection: 'row',
         alignItems: 'center',
+        backgroundColor: c.appMainBackground,
     },
     text: {
         marginLeft: '3%',
@@ -88,6 +91,6 @@ const styles = StyleSheet.create({
     separator: {
         flex: 1,
         height: StyleSheet.hairlineWidth,
-        backgroundColor: '#8E8E8E',
+        backgroundColor: c.divider,
     },
 });
