@@ -9,7 +9,7 @@ import NavigationTestUtils from 'react-navigation/NavigationTestUtils';
 and there should be no need to render it fully in the test, since our mission is not to test third party components.
 */
 jest.mock('react-native-modal-datetime-picker');
-
+jest.mock('react-native-maps');
 
 describe('App snapshot', () => {
   jest.useFakeTimers();

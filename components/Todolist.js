@@ -23,28 +23,32 @@ export default class Todolist extends Component {
     tasks: [],
     text: ""
   };
-
+  
+  //Funksjon som endrer tilstanden til text
   changeTextHandler = text => {
     this.setState({ text: text });
   };
-  //Legger til oppgave og lagrer ny state
+  //Funksjon som legger til en ny oppgave og lagrer dette ved hjelp av funksjonen save
   addTask = () => {
+    //Sjekker om det er noe tekst og setter den boolske verdien i notEmpty
     let notEmpty = this.state.text.trim().length > 0;
 
+    //Hvis notEmpty er true kan vi lage en ny task
     if (notEmpty) {
       this.setState(
         prevState => {
           let { tasks, text } = prevState;
           return {
             tasks: tasks.concat({ key: Date.now().toString() + '_' + tasks.length.toString(), text: text }),
+
             text: ""
           };
         },
         () => Tasks.save(this.state.tasks)
       );
-    }
+    } 
   };
-  //Sletter oppgave og lagrer ny state
+  //Denne funksjonen sletter en oppgave og lagrer resultatet av tilstanden
   deleteTask = i => {
     if(Number.isInteger(Number(i))){
       this.setState(
@@ -110,7 +114,7 @@ export default class Todolist extends Component {
 }
 
 let Tasks = {
-  //Lager liste med objekter
+  // Denne funksjone lager en liste med objekter
   convertToArrayOfObject(tasks, callback) {
     //console.log('convertToArrayOfObject');
     //console.log(tasks);
@@ -176,10 +180,9 @@ const styles = StyleSheet.create({
     borderColor: c.appMainBackground,
     borderWidth: isAndroid ? 0 : 1,
     width: "100%"
-  },
-  button: {
-    
   }
 });
 
 AppRegistry.registerComponent("TodoList", () => TodoList);
+
+module.exports = Todolist;
