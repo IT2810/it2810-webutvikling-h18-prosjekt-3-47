@@ -102,12 +102,14 @@ I `CalendarEntryInput` møtte jeg på et vanskelig problem med referanser. Jeg h
 
 
 ##### ContactsScreen
-Vi har lagt ved unit-tester for subkomponentene til ContactsScreen. Disse sjekker for eksempel at state er som forventet ved rendring, og endrer seg som forventet når en metode blir kallet.
+
+På grunn av problemer med AsyncStorage og referanser, som er beskrevet i avsnittet om Calendar-testing, fikk vi ikke gjort skikkelig enhets-testing. 
+
+Vi har lagt ved unit-tester for subkomponentene til ContactsScreen. Disse sjekker for eksempel at state er som forventet ved rendring, og endrer seg som forventet når en metode blir kallet. Dette ble forenklet ved å mocke popup-dialog i testene. For å godta at den da ikke kan bli kallet la vi inn en try-catch rundt popupDialog.show i openContact-metoden i ContactList. Siden dette ikke er en optimal løsning har vi valgt at det skal utløse en warning. 
 
 Vi har ikke lagt ved unit-tester for metodene i ContactsScreen. Dette kommer av at vi ikke har klart å finne en hensiktsmessig måte å mocke AsyncStorage. Det ble da utfordrende å skrive unit-tester for metodene, siden disse bruker AsyncStorage enten direkte eller indirekte. Om vi hadde fått til mocking ville vi ha gjort et kall med receiveNewContact(contact, callback) med full kontaktinformasjon i contact og null i callback, og sjekket om kontaktinformasjonen ble skrevet til state via storeData(path, data) og loadContacts som begge ville benyttet den mockede versjonen av AsyncStorage. 
 
-Det fantes heller ingen enkel måte å unit-teste selve AsyncStorage. Våre akseptansetester tyder på at AsyncStorage fungerer som den skal.  
-Når appen består disse testene vil det si at den nye kontaktinformasjonen blir hentet av AsyncStorage både når den skrives til listen første gang, og når den skrives til listen ved åpning av appen.
+Det fantes heller ingen enkel måte å unit-teste selve AsyncStorage. Våre akseptansetester tyder på at AsyncStorage fungerer som den skal. Når appen består disse testene vil det si at den nye kontaktinformasjonen blir hentet av AsyncStorage både når den skrives til listen første gang, og når den skrives til listen ved åpning av appen.
 
 #### Snapshot testing
 Snapshot-testing er et nyttig verktøy for å forsikre seg om at brukergrensesnittet ikke endrer seg uventet. En typisk test case for en mobil-app rendrer brukergrensesnitt-komponenten, tar en skjermdump og sammenligner med et bilde som er lagret sammen med testen. Testen mislykkes om de to bildene ikke matcher. Enten er endringen uventet, eller så må skjermdumpen oppdateres med den nye versjonen av komponenten.
