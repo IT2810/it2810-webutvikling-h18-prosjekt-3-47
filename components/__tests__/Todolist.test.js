@@ -4,7 +4,26 @@ import Todolist from '../Todolist';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
+// Mocking new Date() so that all such calls will end up with the same date
+beforeAll(() => {
+    const DATE_TO_USE = new Date('2017-02-02T12:54:59.218Z');
 
+    const _Date = Date;
+    const MockDate = (...args) => {
+        switch (args.length) {
+            case 0:
+                return DATE_TO_USE;
+            default:
+                return new _Date(...args);
+        }
+    };
+    MockDate.UTC = _Date.UTC;
+    MockDate.now = () => DATE_TO_USE.getTime();
+    MockDate.parse = _Date.parse;
+    MockDate.toString = _Date.toString;
+    MockDate.prototype = _Date.prototype;
+    global.Date = MockDate;
+});
 
 
 /*
@@ -131,7 +150,7 @@ describe('Logic', () => {
 
         expect(todoListsInstance.state.tasks).toEqual([
             {
-                key: '0',
+                key: Date.now() + '_0',
                 text: 'TODO-dkfkdfjfjjdf-1'
             }
         ]);
@@ -149,7 +168,7 @@ describe('Logic', () => {
         // Expecting a task to be added
         expect(todoLists.state.tasks).toEqual([
             {
-                key: '0',
+                key: Date.now() + '_0',
                 text: 'TODO-jdjdhfhhhfncnc-2'
             }
         ]);
@@ -170,7 +189,7 @@ describe('Logic', () => {
         // Expecting there to be one task
         expect(todoLists.state.tasks).toEqual([
             {
-                key: '0',
+                key: Date.now() + '_0',
                 text: 'TODO-ssdfodu33sdjsdh-1'
             }
         ]);
@@ -184,11 +203,11 @@ describe('Logic', () => {
         // Expecting there to be two tasks
         expect(todoLists.state.tasks).toEqual([
             {
-                key: '0',
+                key: Date.now() + '_0',
                 text: 'TODO-ssdfodu33sdjsdh-1'
             },
             {
-                key: '1',
+                key: Date.now() + '_1',
                 text: 'TODO-ssdfodu33sdjsdh-2'
             }
         ]);
@@ -202,18 +221,246 @@ describe('Logic', () => {
         // Expecting there to be three tasks
         expect(todoLists.state.tasks).toEqual([
             {
-                key: '0',
+                key: Date.now() + '_0',
                 text: 'TODO-ssdfodu33sdjsdh-1'
             },
             {
-                key: '1',
+                key: Date.now() + '_1',
                 text: 'TODO-ssdfodu33sdjsdh-2'
             },
             {
-                key: '2',
+                key: Date.now() + '_2',
                 text: 'TODO-ssdfodu33sdjsdh-3'
             }
         ]);
+    });
+
+    it('should clear state.text when adding a task', () => {
+        const todoLists = renderer.create(<Todolist />).getInstance();
+
+        todoLists.setState({
+            text: 'TODO-jdjdhfhhhfncnc-2'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting a task to be added
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-jdjdhfhhhfncnc-2'
+            }
+        ]);
+
+        // Expecting state.text to be cleared by addTask
+        expect(todoLists.state.text).toEqual('');
+    });
+
+    it('should add several tasks', () => {
+        const todoLists = renderer.create(<Todolist />).getInstance();
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-1'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be one task
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-2'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be two tasks
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-3'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be three tasks
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            },
+            {
+                key: Date.now() + '_2',
+                text: 'TODO-ssdfodu33sdjsdh-3'
+            }
+        ]);
+    });
+
+    it('should not delete non-existing task', () => {
+        const todoLists = renderer.create(<Todolist />).getInstance();
+
+        const threeTasks = [
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            },
+            {
+                key: Date.now() + '_2',
+                text: 'TODO-ssdfodu33sdjsdh-3'
+            }
+        ];
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-1'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be one task
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-2'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be two tasks
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-3'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be three tasks
+        expect(todoLists.state.tasks).toEqual(threeTasks);
+
+        todoLists.deleteTask('aass');
+
+        expect(todoLists.state.tasks).toEqual(threeTasks);
+
+        todoLists.deleteTask('3.1');
+
+        expect(todoLists.state.tasks).toEqual(threeTasks);
+
+        todoLists.deleteTask('1 + 1');
+
+        expect(todoLists.state.tasks).toEqual(threeTasks);
+
+        todoLists.deleteTask('0 1');
+
+        expect(todoLists.state.tasks).toEqual(threeTasks);
+    });
+
+    it('should delete task', () => {
+        const todoLists = renderer.create(<Todolist />).getInstance();
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-1'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be one task
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-2'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be two tasks
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            }
+        ]);
+
+        todoLists.setState({
+            text: 'TODO-ssdfodu33sdjsdh-3'
+        }, () => {
+            todoLists.addTask();
+        });
+
+        // Expecting there to be three tasks
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_1',
+                text: 'TODO-ssdfodu33sdjsdh-2'
+            },
+            {
+                key: Date.now() + '_2',
+                text: 'TODO-ssdfodu33sdjsdh-3'
+            }
+        ]);
+
+        todoLists.deleteTask(1);
+
+        expect(todoLists.state.tasks).toEqual([
+            {
+                key: Date.now() + '_0',
+                text: 'TODO-ssdfodu33sdjsdh-1'
+            },
+            {
+                key: Date.now() + '_2',
+                text: 'TODO-ssdfodu33sdjsdh-3'
+            }
+        ]);
+
+
     });
 
 });

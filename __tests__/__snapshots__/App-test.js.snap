@@ -130,42 +130,24 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                     }
                   }
                 >
-                  <View
-                    style={
-                      Array [
-                        Object {
-                          "alignItems": "center",
-                          "backgroundColor": "#F5FCFF",
-                          "flex": 1,
-                          "justifyContent": "center",
-                          "padding": 10,
-                          "paddingTop": 20,
-                        },
-                        Object {
-                          "paddingBottom": undefined,
-                        },
-                      ]
-                    }
-                  >
-                    <TextInput
+                  <View>
+                    <Text
+                      accessible={true}
                       allowFontScaling={true}
-                      onChangeText={[Function]}
-                      onSubmitEditing={[Function]}
-                      placeholder="Add Tasks"
-                      returnKeyLabel="done"
-                      returnKeyType="done"
+                      ellipsizeMode="tail"
                       style={
                         Object {
-                          "borderColor": "gray",
-                          "borderWidth": 1,
-                          "height": 40,
-                          "paddingLeft": 10,
-                          "paddingRight": 10,
-                          "width": "100%",
+                          "backgroundColor": "lightgrey",
+                          "fontSize": 20,
+                          "fontWeight": "bold",
                         }
                       }
-                      value=""
-                    />
+                    >
+                      Målet ditt er å besøke alle markører på kartet.
+                      
+Antall steder som gjenstår: 
+                      8
+                    </Text>
                   </View>
                 </View>
               </View>
@@ -262,7 +244,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                               }
                             }
                           >
-                            Todolist
+                            Geolocation
                           </Text>
                         </View>
                       </View>
@@ -293,7 +275,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
       }
     >
       <View
-        accessibilityLabel="Todolist"
+        accessibilityLabel="Geolocation"
         accessible={true}
         onResponderGrant={[Function]}
         onResponderMove={[Function]}
@@ -366,7 +348,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 ]
               }
             >
-              
+              
             </Text>
           </View>
           <View
@@ -378,6 +360,408 @@ exports[`App snapshot renders the root without loading screen 1`] = `
                 "justifyContent": "center",
                 "minWidth": 25,
                 "opacity": 0,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#ccc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#3478f6",
+              "fontSize": 11,
+              "marginBottom": 1.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          Geolocation
+        </Text>
+      </View>
+      <View
+        accessibilityLabel="Calendar"
+        accessible={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+            },
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "flexDirection": "column",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 29,
+              },
+              false,
+              Object {
+                "flex": 1,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 0,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#2f95dc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 1,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#ccc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#929292",
+              "fontSize": 11,
+              "marginBottom": 1.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          Calendar
+        </Text>
+      </View>
+      <View
+        accessibilityLabel="Contacts"
+        accessible={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+            },
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "flexDirection": "column",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 29,
+              },
+              false,
+              Object {
+                "flex": 1,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 0,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#2f95dc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 1,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#ccc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+        </View>
+        <Text
+          accessible={true}
+          allowFontScaling={true}
+          ellipsizeMode="tail"
+          numberOfLines={1}
+          style={
+            Object {
+              "backgroundColor": "transparent",
+              "color": "#929292",
+              "fontSize": 11,
+              "marginBottom": 1.5,
+              "textAlign": "center",
+            }
+          }
+        >
+          Contacts
+        </Text>
+      </View>
+      <View
+        accessibilityLabel="Todolist"
+        accessible={true}
+        onResponderGrant={[Function]}
+        onResponderMove={[Function]}
+        onResponderRelease={[Function]}
+        onResponderTerminate={[Function]}
+        onResponderTerminationRequest={[Function]}
+        onStartShouldSetResponder={[Function]}
+        style={
+          Array [
+            Object {
+              "alignItems": "center",
+              "flex": 1,
+            },
+            Object {
+              "backgroundColor": "transparent",
+            },
+            Object {
+              "flexDirection": "column",
+              "justifyContent": "flex-end",
+            },
+            undefined,
+          ]
+        }
+      >
+        <View
+          style={
+            Array [
+              Object {
+                "height": 29,
+              },
+              false,
+              Object {
+                "flex": 1,
+              },
+            ]
+          }
+        >
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 0,
+                "position": "absolute",
+                "width": "100%",
+              }
+            }
+          >
+            <Text
+              accessible={true}
+              allowFontScaling={false}
+              ellipsizeMode="tail"
+              style={
+                Array [
+                  Object {
+                    "color": "#2f95dc",
+                    "fontSize": 26,
+                  },
+                  Object {
+                    "marginBottom": -3,
+                  },
+                  Object {
+                    "fontFamily": "ionicons",
+                    "fontStyle": "normal",
+                    "fontWeight": "normal",
+                  },
+                ]
+              }
+            >
+              
+            </Text>
+          </View>
+          <View
+            style={
+              Object {
+                "alignItems": "center",
+                "alignSelf": "center",
+                "height": "100%",
+                "justifyContent": "center",
+                "minWidth": 25,
+                "opacity": 1,
                 "position": "absolute",
                 "width": "100%",
               }
@@ -416,7 +800,7 @@ exports[`App snapshot renders the root without loading screen 1`] = `
           style={
             Object {
               "backgroundColor": "transparent",
-              "color": "#3478f6",
+              "color": "#929292",
               "fontSize": 11,
               "marginBottom": 1.5,
               "textAlign": "center",
