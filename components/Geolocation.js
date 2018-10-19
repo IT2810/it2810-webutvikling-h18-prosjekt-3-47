@@ -37,7 +37,8 @@ export default class Geolocation extends Component{
             initialRegion: null,
             currentPosition: {
                 latitude: 0,
-                longitude: 0
+                longitude: 0,
+                accuracy: -Infinity
             },
             message: 'Målet ditt er å besøke alle markører på kartet.',
             
@@ -172,9 +173,12 @@ export default class Geolocation extends Component{
     
     //Funksjon som sjekker om vi er i nærheten av et mål
     checkGoals() {
-        this.state.goals.forEach((goal) => {
-            this.isNearby(this.state.currentPosition, goal);
-        });
+        // Tester ikke avstander hvis vi enda ikke har noen currentPosition
+        if (this.state.currentPosition.accuracy !== -Infinity){
+            this.state.goals.forEach((goal) => {
+                this.isNearby(this.state.currentPosition, goal);
+            });
+        }
     }
 
     //Asynchronous som etterspør posisjonstillatelse, deretter skaffer posisjon og oppdaterer state. 
@@ -227,7 +231,7 @@ export default class Geolocation extends Component{
     //og this.checkGoals som callback som blir kalt når getLocationAsync er ferdig.
     tick() {
         // Sending checkGoals as callback
-    this.getLocationAsync(this.checkGoals);
+        this.getLocationAsync(this.checkGoals);
     }
     
     //Funksjonen tick kjøres med en gang komponenten mountes, deretter med et interval satt i TICK_INTERVAL. 
