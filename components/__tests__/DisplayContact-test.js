@@ -4,6 +4,8 @@ import DisplayContact from '../Contacts/DisplayContact';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
+jest.mock("react-native-popup-dialog");
+
 let shallowRenderer = new ShallowRenderer();
 
 let contacts = {
