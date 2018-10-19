@@ -29,7 +29,13 @@ export default class ContactList extends React.Component {
         this.setState(() => ({
             contact: contact
         }));
-        this.popupDialog.show()
+        try {
+            this.popupDialog.show()
+        }
+        catch(error) {
+            console.log(error);
+        }
+
     };
 
     render(dataBlob, rowIdentities) {
