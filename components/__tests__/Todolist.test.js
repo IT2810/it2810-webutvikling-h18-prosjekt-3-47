@@ -4,7 +4,7 @@ import Todolist from '../Todolist';
 import renderer from 'react-test-renderer';
 import ShallowRenderer from 'react-test-renderer/shallow';
 
-// Mocking new Date() so that all such calls will end up with the same date
+// Mocking new Date() so that all such calls to Date.now() will end up with the same date
 beforeAll(() => {
     const DATE_TO_USE = new Date('2017-02-02T12:54:59.218Z');
 
@@ -27,6 +27,7 @@ beforeAll(() => {
 
 
 /*
+// Was not able to finalise AsyncStorage mocking tests
 
 //let testData = ['Husk å ta ut søpla', 'Husk å vanne blomstene'];
 
@@ -87,20 +88,6 @@ describe('Snapshot', () => {
 
 
 describe('Logic', () => {
-
-
-    /*
-    it('should render new tasks when they are added', () => {
-        const wrapper = shallow(<View />);
-
-        const firstView = wrapper.find('view').at(0);
-        const secondView = wrapper.find('view').at(1);
-
-        expect(firstView.props().style.toEqual([styles.container, { paddingBottom: this.state.viewPadding }]));
-
-    });
-
-    */
 
 
     it('should have empty tasks in state when first loading', () => {
