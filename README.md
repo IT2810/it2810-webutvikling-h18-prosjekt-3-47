@@ -144,10 +144,11 @@ Vi kjørte akseptansetesting av Contacts ved å åpne ContactsScreen (velge _Con
 
 ### Geolocation
 Vi kjørte akseptansetesting av Geolocation ved å åpne GeolocationScreen (velge _Geolocation_ på bunn-menyen) og deretter følge følgende steg:
-1. Finn deg selv på skjermen med blå posisjons-ikon.
-2. Gå til punktet som er nærmest deg.
-3. Se at markøren endres med til et checkmark-ikon.
-4. Se at melding og poeng som oppdateres.
+1. Trykk på at du samtykker til at Expo kan hente inn din posisjon.
+2. Finn deg selv på skjermen med blå posisjons-ikon.
+3. Gå til punktet som er nærmest deg.
+4. Se at markøren endres med til et checkmark-ikon.
+5. Se at melding og poeng oppdateres.
 
 Denne akseptansetesten ble gjennomført på flere Android-enheter, men vi fikk ikke tak i iOS-enhet for å gjennomføre denne testen i sin helhet på iOS.
 
