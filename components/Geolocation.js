@@ -8,12 +8,10 @@
 
 import React, {Component} from 'react';
 import {
-    AppRegistry,
     StyleSheet,
     Text,
     View,
-    Dimensions,
-    PermissionsAndroid,
+    Dimensions
 } from 'react-native';
 import { Constants, Location, Permissions } from 'expo';
 import c from '../constants/Colors'
@@ -90,7 +88,7 @@ export default class Geolocation extends Component{
             ],
             //Liste med de besøkte stedene, er tom by default
             visited: [],
-        }
+        };
 
         //Passer på hva som er state, og det er dette scopet som skal brukes
         this.tick = this.tick.bind(this);
@@ -143,22 +141,20 @@ export default class Geolocation extends Component{
                 });
             }
         }
-    }
+    };
 
     //Funksjon som returnerer distansen mellom to steder ved hjelp av euklidsk distanse
     //Utregning blir i grader og settes i distance som har typen number
     //pos1 og pos2 har typen number, og inneholder lengde -og breddegrad som brukes i formelen
     getDistance = (pos1,pos2) => {
         let diff = (pos1.latitude-pos2.latitude)**2 + (pos1.longitude-pos2.longitude)**2;
-        let distance = Math.sqrt(diff);
-        return distance;
-    }
+        return Math.sqrt(diff);
+    };
 
     //Funksjon som returnerer poengene til bruker
     getPoints = (visited) => {
-        let userPoints = visited.length*100;
-        return userPoints;
-    }
+        return visited.length * 100;
+    };
 
     //Funksjon som returnerer en melding til bruker
     createMessage = (goals, visited) => {
@@ -172,7 +168,7 @@ export default class Geolocation extends Component{
         }
         //console.log(message);
         return message;
-    }
+    };
     
     //Funksjon som sjekker om vi er i nærheten av et mål
     checkGoals() {
@@ -205,7 +201,7 @@ export default class Geolocation extends Component{
                 longitude: location.coords.longitude,
                 latitudeDelta: LATITUDE_DELTA,
                 longitudeDelta: LONGITUDE_DELTA,
-            }
+            };
             this.setState({
                 initialRegion: latLng
             });
@@ -263,7 +259,7 @@ export default class Geolocation extends Component{
             />);
         }
         return visitedMarkers;
-    }
+    };
     
     render(){
         
